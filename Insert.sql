@@ -1,13 +1,13 @@
 use LongigantenDB;
 /*
 insert into Kategorier(navn, parent_KategoriID) values
-('Hvidevarer',null),
+('Hvidevarer',default),
 ('Vaskemaskine',1),
-('Lyd & Hi-Fi',null),
+('Lyd & Hi-Fi',default),
 ('Hovedtelefoner',3),
-('TV & Billede',null),
+('TV & Billede',default),
 ('Fladskærms TV',5),
-('Gaming',null),
+('Gaming',default),
 ('Gaming Laptop',7),
 ('PC-komponenter',7),
 ('Processor',9)
@@ -25,9 +25,9 @@ insert into Producent(producentNavn) values
 ('Asus')
 
 insert into Leverandor(leverandorNavn,kontaktPerson,email,telefon) values
-('Apple Inc','Anders kæld',null,'+45 73 31 57 41'),
+('Apple Inc','Anders kæld',default,'+45 73 31 57 41'),
 ('Intel Corporation','Emerkel Tarkov','tarkov@intel.com','+45 41 65 43 12'),
-('Elgiganten Erhverv',null,'erhverv@elgiganten.dk','+45 70 70 27 70'),
+('Elgiganten Erhverv',default,'erhverv@elgiganten.dk','+45 70 70 27 70'),
 ('Lenovo Group Ltd','Lisa Lu','ll@lenovo.com','+86 389 1750389'),
 ('Samsung Electronics','Lee Kwang soo','lks@samsungelectronics.com','+45 91 74 14 84')
 
@@ -311,30 +311,30 @@ Andre funktioner:
 
 
 insert into Adresser(postnrID,adresse,etage) values
-(5230,'Gørtlervej 11',null), -- butik
-(5220,'Nyborgvej 200a',null), -- butik
-(7100,'Beriderbakken 4',null), -- butik
-(5230,'Rødegårdsvej 164', null), -- medarbejder
+(5230,'Gørtlervej 11',default), -- butik
+(5220,'Nyborgvej 200a',default), -- butik
+(7100,'Beriderbakken 4',default), -- butik
+(5230,'Rødegårdsvej 164', default), -- medarbejder
 (5240,'Egeparken 158','12. th'), --medarbejder
-(5792,'Møllevej 8',null), --medarbejder
-(5230,'Henrik Hertz Vej 38',null), -- medarbejder
-(5260,'Majsmarken 18',null), -- medarbejder
-(6971,'Ørnhøjvej 1B',null),-- medarbejder
-(8305, 'Selsinggaarde 7', null),-- medarbejder
+(5792,'Møllevej 8',default), --medarbejder
+(5230,'Henrik Hertz Vej 38',default), -- medarbejder
+(5260,'Majsmarken 18',default), -- medarbejder
+(6971,'Ørnhøjvej 1B',default),-- medarbejder
+(8305, 'Selsinggaarde 7', default),-- medarbejder
 (2100,'Nordre Frihavnsgade 28','5. tv'),-- medarbejder
 (2100,'Østerbrogade 49','st. tv'),-- medarbejder
 (2100,'Jagtvej 183','3. th'),-- medarbejder
 (9000,'Fredericiagade 27','1. tv'),-- medarbejder
 (9000,'Schleppegrellsgade 50A','st. 2'),-- medarbejder
-(6400,'Vester Snogbæk 33',null),-- medarbejder
-(6400,'Vestvejen 2C',null),-- medarbejder
+(6400,'Vester Snogbæk 33',default),-- medarbejder
+(6400,'Vestvejen 2C',default),-- medarbejder
 (5700,'Strammelse Gade 51','st. tv'),-- medarbejder
-(5700,'Sdr Vornæsvej 19', null),-- kunde
-(9990,'Tranevej 168', null),-- kunde
-(9981,'Skagensvej 392', null),-- kunde
-(9870,'Albækvej 46', null),-- kunde
-(6430,'Østerhaven 25', null)-- kunde
-*/
+(5700,'Sdr Vornæsvej 19', default),-- kunde
+(9990,'Tranevej 168', default),-- kunde
+(9981,'Skagensvej 392', default),-- kunde
+(9870,'Albækvej 46', default),-- kunde
+(6430,'Østerhaven 25', default)-- kunde
+
 insert into Butikker(adresseID) values
 (1),
 (2),
@@ -350,46 +350,114 @@ insert into Butikker_har_Vare(produktID,butikID,statusID,antal) values
 (1,1,1,5),
 (2,1,1,3),
 (3,1,1,3),
-(4,1,4,null),
-(5,1,2,null),
+(4,1,4,default),
+(5,1,2,default),
 (6,1,3,1),
 (7,1,3,2),
 (8,1,1,4),
 (9,1,1,3),
-(10,1,2,0),
+(10,1,4,0),
 (1,2,1,5),
 (2,2,1,3),
 (3,2,1,3),
-(4,2,4,null),
-(5,2,2,null),
+(4,2,4,default),
+(5,2,2,default),
 (6,2,3,1),
 (7,2,3,2),
 (8,2,1,4),
 (9,2,1,3),
-(10,2,2,0),
+(10,2,4,0),
 (1,3,1,5),
 (2,3,1,3),
 (3,3,1,3),
-(4,3,4,null),
-(5,3,2,null),
+(4,3,4,default),
+(5,3,2,default),
 (6,3,3,1),
 (7,3,3,2),
 (8,3,1,4),
 (9,3,1,3),
-(10,3,2,0)
+(10,3,4,0)
 
 insert into Afdelinger(afdeling,parent_Afdeling) values 
-('Salgsafdeling', null),
+('Salgsafdeling', default),
 ('Salgschef', 1),
 ('Salgsassistent', 1),
 ('Sælger',1),
-('Lagerafdeling',null),
+('Lagerafdeling',default),
 ('Lagerchef',5),
 ('Lagerfolk', 5)
+-- adding It-support later
 
 insert into Medarbejder(fornavn,efternavn,email,telefon,kontonr,reg,adresseID,afdelingID,butikID) values 
-('Thomas', 'Pedersen','thomp@longgiganten.dk','+45 72 38 63 18',4817491741,1943,4,2,1),
-('Anna', 'Brunsviger','annb@longgiganten.dk','+45 22 31 54 31',9182746517,3716,5,3,1),
-('Chris', 'Kasaven','chrik@longgiganten.dk','+45 50 21 15 18',3716253846,2817,6,4,1),
-('Llona', 'Rasmussen','llonr@longgiganten.dk','+45 22 71 33 33',3516371651,2019,7,6,1),
-('Peter', 'Petersen','petp@longgiganten.dk','+45 91 48 14 12',7163816351,2615,8,7,1)
+('Thomas', 'Pedersen','thomp@longiganten.dk','+45 72 38 63 18','4817491741','1943',4,2,1),
+('Anna', 'Brunsviger','annb@longiganten.dk','+45 22 31 54 31','9182746517','3716',5,3,1),
+('Chris', 'Kasaven','chrik@longiganten.dk','+45 50 21 15 18','3716253846','2817',6,4,1),
+('Llona', 'Rasmussen','llonr@longiganten.dk','+45 22 71 33 33','3516371651','2019',7,6,1),
+('Peter', 'Petersen','petp@longiganten.dk','+45 91 48 14 12','7163816351','2615',8,7,1),
+
+('Morten', 'Østergaard', 'moroe@longiganten.dk','+45 37 61 48 61','2736451947','2613',9,2,2),
+('Mette','Frederiksen', 'metf@longiganten.dk','+45 23 21 22 22','3615283746','2134',10,3,2),
+('Mattias', 'Tesfaye','matt@longiganten.dk','+45 31 73 16 55', '2281746611','2322',11,4,2),
+('Nicolai','Wammen','nicw@longiganten.dk','+45 72 77 61 31','6255144717','2432',12,6,2),
+('Jeppe','Kofod', 'jepk@longiganten.dk', '+45 77 77 51 51', '7766193131','8787',13,7,2),
+
+('Nick','Hækkerup','nich@longiganten.dk','+45 61 45 90 00', '2716448817','2652',14,2,3),
+('Astrid','Krag','astk@longiganten.dk','+45 55 59 50 51', '6410904160','2020',15,3,3),
+('Morten','Bødskov', 'morb@longiganten.dk','+45 15 83 61 44', '5500197615','4311',16,4,3),
+('Dan','Jørgensen', 'danj@longiganten.dk', '+45 35 09 16 90', '8071645566','2154',17,6,3),
+('Pernille','Rosenkrantz-Theil','perr@longiganten.dk','+45 51 11 73 61', '6617663154','6536',18,7,3)
+
+insert into Kunder(fornavn,efternavn,email,telefon) values
+('Trine','Bramsen','trinebramsen@hotmail.com',default),
+('Ane','Halsboe-Jørgensen','anehals@gmail.com','+45 22 13 04 05'),
+('Simon', 'Kollerup','simonkol@hotmail.com','+45 87 13 61 30'),
+('Peter','Hummelgaard', 'peterhummel@daglig.dk','+45 30 31 85 13'),
+('Lea', 'Wermelin', 'miljoeministeren@mfvm.dk', '+45 38 14 21 42')
+
+insert into Adresse_Type(type) values
+('Privat'),
+('Arbejd')
+
+insert into Kunder_har_Adresser(adresseID,kundeID,adresseType) values 
+(19,1,1),
+(20,2,1),
+(21,3,1),
+(22,4,2),
+(23,5,2)
+
+insert into Ordre_Status(status) values
+('Afventer'),
+('Behandler'),
+('Afsendt'),
+('Annulleret')
+
+insert into Ordre_Leverings_Metode(metodeNavn,pris) values
+('Pakke (privatadresse)', 129),
+('Pakke (pakkeshop)', 69),
+('Pakke (erhvervsadresse)', 129),
+('Hent i butik', 0)
+
+insert into Ordre(kundeID,leveringsMetodeID,leveringsAdresseID,statusID) values
+(1,1,19,1),
+(2,1,20,1),
+(3,2,21,2),
+(4,3,22,2),
+(5,3,23,3)
+
+
+insert into Ordrelinjer(ordreID,produktID,antal,pris) values
+(1,9,2,4498),
+(1,6,1,1999),
+(1,5,1,5999),
+(2,3,1,5999),
+(3,1,1,2969),
+(4,9,10,4498),
+(4,10,30,10999),
+(5,4,5,2899),
+(5,9,20,4498),
+(5,3,80,5999)
+*/
+
+/*
+insert into Kunder(fornavn,efternavn,email,telefon) values
+('Kaj','Kastanje','kastanjer@hotmail.com',default)*/

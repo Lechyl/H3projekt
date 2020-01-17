@@ -1,6 +1,7 @@
 --create database LongigantenDB;
-/*
 use LongigantenDB;
+
+
 
 
 
@@ -29,9 +30,9 @@ create table Produkter(
 	produktNavn nvarchar(100) unique not null,
 	beskrivelse nvarchar(max) not null,
 	pris decimal(8,2) check(pris > 0) not null,
-	kategoriID int foreign key references Kategorier(id),
-	producentID int foreign key references Producent(id),
-	leverandorID int foreign key references Leverandor(id)
+	kategoriID int foreign key references Kategorier(id) not null,
+	producentID int foreign key references Producent(id) not null,
+	leverandorID int foreign key references Leverandor(id) not null
 );
 /*
 create table PostNr(
@@ -41,26 +42,26 @@ create table PostNr(
 */
 create table Adresser(
 	id int primary key identity(1,1),
-	postnrID int foreign key references PostNr(id),
+	postnrID int foreign key references PostNr(id) not null,
 	adresse nvarchar(100) unique not null,
 	etage nvarchar(25) default 'ingen',
 );
 
 create table Butikker(
 	id int primary key identity(1,1),
-	adresseID int unique foreign key references Adresser(id)
+	adresseID int unique foreign key references Adresser(id) not null
 );
 
 create table Lager_Status(
 	id int primary key identity(1,1),
-	status nvarchar(20) unique not null
+	status nvarchar(35) unique not null
 
 );
 
 create table Butikker_har_Vare(
-	produktID int foreign key references Produkter(id),
-	butikID int foreign key references Butikker(id),
-	statusID int foreign key references Lager_Status(id),
+	produktID int foreign key references Produkter(id) not null,
+	butikID int foreign key references Butikker(id) not null,
+	statusID int foreign key references Lager_Status(id) not null,
 	antal int default 0
 );
 
@@ -74,13 +75,13 @@ create table Medarbejder(
 	id int primary key identity(1,1),
 	fornavn nvarchar(50) not null,
 	efternavn nvarchar(50) not null,
-	kontonr int not null,
-	reg int not null,
+	kontonr nvarchar(10) not null,
+	reg nvarchar(4) not null,
 	email nvarchar(50) default 'ingen',
 	telefon nvarchar(15) not null,
-	adresseID int foreign key references Adresser(id),
-	afdelingID int foreign key references Afdelinger(id),
-	butikID int foreign key references Butikker(id)
+	adresseID int foreign key references Adresser(id) not null,
+	afdelingID int foreign key references Afdelinger(id) not null,
+	butikID int foreign key references Butikker(id) not null
 );
 
 create table Kunder(
@@ -98,9 +99,9 @@ create table Adresse_Type(
 );
 
 create table Kunder_har_Adresser(
-	adresseID int foreign key references Adresser(id),
-	kundeID int foreign key references Kunder(id),
-	adresseType int foreign key references Adresse_Type(id)
+	adresseID int foreign key references Adresser(id) not null,
+	kundeID int foreign key references Kunder(id) not null,
+	adresseType int foreign key references Adresse_Type(id) not null
 );
 
 create table Ordre_Status(
@@ -111,28 +112,39 @@ create table Ordre_Status(
 create table Ordre_Leverings_Metode(
 	id int primary key identity(1,1),
 	metodeNavn nvarchar(50) unique not null,
-	pris decimal(8,2) check(pris > 0) not null
+	pris decimal(8,2) check(pris > -1) not null
 );
 
 create table Ordre(
 	id int primary key identity(1,1),
 	opretsDato date default getdate(),
-	kundeID int foreign key references Kunder(id),
-	leveringsMetodeID int foreign key references Ordre_Leverings_Metode(id),
-	leveringsAdresseID int foreign key references Adresser(id),
-	statusID int foreign key references Ordre_Status(id)
+	kundeID int foreign key references Kunder(id) not null,
+	leveringsMetodeID int foreign key references Ordre_Leverings_Metode(id) not null,
+	leveringsAdresseID int foreign key references Adresser(id) not null,
+	statusID int foreign key references Ordre_Status(id) not null
 );
 
 create table Ordrelinjer(
-	kundeID int foreign key references Kunder(id),
-	ordreID int foreign key references Ordre(id),
+	produktID int foreign key references Produkter(id) not null,
+	ordreID int foreign key references Ordre(id) not null,
 	antal int check(antal > 0) not null,
 	pris decimal(8,2) check(pris > 0) not null
 );
 
 create table Kunde_Support(
 	id int primary key identity(1,1),
-	medarbejderID int foreign key references Medarbejder(id),
+	medarbejderID int foreign key references Medarbejder(id) not null,
 	kundeID int foreign key references Kunder(id) null,
 	beskrivelse nvarchar(max) not null
-);*/
+);
+/*
+alter table Ordrelinjer
+add produktID int foreign key references Produkter(id);
+*/
+/*
+alter table Medarbejder
+alter column kontonr nvarchar(10) not null, reg nvarchar(4) not null
+*/
+/*
+alter table Lager_Status
+alter column status nvarchar(35) not null*/
