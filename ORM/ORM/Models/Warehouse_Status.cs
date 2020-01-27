@@ -4,17 +4,18 @@ using System.Text;
 
 namespace ORM.Models
 {
-    public class Ordre_Status
+    public class Warehouse_Status
     {
-        public int  Id { get; set; }
+
+        public int Id { get; set; }
         public string Status { get; set; }
 
 
-        public Ordre_Status( string status)
+        public Warehouse_Status( string status)
         {
             Status = status;
         }
-        public Ordre_Status(int id, string status)
+        public Warehouse_Status(int id, string status)
         {
             Id = id;
             Status = status;

@@ -10,182 +10,182 @@ namespace ORM.Interface
 
         //-----------------------------------------Adresse_Type-----------------------------------------//
         //Get requests
-        public List<Adresse_Type> GetAllAdresseType();
-        public Adresse_Type GetAdresseTypeById(int id);
+        public List<Address_Type> GetAllAdresseTypes();
+        public Address_Type GetAdresseTypeById(int id);
         //Delete requests
-        public void DeleteAdresseType(Adresse_Type adresse_Type);
+        public void DeleteAdresseType(Address_Type adresse_Type);
         //Create requests
-        public void CreateAdresseType(Adresse_Type adresse_Type);
+        public void CreateAdresseType(Address_Type adresse_Type);
         //Update requests
-        public void UpdateAdresseType(Adresse_Type adresse_Type);
+        public void UpdateAdresseType(Address_Type adresse_Type);
 
         //-----------------------------------------Adresse-----------------------------------------//
-        public List<Adresser> GetAllAdresse();
-        public Adresser GetAdresseById(int id);
-        public void DeleteAdresse(Adresser adresse);
-        public void CreateAdresse(Adresser adresse);
-        public void UpdateAdresse(Adresser adresse);
+        public List<Addresses> GetAllAdresses();
+        public Addresses GetAddressById(int id);
+        public void DeleteAddress(Addresses address);
+        public void CreateAddress(Addresses address);
+        public void UpdateAddress(Addresses address);
 
 
-        //-----------------------------------------Afdelinger-----------------------------------------//
+        //-----------------------------------------Department-----------------------------------------//
         //Get requests
-        public List<Afdelinger> GetAllAfdelinger();
-        public Afdelinger GetAfdelingerById(int id);
+        public List<Departments> GetAllDepartments();
+        public Departments GetDepartmentById(int id);
         //Delete requests
-        public void DeleteAfdelinger(Afdelinger afdeling);
+        public void DeleteDepartment(Departments department);
         //Create requests
-        public void CreateAfdelinger(Afdelinger afdeling);
+        public void CreateDepartment(Departments department);
         //Update requests
-        public void UpdateAfdelinger(Afdelinger afdeling);
+        public void UpdateDepartment(Departments department);
 
 
-        //-----------------------------------------Butikker-----------------------------------------//
+        //-----------------------------------------Shop-----------------------------------------//
         //Get requests
-        public List<Butikker> GetAllButikker();
-        public Butikker GetButikkerById(int id);
+        public List<Shops> GetAllShops();
+        public Shops GetShopById(int id);
         //Delete requests
-        public void DeleteButikker(Butikker butikker);
+        public void DeleteShop(Shops shop);
         //Create requests
-        public void CreateButikker(Butikker butikker);
+        public void CreateShop(Shops shop);
         //Update requests
-        public void UpdateButikker(Butikker butikker);
+        public void UpdateShop(Shops shop);
 
 
-        //-----------------------------------------Butikker_har_Vare-----------------------------------------//
+        //-----------------------------------------ShopWarehouse-----------------------------------------//
         //Get requests
-        public List<Butikker_har_Vare> GetAllButikker_har_Vare();
-        public List<Butikker_har_Vare> GetButikkerharVareByButik(Butikker butik);
+        public List<Shops_Warehouse> GetAllShopWarehouses();
+        public List<Shops_Warehouse> GetShopWarehouseByButik(Shops shop);
         //Delete requests
-        public void DeleteButikkerharVare(Butikker_har_Vare butikker_Har_Vare);
+        public void DeleteShopWarehouse(Shops_Warehouse shopWarehouse);
         //Create requests
-        public void CreateButikkerharVare(Butikker_har_Vare butikker_har_Vare);
+        public void CreateShopWarehouse(Shops_Warehouse shopWarehouse);
         //Update requests
-        public void UpdateButikkerharVare(Butikker_har_Vare butikker_har_Vare);
+        public void UpdateShopWarehouse(Shops_Warehouse shopWarehouse);
 
-        //-----------------------------------------Kategorier-----------------------------------------//
+        //-----------------------------------------Category-----------------------------------------//
         //Get requests
-        public List<Kategorier> GetAllKategorier();
-        public Kategorier GetKategorierById(int id);
+        public List<Category> GetAllCategories();
+        public Category GetCategoryById(int id);
         //Delete requests
-        public void DeleteKategorier(Kategorier kategorier);
+        public void DeleteCategory(Category category);
         //Create requests
-        public void CreateKategorier(Kategorier kategorier);
+        public void CreateCategory(Category category);
         //Update requests
-        public void UpdateKategorier(Kategorier kategorier);
+        public void UpdateCategory(Category category);
 
-        //-----------------------------------------Kunder-----------------------------------------//
+        //-----------------------------------------Customer-----------------------------------------//
         //Get requests
-        public List<Kunder> GetAllKunder();
-        public Kunder GetKunderById(int id);
+        public List<Customers> GetAllCustomers();
+        public Customers GetCustomerById(int id);
         //Delete requests
-        public void DeleteKunder(Kunder kunder);
+        public void DeleteCustomer(Customers customer);
         //Create requests
-        public void CreateKunder(Kunder kunder);
+        public void CreateCustomer(Customers customer);
         //Update requests
-        public void UpdateKunder(Kunder kunder);
+        public void UpdateCustomer(Customers customer);
 
 
-        //-----------------------------------------Kunder_har_Adresser-----------------------------------------//
+        //-----------------------------------------Customer_Addresses-----------------------------------------//
         //Get requests
-        public List<Kunder_har_Adresser> GetAllKunderharAdresser();
-        public List<Kunder_har_Adresser> GetKunderharAdresserByKunde(Kunder kunde);
+        public List<Customer_Addresses> GetAllCustomerAddresses();
+        public List<Customer_Addresses> GetCustomerAddressesByKunde(Customers customer);
         //Delete requests
-        public void DeleteKunderharAdresser(Kunder_har_Adresser kunder_Har_Adresser);
+        public void DeleteCustomerAddresses(Customer_Addresses customer_Addresses);
         //Create requests
-        public void CreateKunderharAdresser(Kunder_har_Adresser kunder_har_Adresser);
+        public void CreateCustomerAddresses(Customer_Addresses customer_Addresses);
         //Update requests
-        public void UpdateKunderharAdresser(Kunder_har_Adresser kunder_har_Adresser);
+        public void UpdateCustomerAddresses(Customer_Addresses customer_Addresses);
 
 
         //-----------------------------------------Lager_Status-----------------------------------------//
         //Get requests
-        public List<Lager_Status> GetAllLagerStatus();
-        public Lager_Status GetLagerStatusById(int id);
+        public List<Warehouse_Status> GetAllWarehouseStatus();
+        public Warehouse_Status GetWarehouseStatusById(int id);
         //Delete requests
-        public void DeleteLagerStatus(Lager_Status lager_Status);
+        public void DeleteWarehouseStatus(Warehouse_Status warehouse_Status);
         //Create requests
-        public void CreateLagerStatus(Lager_Status lager_Status);
+        public void CreateWarehouseStatus(Warehouse_Status warehouse_Status);
         //Update requests
-        public void UpdateLagerStatus(Lager_Status lager_Status);
+        public void UpdateWarehouseStatus(Warehouse_Status warehouse_Status);
 
-        //-----------------------------------------Leverandor-----------------------------------------//
+        //-----------------------------------------Supplier-----------------------------------------//
         //Get requests
-        public List<Leverandor> GetAllLeverandor();
-        public Leverandor GetLeverandorById(int id);
+        public List<Supplier> GetAllSuppliers();
+        public Supplier GetSupplierById(int id);
         //Delete requests
-        public void DeleteLeverandor(Leverandor leverandor);
+        public void DeleteSupplier(Supplier supplier);
         //Create requests
-        public void CreateLeverandor(Leverandor leverandor);
+        public void CreateSupplier(Supplier supplier);
         //Update requests
-        public void UpdateLeverandor(Leverandor leverandor);
+        public void UpdateSupplier(Supplier supplier);
 
 
-        //-----------------------------------------Medarbejder-----------------------------------------//
+        //-----------------------------------------Employee-----------------------------------------//
         //Get requests
-        public List<Medarbejder> GetAllMedarbejder();
-        public Medarbejder GetMedarbejderById(int id);
+        public List<Employees> GetAllEmployees();
+        public Employees GetEmployeeById(int id);
         //Delete requests
-        public void DeleteMedarbejder(Medarbejder medarbejder);
+        public void DeleteEmployee(Employees employee);
         //Create requests
-        public void CreateMedarbejder(Medarbejder medarbejder);
+        public void CreateEmployee(Employees employee);
         //Update requests
-        public void UpdateMedarbejder(Medarbejder medarbejder);
+        public void UpdateEmployee(Employees employee);
 
-        //-----------------------------------------Ordre-----------------------------------------//
+        //-----------------------------------------Order-----------------------------------------//
         //Get requests
-        public List<Ordre> GetAllOrdre();
-        public Ordre GetOrdreById(int id);
+        public List<Order> GetAllOrders();
+        public Order GetOrderById(int id);
         //Delete requests
-        public void DeleteOrdre(Ordre ordre);
+        public void DeleteOrder(Order order);
         //Create requests
-        public void CreateOrdre(Ordre ordre);
+        public void CreateOrder(Order order);
         //Update requests
-        public void UpdateOrdre(Ordre ordre);
+        public void UpdateOrder(Order order);
 
-        //-----------------------------------------Ordre_Leverings_Metode-----------------------------------------//
+        //-----------------------------------------Order_Leverings_Metode-----------------------------------------//
         //Get requests
-        public List<Ordre_Leverings_Metode> GetAllOrdreLeveringsMetode();
-        public Ordre_Leverings_Metode GetOrdreLeveringsMetodeById(int id);
+        public List<Order_Delivery_Method> GetAllOrderDeliveryMethod();
+        public Order_Delivery_Method GetOrderDeliveryMethodById(int id);
         //Delete requests
-        public void DeleteOrdreLeveringsMetode(Ordre_Leverings_Metode ordre_Leverings_Metode);
+        public void DeleteOrderDeliveryMethod(Order_Delivery_Method order_Delivery_Method);
         //Create requests
-        public void CreateOrdreLeveringsMetode(Ordre_Leverings_Metode ordre_Leverings_Metode);
+        public void CreateOrderDeliveryMethod(Order_Delivery_Method order_Delivery_Method);
         //Update requests
-        public void UpdateOrdreLeveringsMetode(Ordre_Leverings_Metode ordre_Leverings_Metode);
+        public void UpdateOrderDeliveryMethod(Order_Delivery_Method order_Delivery_Method);
 
 
-        //-----------------------------------------Ordre_Status-----------------------------------------//
+        //-----------------------------------------Order_Status-----------------------------------------//
         //Get requests
-        public List<Ordre_Status> GetAllOrdre_Status();
-        public Ordre_Status GetOrdre_StatusById(int id);
+        public List<Order_Status> GetAllOrder_Status();
+        public Order_Status GetOrder_StatusById(int id);
         //Delete requests
-        public void DeleteOrdre_Status(Ordre_Status ordre_Status);
+        public void DeleteOrder_Status(Order_Status Order_Status);
         //Create requests
-        public void CreateOrdre_Status(Ordre_Status ordre_Status);
+        public void CreateOrder_Status(Order_Status Order_Status);
         //Update requests
-        public void UpdateOrdre_Status(Ordre_Status ordre_Status);
+        public void UpdateOrder_Status(Order_Status Order_Status);
 
-        //-----------------------------------------Ordrelinjer-----------------------------------------//
+        //-----------------------------------------OrderLines-----------------------------------------//
         //Get requests
-        public List<Ordrelinjer> GetAllOrdrelinjer();
-        public List<Ordrelinjer> GetOrdrelinjerByOrdre(Ordre ordre);
+        public List<OrderLines> GetAllOrderLines();
+        public List<OrderLines> GetOrderLinesByOrder(Order Order);
         //Delete requests
-        public void DeleteOrdrelinjer(Ordrelinjer ordrelinjer);
+        public void DeleteOrderLines(OrderLines orderLines);
         //Create requests
-        public void CreateOrdrelinjer(Ordrelinjer ordrelinjer);
+        public void CreateOrderLines(OrderLines orderLines);
         //Update requests
-        public void UpdateOrdrelinjer(Ordrelinjer ordrelinjer);
+        public void UpdateOrderLines(OrderLines orderLines);
 
-        //-----------------------------------------PostNr-----------------------------------------//
+        //-----------------------------------------ZipCode-----------------------------------------//
         //Get requests
-        public List<PostNr> GetAllPostNr();
-        public PostNr GetPostNrById(int id);
+        public List<ZipCode> GetAllZipCode();
+        public ZipCode GetZipCodeById(int id);
         //Delete requests
-        public void DeletePostNr(PostNr postNr);
+        public void DeleteZipCode(ZipCode zipCode);
         //Create requests
-        public void CreatePostNr(PostNr postNr);
+        public void CreateZipCode(ZipCode zipCode);
         //Update requests
-        public void UpdatePostNr(PostNr postNr);
+        public void UpdateZipCode(ZipCode zipCode);
 
         //-----------------------------------------Producent-----------------------------------------//
         //Get requests
@@ -198,15 +198,15 @@ namespace ORM.Interface
         //Update requests
         public void UpdateProducent(Producent producent);
 
-        //-----------------------------------------Produkter-----------------------------------------//
+        //-----------------------------------------Product-----------------------------------------//
         //Get requests
-        public List<Produkter> GetAllProdukter();
-        public Produkter GetProdukterById(int id);
+        public List<Products> GetAllProducts();
+        public Products GetProductById(int id);
         //Delete requests
-        public void DeleteProdukter(Produkter produkter);
+        public void DeleteProduct(Products product);
         //Create requests
-        public void CreateProdukter(Produkter produkter);
+        public void CreateProduct(Products product);
         //Update requests
-        public void UpdateProdukter(Produkter produkter);
+        public void UpdateProduct(Products product);
     }
 }

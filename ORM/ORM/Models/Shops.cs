@@ -4,21 +4,21 @@ using System.Text;
 
 namespace ORM.Models
 {
-    public class Butikker
+    public class Shops
     {
         public int Id { get; set; }
-        public Adresser Adresse { get; set; }
+        public Addresses Address { get; set; }
 
         //Insert Constructor
-        public Butikker(Adresser adresse)
+        public Shops(Addresses address)
         {
-            Adresse = adresse;
+            Address = address;
         }
         //Constructor
-        public Butikker(int id, Adresser adresse)
+        public Shops(int id, Addresses address)
         {
             Id = id;
-            Adresse = adresse;
+            Address = address;
         }
     }
 }

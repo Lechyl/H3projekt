@@ -7,18 +7,18 @@ namespace ORM.Models
     public class Producent
     {
         public int Id { get; }
-        public string ProducentNavn { get; set; }
+        public string ProducentName { get; set; }
 
 
-        public Producent(string producentNavn)
+        public Producent(string producentName)
         {
-           
-            ProducentNavn = producentNavn;
+
+            ProducentName = producentName;
         }
-        public Producent(int id, string producentNavn)
+        public Producent(int id, string producentName)
         {
             Id = id;
-            ProducentNavn = producentNavn;
+            ProducentName = producentName;
         }
 
     }

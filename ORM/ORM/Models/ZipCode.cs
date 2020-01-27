@@ -5,16 +5,16 @@ using System.Text;
 namespace ORM.Models
 {
 
-    public class PostNr
+    public class ZipCode
     {
         public int Id { get; set; }
-        public string ByNavn { get; set; }
+        public string CityName { get; set; }
         
         //Constructor
-        public PostNr(int id, string byNavn)
+        public ZipCode(int id, string cityName)
         {
             Id = id;
-            ByNavn = byNavn;
+            CityName = cityName;
         }
     }
 }

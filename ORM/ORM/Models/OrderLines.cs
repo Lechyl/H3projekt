@@ -4,21 +4,21 @@ using System.Text;
 
 namespace ORM.Models
 {
-    public class Ordrelinjer
+    public class OrderLines
     {
-        private int _antal;
-        private decimal _pris;
-        public Produkter Produkt { get; set; }
-        public Ordre Ordre { get; set; }
+        private int _quantity;
+        private decimal _price;
+        public Products Product { get; set; }
+        public Order Order { get; set; }
 
-        public int Antal
+        public int Quantity
         {
-            get { return _antal; }
+            get { return _quantity; }
             set
             {
                 if(value > 0)
                 {
-                    _antal = value;
+                    _quantity = value;
                 }
                 else
                 {
@@ -26,14 +26,14 @@ namespace ORM.Models
                 }
             }
         }
-        public decimal Pris
+        public decimal Price
         {
-            get { return _pris; }
+            get { return _price; }
             set
             {
                 if (value <= 99999999 && value >= 0)
                 {
-                    _pris = Math.Round(value, 2);
+                    _price = Math.Round(value, 2);
                 }
                 else
                 {
@@ -41,12 +41,12 @@ namespace ORM.Models
                 }
             }
         }
-        public Ordrelinjer(Produkter produkt, Ordre ordre, int antal,  decimal pris)
+        public OrderLines(Products product, Order order, int quantity,  decimal price)
         {
-            Produkt = produkt;
-            Ordre = ordre;
-            Antal = antal;
-            Pris = pris;
+            Product = product;
+            Order = order;
+            Quantity = quantity;
+            Price = price;
         }
     }
 }

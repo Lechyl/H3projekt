@@ -26,18 +26,18 @@ namespace ORM
             dbConn = new SqlConnection(conString.ToString());
         }
 
-        public void CreateAdresse(Adresser adresse)
+        public void CreateAddress(Addresses address)
         {
             try
             {
-                string query = "insert into Adresser(postnrID,adresse,etage) values (@postnrId,@adresse@,etage)";
+                string query = "insert into Addressesr(postnrID,adresse,etage) values (@postnrId,@adresse@,etage)";
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
 
                 OpenConn();
-                cmd.Parameters.AddWithValue("@postnrId", adresse.PostNr.Id);
-                cmd.Parameters.AddWithValue("@adresse", adresse.Adresse);
-                cmd.Parameters.AddWithValue("@etage", adresse.Etage);
+                cmd.Parameters.AddWithValue("@postnrId", address.ZipCode.Id);
+                cmd.Parameters.AddWithValue("@adresse", address.Address);
+                cmd.Parameters.AddWithValue("@etage", address.Floor);
 
                 cmd.ExecuteNonQuery();
                 CloseConn();
@@ -49,7 +49,7 @@ namespace ORM
             }
         }
 
-        public void CreateAdresseType(Adresse_Type adresse_Type)
+        public void CreateAdresseType(Address_Type adresse_Type)
         {
 
             try
@@ -71,7 +71,7 @@ namespace ORM
             }
         }
 
-        public void CreateAfdelinger(Afdelinger afdeling)
+        public void CreateDepartment(Departments department)
         {
             try
             {
@@ -79,8 +79,8 @@ namespace ORM
                 string query = "insert into Afdelinger(afdeling,parent_Afdeling) values (@afdeling,@parent_Afdeling)";
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 OpenConn(); 
-                cmd.Parameters.AddWithValue("@afdeling", afdeling.Afdeling);
-                cmd.Parameters.AddWithValue("@parent_Afdeling", (object)afdeling.Parent_Afdeling.Id ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@afdeling", department.Department);
+                cmd.Parameters.AddWithValue("@parent_Afdeling", (object)department.Parent_Department.Id ?? DBNull.Value);
                 cmd.ExecuteNonQuery();
                 CloseConn();
 
@@ -96,7 +96,7 @@ namespace ORM
             }
         }
 
-        public void CreateButikker(Butikker butikker)
+        public void CreateShop(Shops shop)
         {
             try
             {
@@ -104,7 +104,7 @@ namespace ORM
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 OpenConn();
-                cmd.Parameters.AddWithValue("@adresseID", butikker.Adresse.Id);
+                cmd.Parameters.AddWithValue("@adresseID", shop.Address.Id);
                 cmd.ExecuteNonQuery();
                 CloseConn();
             }
@@ -115,14 +115,14 @@ namespace ORM
             }
         }
 
-        public void CreateButikkerharVare(Butikker_har_Vare butikker_har_Vare)
+        public void CreateShopWarehouse(Shops_Warehouse shopWarehouse)
         {
             try
             {
                 string query = "insert into Butikker_har_Vare(produktID,butikID,statusID,antal) values (@produktID,@butikID,@statusID,@antal)";
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 OpenConn();
-                cmd.Parameters.AddWithValue("@produktID",butikker_har_Vare.Produkt.Id);
+                cmd.Parameters.AddWithValue("@produktID", shopWarehouse.Product.Id);
                 cmd.ExecuteNonQuery();
 
                 CloseConn();
@@ -134,15 +134,15 @@ namespace ORM
             }        
         }
 
-        public void CreateKategorier(Kategorier kategorier)
+        public void CreateCategory(Category category)
         {
             try
             {
                 string query = "insert into Kategorier(navn, parent_KategoriID) values (@navn, @parent_KategoriID)";
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 OpenConn();
-                cmd.Parameters.AddWithValue("@navn", kategorier.Navn);
-                cmd.Parameters.AddWithValue("@parent_KategoriID", (object)kategorier.Parent_Kategori.Id ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@navn", category.Name);
+                cmd.Parameters.AddWithValue("@parent_KategoriID", (object)category.Parent_Category.Id ?? DBNull.Value);
                 cmd.ExecuteNonQuery();
                 CloseConn();
             }
@@ -153,7 +153,7 @@ namespace ORM
             }
         }
 
-        public void CreateKunder(Kunder kunder)
+        public void CreateCustomer(Customers customer)
         {
 
             try
@@ -162,10 +162,10 @@ namespace ORM
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 OpenConn();
-                cmd.Parameters.AddWithValue("@fornavn", kunder.Fornavn);
-                cmd.Parameters.AddWithValue("@efternavn", kunder.Efternavn);
-                cmd.Parameters.AddWithValue("@email", kunder.Email);
-                cmd.Parameters.AddWithValue("@telefon", kunder.Telefon);
+                cmd.Parameters.AddWithValue("@fornavn", customer.FirstName);
+                cmd.Parameters.AddWithValue("@efternavn", customer.LastName);
+                cmd.Parameters.AddWithValue("@email", customer.Email);
+                cmd.Parameters.AddWithValue("@telefon", customer.Phone);
                 cmd.ExecuteNonQuery();
                 CloseConn();
             }
@@ -176,16 +176,16 @@ namespace ORM
             }
         }
 
-        public void CreateKunderharAdresser(Kunder_har_Adresser kunder_har_Adresser)
+        public void CreateCustomerAddresses(Customer_Addresses customer_Addresses)
         {
             try
             {
                 string query = "insert into Kunder_har_Adresser(adresseID,kundeID,adresseType) values (@adresseID,@kundeID,@adresseType)";
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 OpenConn();
-                cmd.Parameters.AddWithValue("@adresseID", kunder_har_Adresser.Adresse.Id);
-                cmd.Parameters.AddWithValue("@kundeID",kunder_har_Adresser.Kunde.Id);
-                cmd.Parameters.AddWithValue("@adresseType",kunder_har_Adresser.AdresseType.Id);
+                cmd.Parameters.AddWithValue("@adresseID", customer_Addresses.Address.Id);
+                cmd.Parameters.AddWithValue("@kundeID", customer_Addresses.Customer.Id);
+                cmd.Parameters.AddWithValue("@adresseType", customer_Addresses.AdresseType.Id);
 
                 cmd.ExecuteNonQuery();
                 CloseConn();
@@ -198,14 +198,14 @@ namespace ORM
             }
         }
 
-        public void CreateLagerStatus(Lager_Status lager_Status)
+        public void CreateWarehouseStatus(Warehouse_Status warehouse_Status)
         {
             try
             {
                 string query = "insert into Lager_Status(status) values (@status)";
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 OpenConn();
-                cmd.Parameters.AddWithValue("@status",lager_Status.Status);
+                cmd.Parameters.AddWithValue("@status", warehouse_Status.Status);
                 cmd.ExecuteNonQuery();
                 CloseConn();
 
@@ -217,17 +217,17 @@ namespace ORM
             }
         }
 
-        public void CreateLeverandor(Leverandor leverandor)
+        public void CreateSupplier(Supplier supplier)
         {
             try
             {
                 string query = "insert into Leverandor(leverandorNavn,kontaktPerson,email,telefon) values (@leverandorNavn,@kontaktPerson,@email,@telefon)";
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 OpenConn();
-                cmd.Parameters.AddWithValue("@leverandorNavn",leverandor.LeverandorNavn);
-                cmd.Parameters.AddWithValue("@kontaktPerson", leverandor.KontaktPerson);
-                cmd.Parameters.AddWithValue("@email", leverandor.Email);
-                cmd.Parameters.AddWithValue("@telefon", leverandor.Telefon);
+                cmd.Parameters.AddWithValue("@leverandorNavn", supplier.SupplierName);
+                cmd.Parameters.AddWithValue("@kontaktPerson", supplier.ContactPerson);
+                cmd.Parameters.AddWithValue("@email", supplier.Email);
+                cmd.Parameters.AddWithValue("@telefon", supplier.Phone);
 
                 cmd.ExecuteNonQuery();
                 CloseConn();
@@ -239,22 +239,22 @@ namespace ORM
             }
         }
 
-        public void CreateMedarbejder(Medarbejder medarbejder)
+        public void CreateEmployee(Employees employee)
         {
             try
             {
                 string query = "insert into Medarbejder(fornavn,efternavn,email,telefon,kontonr,reg,adresseID,afdelingID,butikID) values (@fornavn,@efternavn,@email,@telefon,@kontonr,@reg,@adresseID,@afdelingID,@butikID)";
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 OpenConn();
-                cmd.Parameters.AddWithValue("@fornavn", medarbejder.Fornavn);
-                cmd.Parameters.AddWithValue("@efternavn", medarbejder.Efternavn);
-                cmd.Parameters.AddWithValue("@email", medarbejder.Email);
-                cmd.Parameters.AddWithValue("@telefon", medarbejder.Telefon);
-                cmd.Parameters.AddWithValue("@kontonr", medarbejder.KontoNr);
-                cmd.Parameters.AddWithValue("@reg", medarbejder.Reg);
-                cmd.Parameters.AddWithValue("@adresseID", medarbejder.Adresse.Id);
-                cmd.Parameters.AddWithValue("@afdelingID", medarbejder.Afdeling.Id);
-                cmd.Parameters.AddWithValue("@butikID", medarbejder.Butik.Id);
+                cmd.Parameters.AddWithValue("@fornavn", employee.FirstName);
+                cmd.Parameters.AddWithValue("@efternavn", employee.LastName);
+                cmd.Parameters.AddWithValue("@email", employee.Email);
+                cmd.Parameters.AddWithValue("@telefon", employee.Phone);
+                cmd.Parameters.AddWithValue("@kontonr", employee.AccountNr);
+                cmd.Parameters.AddWithValue("@reg", employee.Reg);
+                cmd.Parameters.AddWithValue("@adresseID", employee.Address.Id);
+                cmd.Parameters.AddWithValue("@afdelingID", employee.Departments.Id);
+                cmd.Parameters.AddWithValue("@butikID", employee.Shop.Id);
 
                 cmd.ExecuteNonQuery();
                 CloseConn();
@@ -266,17 +266,17 @@ namespace ORM
             }
         }
 
-        public void CreateOrdre(Ordre ordre)
+        public void CreateOrder(Order order)
         {
             try
             {
                 string query = "insert into Ordre(kundeID,leveringsMetodeID,leveringsAdresseID,statusID) values (@kundeID,@leveringsMetodeID,@leveringsAdresseID,@statusID)";
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 OpenConn();
-                cmd.Parameters.AddWithValue("@kundeID", ordre.Kunde.Id);
-                cmd.Parameters.AddWithValue("@leveringsMetodeID",ordre.LeveringsMetode.Id);
-                cmd.Parameters.AddWithValue("@leveringsAdresseID",ordre.LeveringsAdresse.Id);
-                cmd.Parameters.AddWithValue("@statusID",ordre.Status.Id);
+                cmd.Parameters.AddWithValue("@kundeID", order.Customer.Id);
+                cmd.Parameters.AddWithValue("@leveringsMetodeID", order.DeliveryMethod.Id);
+                cmd.Parameters.AddWithValue("@leveringsAdresseID", order.DeliveryAddress.Id);
+                cmd.Parameters.AddWithValue("@statusID", order.Status.Id);
                 cmd.ExecuteNonQuery();
                 CloseConn();
 
@@ -288,15 +288,15 @@ namespace ORM
             }        
         }
 
-        public void CreateOrdreLeveringsMetode(Ordre_Leverings_Metode ordre_Leverings_Metode)
+        public void CreateOrderDeliveryMethod(Order_Delivery_Method order_Delivery_Method)
         {
             try
             {
                 string query = "insert into Ordre_Leverings_Metode(metodeNavn,pris) values (@metodeNavn,@pris)";
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 OpenConn();
-                cmd.Parameters.AddWithValue("@metodeNavn",ordre_Leverings_Metode.MetodeNavn);
-                cmd.Parameters.AddWithValue("@pris",ordre_Leverings_Metode.Pris);
+                cmd.Parameters.AddWithValue("@metodeNavn", order_Delivery_Method.MethodName);
+                cmd.Parameters.AddWithValue("@pris", order_Delivery_Method.Price);
                 cmd.ExecuteNonQuery();
                 CloseConn();
             }
@@ -307,17 +307,17 @@ namespace ORM
             }
         }
 
-        public void CreateOrdrelinjer(Ordrelinjer ordrelinjer)
+        public void CreateOrderLines(OrderLines orderLines)
         {
             try
             {
                 string query = "insert into Ordrelinjer(ordreID,produktID,antal,pris) values (@ordreID,@produktID,@antal,@pris)";
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 OpenConn();
-                cmd.Parameters.AddWithValue("@ordreID",ordrelinjer.Ordre.Id);
-                cmd.Parameters.AddWithValue("@produktID",ordrelinjer.Produkt.Id);
-                cmd.Parameters.AddWithValue("@antal",ordrelinjer.Antal);
-                cmd.Parameters.AddWithValue("@pris",ordrelinjer.Pris);
+                cmd.Parameters.AddWithValue("@ordreID", orderLines.Order.Id);
+                cmd.Parameters.AddWithValue("@produktID", orderLines.Product.Id);
+                cmd.Parameters.AddWithValue("@antal", orderLines.Quantity);
+                cmd.Parameters.AddWithValue("@pris", orderLines.Price);
                 cmd.ExecuteNonQuery();
                 CloseConn();
 
@@ -330,14 +330,14 @@ namespace ORM
             }
         }
 
-        public void CreateOrdre_Status(Ordre_Status ordre_Status)
+        public void CreateOrder_Status(Order_Status Order_Status)
         {
             try
             {
                 string query = "insert into Ordre_Status(status) values (@status)";
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 OpenConn();
-                cmd.Parameters.AddWithValue("@status", ordre_Status.Status);
+                cmd.Parameters.AddWithValue("@status", Order_Status.Status);
                 cmd.ExecuteNonQuery();
                 CloseConn();
             }
@@ -348,14 +348,14 @@ namespace ORM
             }
         }
 
-        public void CreatePostNr(PostNr postNr)
+        public void CreateZipCode(ZipCode zipCode)
         {
             try
             {
                 string query = "insert into PostNr(byNavn) values (@byNavn)";
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 OpenConn();
-                cmd.Parameters.AddWithValue("@byNavn", postNr.ByNavn);
+                cmd.Parameters.AddWithValue("@byNavn", zipCode.CityName);
                 cmd.ExecuteNonQuery();
                 CloseConn();
             }
@@ -373,7 +373,7 @@ namespace ORM
                 string query = "insert into Producent(producentNavn) values (@producentNavn)";
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 OpenConn();
-                cmd.Parameters.AddWithValue("@producentNavn", producent.ProducentNavn);
+                cmd.Parameters.AddWithValue("@producentNavn", producent.ProducentName);
                 cmd.ExecuteNonQuery();
                 CloseConn();
             }
@@ -384,19 +384,19 @@ namespace ORM
             }
         }
 
-        public void CreateProdukter(Produkter produkter)
+        public void CreateProduct(Products product)
         {
             try
             {
                 string query = "insert into Produkter(produktNavn,beskrivelse,pris,kategoriID,producentID,leverandorID) values (@produktNavn,@beskrivelse,@pris,@kategoriID,@producentID,@leverandorID)";
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 OpenConn();
-                cmd.Parameters.AddWithValue("@produktNavn",produkter.ProduktNavn);
-                cmd.Parameters.AddWithValue("@beskrivelse",produkter.Beskrivelse);
-                cmd.Parameters.AddWithValue("@pris",produkter.Pris);
-                cmd.Parameters.AddWithValue("@kategoriID",produkter.Kategori.Id);
-                cmd.Parameters.AddWithValue("@producentID",produkter.Producent.Id);
-                cmd.Parameters.AddWithValue("@leverandorID",produkter.Leverandor.Id);
+                cmd.Parameters.AddWithValue("@produktNavn", product.ProductName);
+                cmd.Parameters.AddWithValue("@beskrivelse", product.Description);
+                cmd.Parameters.AddWithValue("@pris", product.Price);
+                cmd.Parameters.AddWithValue("@kategoriID", product.Category.Id);
+                cmd.Parameters.AddWithValue("@producentID", product.Producent.Id);
+                cmd.Parameters.AddWithValue("@leverandorID", product.Supplier.Id);
                 cmd.ExecuteNonQuery();
                 CloseConn();
 
@@ -409,102 +409,12 @@ namespace ORM
             }
         }
 
-        public void DeleteAdresse(Adresser adresse)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
 
-        public void DeleteAdresseType(Adresse_Type adresse_Type)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void DeleteAfdelinger(Afdelinger afdeling)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void DeleteButikker(Butikker butikker)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void DeleteButikkerharVare(Butikker_har_Vare butikker_Har_Vare)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void DeleteKategorier(Kategorier kategorier)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void DeleteKunder(Kunder kunder)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void DeleteKunderharAdresser(Kunder_har_Adresser kunder_Har_Adresser)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void DeleteLagerStatus(Lager_Status lager_Status)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void DeleteLeverandor(Leverandor leverandor)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void DeleteMedarbejder(Medarbejder medarbejder)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void DeleteOrdre(Ordre ordre)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void DeleteOrdreLeveringsMetode(Ordre_Leverings_Metode ordre_Leverings_Metode)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void DeleteOrdrelinjer(Ordrelinjer ordrelinjer)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void DeleteOrdre_Status(Ordre_Status ordre_Status)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void DeletePostNr(PostNr postNr)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void DeleteProducent(Producent producent)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void DeleteProdukter(Produkter produkter)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        
-        public Adresser GetAdresseById(int id)
+        public Addresses GetAddressById(int id)
         {
             try
             {
-                Adresser adresse = null;
+                Addresses adresse = null;
                 string query = "select Adresser.id,adresse,etage,pn.id,pn.byNavn from Adresser inner join PostNr as pn on pn.id = postnrID where Adresser.id = @id";
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 OpenConn();
@@ -514,11 +424,11 @@ namespace ORM
 
                     while (reader.Read())
                     {
-                        PostNr postNr = new PostNr((int)reader[3], (string)reader[4]);
+                        ZipCode postNr = new ZipCode((int)reader[3], (string)reader[4]);
 
 
 
-                        adresse = new Adresser((int)reader[0], postNr,(string)reader[2], (string)reader[3]);
+                        adresse = new Addresses((int)reader[0], postNr,(string)reader[2], (string)reader[3]);
                     count++;
 
                         
@@ -532,11 +442,11 @@ namespace ORM
             }catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public Adresse_Type GetAdresseTypeById(int id)
+        public Address_Type GetAdresseTypeById(int id)
         {
             try
             {
-                Adresse_Type adresse_Type = null;
+                Address_Type adresse_Type = null;
                 string query = "select id,type from Adresse_Type where id = @id";
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 OpenConn();
@@ -547,7 +457,7 @@ namespace ORM
 
                     while (reader.Read())
                     {
-                        adresse_Type = new Adresse_Type((int)reader[0],(string)reader[1]);
+                        adresse_Type = new Address_Type((int)reader[0],(string)reader[1]);
                     count++;
                     }
                 
@@ -560,11 +470,11 @@ namespace ORM
             catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public Afdelinger GetAfdelingerById(int id)
+        public Departments GetDepartmentById(int id)
         {
             try
             {
-                Afdelinger afdelinger = null;
+                Departments afdelinger = null;
                 string query = "select a1.id,a1.afdeling,a2.id,a2.afdeling from Afdelinger as a1 left join Afdelinger a2 on a2.id = a1.parent_Afdeling where a1.id = @id";
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 OpenConn();
@@ -575,13 +485,13 @@ namespace ORM
                     {
                         if(reader[2] == null)
                         {
-                            afdelinger = new Afdelinger((int)reader[0], (string)reader[1]);
+                            afdelinger = new Departments((int)reader[0], (string)reader[1]);
                         }
                         else
                         {
-                            Afdelinger parent_Afdeling = new Afdelinger((int)reader[2], (string)reader[3]);
+                            Departments parent_Afdeling = new Departments((int)reader[2], (string)reader[3]);
 
-                            afdelinger = new Afdelinger((int)reader[0], (string)reader[1],parent_Afdeling);
+                            afdelinger = new Departments((int)reader[0], (string)reader[1],parent_Afdeling);
                         }
                     count++;
                         
@@ -595,12 +505,12 @@ namespace ORM
         }
 
 
-        public Butikker GetButikkerById(int id)
+        public Shops GetShopById(int id)
         {
              
             try
             {
-                Butikker butik = null;
+                Shops butik = null;
                 string query = "select b.id,adr.id,adr.adresse,adr.etage,pn.id,pn.byNavn from Butikker as b inner join Adresser as adr on adr.id = b.adresseID  inner join PostNr as pn on pn.id = adr.postnrID where b.id = @id";
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 OpenConn();
@@ -610,9 +520,9 @@ namespace ORM
                 int count = 0;
                 while (reader.Read())
                 {
-                    PostNr postNr = new PostNr((int)reader[4], (string)reader[5]);
-                    Adresser adresser = new Adresser((int)reader[1], postNr, (string)reader[2], (string)reader[3]);
-                    butik = new Butikker((int)reader[0], adresser);
+                    ZipCode postNr = new ZipCode((int)reader[4], (string)reader[5]);
+                    Addresses adresser = new Addresses((int)reader[1], postNr, (string)reader[2], (string)reader[3]);
+                    butik = new Shops((int)reader[0], adresser);
                     count++;
                 }
                 if(count != 1) { throw new IndexOutOfRangeException("Shop unspecified error"); }
@@ -623,24 +533,48 @@ namespace ORM
             catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public List<Butikker_har_Vare> GetButikkerharVareByButik(Butikker butik)
+        public List<Shops_Warehouse> GetShopWarehouseByButik(Shops shop)
         {
             try{
-                List<Butikker_har_Vare> butikker_Har_Vares = new List<Butikker_har_Vare>();
+                List<Shops_Warehouse> butikker_Har_Vare = new List<Shops_Warehouse>();
+                string query = "select produktID,statusID,antal from Butikker_har_Vare where butikID = @butikID";
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                OpenConn();
+                cmd.Parameters.AddWithValue("@butikID", shop.Id);
+
+                SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
 
 
+                
+                if (reader.HasRows) { 
+                    while (reader.Read())
+                    {
+                        Products produkt = GetProductById(reader.GetInt32(0));
+                        Warehouse_Status lager_Status = GetWarehouseStatusById(reader.GetInt32(1));
 
+                        butikker_Har_Vare.Add(new Shops_Warehouse(produkt, shop, lager_Status, reader.GetInt32(2)));
+                        
+                    }
+                }
+                else
+                {
+                    throw new ArithmeticException("No row returned");
+                }
+                //CloseConn();
+                reader.Close();
+
+                return butikker_Har_Vare;
 
             }
             catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public Kategorier GetKategorierById(int id)
+        public Category GetCategoryById(int id)
         {
 
             try{
-                Kategorier kategorier = null;
-                string query = "select k1.id,k1.navn,k2.id,k2.navn from Kategorier as k1 left join Kategorier k2 on k1.parent_KategoriID = k2.id where k1.id = @id;
+                Category kategorier = null;
+                string query = "select k1.id,k1.navn,k2.id,k2.navn from Kategorier as k1 left join Kategorier k2 on k1.parent_KategoriID = k2.id where k1.id = @id";
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 OpenConn();
                 cmd.Parameters.AddWithValue("@id", id);
@@ -651,12 +585,12 @@ namespace ORM
                 {
                     if(reader[2] == null)
                     {
-                        kategorier = new Kategorier(reader.GetInt32(0), reader.GetString(1));
+                        kategorier = new Category(reader.GetInt32(0), reader.GetString(1));
                     }
                     else
                     {
-                        Kategorier parent_Kategori = new Kategorier(reader.GetInt32(2), reader.GetString(3));
-                        kategorier = new Kategorier((int)reader[0],(string)reader[1],parent_Kategori);
+                        Category parent_Kategori = new Category(reader.GetInt32(2), reader.GetString(3));
+                        kategorier = new Category((int)reader[0],(string)reader[1],parent_Kategori);
                     }
                    
                     count++;
@@ -668,55 +602,162 @@ namespace ORM
             }catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public Kunder GetKunderById(int id)
+        public Customers GetCustomerById(int id)
         {
-            try{}catch (Exception e){throw new Exception(e.Message);}
+            try{
+                Customers kunder = null;
+                string query = "select id,fornavn,efternavn,email,telefon from kunder where id = @id";
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                OpenConn();
+                cmd.Parameters.AddWithValue("@id", id);
+
+                SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+
+                int count = 0;
+                while (reader.Read())
+                {
+                    kunder = new Customers(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4));
+                    count++;
+                }
+                if (count != 1) { throw new IndexOutOfRangeException("Warehouse Status unspecified error"); }
+                //CloseConn();
+                reader.Close();
+                return kunder;
+            }catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public Kunder_har_Adresser GetKunderharAdresserByKunde(Kunder kunde)
+        public List<Customer_Addresses> GetKunderharAdresserByKunde(Customers kunde)
         {
-            try{}catch (Exception e){throw new Exception(e.Message);}
+            try{
+                List<Customer_Addresses> kunder_Har_Adressers = new List<Customer_Addresses>();
+                string query = "select adresseID,kundeID,adresseType from Kunder_har_Adresser where kundeID = @kundeId";
+
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                OpenConn();
+                cmd.Parameters.AddWithValue("@kundeId", kunde.Id);
+
+                SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+
+                if (reader.HasRows)
+                { 
+                    while (reader.Read())
+                    {
+                        Addresses adresser = GetAddressById(reader.GetInt32(0));
+                        Address_Type adresse_Type = GetAdresseTypeById(reader.GetInt32(2));
+
+                        kunder_Har_Adressers.Add(new Customer_Addresses(adresser, kunde, adresse_Type));
+                    
+                    }
+                }
+                //CloseConn();
+                reader.Close();
+                return kunder_Har_Adressers;
+            }catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public Lager_Status GetLagerStatusById(int id)
+        public Warehouse_Status GetWarehouseStatusById(int id)
         {
-            try{}catch (Exception e){throw new Exception(e.Message);}
+            try{
+                Warehouse_Status lager_Status = null;
+                string query = "select id,status from Lager_Status where id = @id";
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                OpenConn();
+                cmd.Parameters.AddWithValue("@id", id);
+                SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+
+
+                int count = 0;
+                while (reader.Read())
+                {
+                    lager_Status = new Warehouse_Status(reader.GetInt32(0), reader.GetString(0));
+                    count++;
+                }
+                if (count != 1) { throw new IndexOutOfRangeException("Warehouse Status unspecified error"); }
+                //CloseConn();
+                reader.Close();
+                return lager_Status;
+            }catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public Leverandor GetLeverandorById(int id)
+        public Supplier GetSupplierById(int id)
         {
-            try{}catch (Exception e){throw new Exception(e.Message);}
+            try{
+                Supplier leverandor = null;
+                string query = "select id,leverandorNavn,kontaktPerson,email,telefon from Leverandor where id = @id";
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                OpenConn();
+                cmd.Parameters.AddWithValue("@id", id);
+                SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+
+                int count = 0;
+                while (reader.Read())
+                {
+
+                    leverandor = new Supplier(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4));
+                    count++;
+                }
+                if (count != 1) { throw new IndexOutOfRangeException("Supplier unspecified error"); }
+                //CloseConn();
+                reader.Close();
+
+                return leverandor;
+            }catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public Medarbejder GetMedarbejderById(int id)
+        public Employees GetEmployeeById(int id)
         {
-            try{}catch (Exception e){throw new Exception(e.Message);}
+            try{
+                Employees medarbejder = null;
+                string query = "select id,fornavn,efternavn,kontonr,reg,email,telefon,adresseID,afdelingID,butikID from Medarbejder where id = @id";
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                OpenConn();
+                cmd.Parameters.AddWithValue("@id", id);
+
+                SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+                int count = 0;
+                while (reader.Read())
+                {
+                    Addresses adresse = GetAddressById(reader.GetInt32(7));
+                    Departments afdeling = GetDepartmentById(reader.GetInt32(8));
+                    Shops butik = GetShopById(reader.GetInt32(9));
+
+                    medarbejder = new Employees(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(6), adresse, afdeling, butik, reader.GetString(5));
+                    count++;
+                }
+                if (count != 1) { throw new IndexOutOfRangeException("Worker unspecified error"); }
+                //CloseConn();
+                reader.Close();
+
+
+                return medarbejder;
+            }catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public Ordre GetOrdreById(int id)
+
+
+        public Order_Status GetOrder_StatusById(int id)
         {
-            try{}catch (Exception e){throw new Exception(e.Message);}
+            try{
+                Order_Status ordre_Status = null;
+                string query = "select id,status from Ordre_Status where id = @id";
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                OpenConn();
+                cmd.Parameters.AddWithValue("@id", id);
+
+                SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+                int count = 0;
+                while (reader.Read())
+                {
+                    ordre_Status = new Order_Status(reader.GetInt32(0), reader.GetString(1));
+                    count++;
+                }
+                if (count != 1) { throw new IndexOutOfRangeException("Category unspecified error"); }
+                //CloseConn();
+                reader.Close();
+                return ordre_Status;
+            }catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public Ordre_Leverings_Metode GetOrdreLeveringsMetodeById(int id)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public Ordrelinjer GetOrdrelinjerByOrdre(Ordre ordre)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public Ordre_Status GetOrdre_StatusById(int id)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public PostNr GetPostNrById(int id)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
 
         public Producent GetProducentById(int id)
         {
@@ -724,193 +765,48 @@ namespace ORM
                 Producent producent = null;
                 string query = "select id,producentNavn from Producent where id = @id";
                 SqlCommand cmd = new SqlCommand(query, dbConn);
+                OpenConn();
                 cmd.Parameters.AddWithValue("@id", id);
+                SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+                int count = 0;
+                while (reader.Read())
+                {
+                    producent = new Producent(reader.GetInt32(0), reader.GetString(1));
+
+                    count++;
+                }
+                if (count != 1) { throw new IndexOutOfRangeException("Category unspecified error"); }
+                //CloseConn();
+                reader.Close();
                 return producent;
             }catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public Produkter GetProdukterById(int id)
+        public Products GetProductById(int id)
         {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-        public List<Adresser> GetAllAdresse()
-        {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
-        }
+            try{
+                Products produkter = null;
+                string query = "select id,produktNavn,beskrivelse,pris,kategoriID,producentID,leverandorID from Produkter where id = @id";
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                OpenConn();
+                cmd.Parameters.AddWithValue("@id", id);
+                SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+                int count = 0;
+                while (reader.Read())
+                {
+                    Category kategori = GetCategoryById(reader.GetInt32(4));
+                    Producent producent = GetProducentById(reader.GetInt32(5));
+                    Supplier leverandor = GetSupplierById(reader.GetInt32(6));
 
-        public List<Adresse_Type> GetAllAdresseType()
-        {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
-        }
+                    produkter = new Products(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetDecimal(3), kategori, producent, leverandor);
 
-        public List<Afdelinger> GetAllAfdelinger()
-        {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
-        }
-
-        public List<Butikker> GetAllButikker()
-        {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
-        }
-
-        public List<Butikker_har_Vare> GetAllButikker_har_Vare()
-        {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
-        }
-
-        public List<Kategorier> GetAllKategorier()
-        {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
-        }
-
-        public List<Kunder> GetAllKunder()
-        {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
-        }
-
-        public List<Kunder_har_Adresser> GetAllKunderharAdresser()
-        {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
-        }
-
-        public List<Lager_Status> GetAllLagerStatus()
-        {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
-        }
-
-        public List<Leverandor> GetAllLeverandor()
-        {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
-        }
-
-        public List<Medarbejder> GetAllMedarbejder()
-        {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
-        }
-
-        public List<Ordre> GetAllOrdre()
-        {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
-        }
-
-        public List<Ordre_Leverings_Metode> GetAllOrdreLeveringsMetode()
-        {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
-        }
-
-        public List<Ordrelinjer> GetAllOrdrelinjer()
-        {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
-        }
-
-        public List<Ordre_Status> GetAllOrdre_Status()
-        {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
-        }
-
-        public List<PostNr> GetAllPostNr()
-        {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
-        }
-
-        public List<Producent> GetAllProducent()
-        {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
-        }
-
-        public List<Produkter> GetAllProdukter()
-        {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
-        }
-
-        public void UpdateAdresse(Adresser adresse)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void UpdateAdresseType(Adresse_Type adresse_Type)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void UpdateAfdelinger(Afdelinger afdeling)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void UpdateButikker(Butikker butikker)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void UpdateButikkerharVare(Butikker_har_Vare butikker_har_Vare)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void UpdateKategorier(Kategorier kategorier)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void UpdateKunder(Kunder kunder)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void UpdateKunderharAdresser(Kunder_har_Adresser kunder_har_Adresser)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void UpdateLagerStatus(Lager_Status lager_Status)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void UpdateLeverandor(Leverandor leverandor)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void UpdateMedarbejder(Medarbejder medarbejder)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void UpdateOrdre(Ordre ordre)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void UpdateOrdreLeveringsMetode(Ordre_Leverings_Metode ordre_Leverings_Metode)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void UpdateOrdrelinjer(Ordrelinjer ordrelinjer)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void UpdateOrdre_Status(Ordre_Status ordre_Status)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void UpdatePostNr(PostNr postNr)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void UpdateProducent(Producent producent)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
-        }
-
-        public void UpdateProdukter(Produkter produkter)
-        {
-            try{}catch (Exception e){throw new Exception(e.Message);}
+                    count++;
+                }
+                if (count != 1) { throw new IndexOutOfRangeException("Product unspecified error"); }
+                //CloseConn();
+                reader.Close();
+                return produkter;
+            }catch (Exception e){throw new Exception(e.Message);}
         }
 
         private void CloseConn()
@@ -946,6 +842,299 @@ namespace ORM
 
         }
 
-   
+        public List<Address_Type> GetAllAdresseTypes()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteAdresseType(Address_Type adresse_Type)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateAdresseType(Address_Type adresse_Type)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Addresses> GetAllAdresses()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteAddress(Addresses address)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateAddress(Addresses address)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Departments> GetAllDepartments()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteDepartment(Departments department)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateDepartment(Departments department)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Shops> GetAllShops()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteShop(Shops shop)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateShop(Shops shop)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Shops_Warehouse> GetAllShopWarehouses()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteShopWarehouse(Shops_Warehouse shopWarehouse)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateShopWarehouse(Shops_Warehouse shopWarehouse)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Category> GetAllCategories()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteCategory(Category category)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateCategory(Category category)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Customers> GetAllCustomers()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteCustomer(Customers customer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateCustomer(Customers customer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Customer_Addresses> GetAllCustomerAddresses()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Customer_Addresses> GetCustomerAddressesByKunde(Customers customer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteCustomerAddresses(Customer_Addresses customer_Addresses)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateCustomerAddresses(Customer_Addresses customer_Addresses)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Warehouse_Status> GetAllWarehouseStatus()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteWarehouseStatus(Warehouse_Status warehouse_Status)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateWarehouseStatus(Warehouse_Status warehouse_Status)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Supplier> GetAllSuppliers()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteSupplier(Supplier supplier)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateSupplier(Supplier supplier)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Employees> GetAllEmployees()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteEmployee(Employees employee)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateEmployee(Employees employee)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Order> GetAllOrders()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Order GetOrderById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteOrder(Order order)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateOrder(Order order)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Order_Delivery_Method> GetAllOrderDeliveryMethod()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Order_Delivery_Method GetOrderDeliveryMethodById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteOrderDeliveryMethod(Order_Delivery_Method order_Delivery_Method)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateOrderDeliveryMethod(Order_Delivery_Method order_Delivery_Method)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Order_Status> GetAllOrder_Status()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteOrder_Status(Order_Status Order_Status)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateOrder_Status(Order_Status Order_Status)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<OrderLines> GetAllOrderLines()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<OrderLines> GetOrderLinesByOrder(Order Order)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteOrderLines(OrderLines orderLines)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateOrderLines(OrderLines orderLines)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<ZipCode> GetAllZipCode()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ZipCode GetZipCodeById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteZipCode(ZipCode zipCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateZipCode(ZipCode zipCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Producent> GetAllProducent()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteProducent(Producent producent)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateProducent(Producent producent)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Products> GetAllProducts()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteProduct(Products product)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateProduct(Products product)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

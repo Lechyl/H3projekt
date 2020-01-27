@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\aznzl\\source\\repos\\ORM\\ORM\\ORM.csproj": {}
+    "C:\\Users\\aznzl\\Desktop\\Github\\H3projekt\\ORM\\ORM\\ORM.csproj": {}
   },
   "projects": {
-    "C:\\Users\\aznzl\\source\\repos\\ORM\\ORM\\ORM.csproj": {
+    "C:\\Users\\aznzl\\Desktop\\Github\\H3projekt\\ORM\\ORM\\ORM.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\aznzl\\source\\repos\\ORM\\ORM\\ORM.csproj",
+        "projectUniqueName": "C:\\Users\\aznzl\\Desktop\\Github\\H3projekt\\ORM\\ORM\\ORM.csproj",
         "projectName": "ORM",
-        "projectPath": "C:\\Users\\aznzl\\source\\repos\\ORM\\ORM\\ORM.csproj",
+        "projectPath": "C:\\Users\\aznzl\\Desktop\\Github\\H3projekt\\ORM\\ORM\\ORM.csproj",
         "packagesPath": "C:\\Users\\aznzl\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\aznzl\\source\\repos\\ORM\\ORM\\obj\\",
+        "outputPath": "C:\\Users\\aznzl\\Desktop\\Github\\H3projekt\\ORM\\ORM\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",
