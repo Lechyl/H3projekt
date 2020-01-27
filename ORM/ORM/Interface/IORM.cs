@@ -54,7 +54,7 @@ namespace ORM.Interface
         //-----------------------------------------ShopWarehouse-----------------------------------------//
         //Get requests
         public List<Shops_Warehouse> GetAllShopWarehouses();
-        public List<Shops_Warehouse> GetShopWarehouseByButik(Shops shop);
+        public List<Shops_Warehouse> GetShopWarehouseByShop(Shops shop);
         //Delete requests
         public void DeleteShopWarehouse(Shops_Warehouse shopWarehouse);
         //Create requests
@@ -88,7 +88,7 @@ namespace ORM.Interface
         //-----------------------------------------Customer_Addresses-----------------------------------------//
         //Get requests
         public List<Customer_Addresses> GetAllCustomerAddresses();
-        public List<Customer_Addresses> GetCustomerAddressesByKunde(Customers customer);
+        public List<Customer_Addresses> GetCustomerAddressesByCustomer(Customers customer);
         //Delete requests
         public void DeleteCustomerAddresses(Customer_Addresses customer_Addresses);
         //Create requests

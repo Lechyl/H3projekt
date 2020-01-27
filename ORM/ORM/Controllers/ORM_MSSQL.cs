@@ -83,11 +83,6 @@ namespace ORM
                 cmd.Parameters.AddWithValue("@parent_Afdeling", (object)department.Parent_Department.Id ?? DBNull.Value);
                 cmd.ExecuteNonQuery();
                 CloseConn();
-
-
-
-
-
             }
             catch (Exception e)
             {
@@ -533,7 +528,7 @@ namespace ORM
             catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public List<Shops_Warehouse> GetShopWarehouseByButik(Shops shop)
+        public List<Shops_Warehouse> GetShopWarehouseByShop(Shops shop)
         {
             try{
                 List<Shops_Warehouse> butikker_Har_Vare = new List<Shops_Warehouse>();
@@ -626,7 +621,7 @@ namespace ORM
             }catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public List<Customer_Addresses> GetKunderharAdresserByKunde(Customers kunde)
+        public List<Customer_Addresses> GetCustomerAddressesByCustomer(Customers customer)
         {
             try{
                 List<Customer_Addresses> kunder_Har_Adressers = new List<Customer_Addresses>();
@@ -634,7 +629,7 @@ namespace ORM
 
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 OpenConn();
-                cmd.Parameters.AddWithValue("@kundeId", kunde.Id);
+                cmd.Parameters.AddWithValue("@kundeId", customer.Id);
 
                 SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
 
@@ -645,7 +640,7 @@ namespace ORM
                         Addresses adresser = GetAddressById(reader.GetInt32(0));
                         Address_Type adresse_Type = GetAdresseTypeById(reader.GetInt32(2));
 
-                        kunder_Har_Adressers.Add(new Customer_Addresses(adresser, kunde, adresse_Type));
+                        kunder_Har_Adressers.Add(new Customer_Addresses(adresser, customer, adresse_Type));
                     
                     }
                 }
@@ -808,40 +803,25 @@ namespace ORM
                 return produkter;
             }catch (Exception e){throw new Exception(e.Message);}
         }
-
-        private void CloseConn()
+        public Order GetOrderById(int id)
         {
-            try
-            {
-                if (dbConn.State == System.Data.ConnectionState.Open)
-                {
-                    dbConn.Close();
-                }
-            }
-            catch (Exception)
-            {
-
-                throw new Exception("Couldn't close database connection");
-            }
-
+            throw new NotImplementedException();
         }
-        private void OpenConn()
+        public Order_Delivery_Method GetOrderDeliveryMethodById(int id)
         {
-            try
-            {
-                if (dbConn.State == System.Data.ConnectionState.Closed)
-                {
-                    dbConn.Open();
-                }
-            }
-            catch (Exception)
-            {
-
-                throw new Exception("Couldn't open database connection");
-            }
-
+            throw new NotImplementedException();
         }
 
+        public ZipCode GetZipCodeById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public List<OrderLines> GetOrderLinesByOrder(Order Order)
+        {
+            throw new NotImplementedException();
+        }
         public List<Address_Type> GetAllAdresseTypes()
         {
             throw new NotImplementedException();
@@ -952,10 +932,6 @@ namespace ORM
             throw new NotImplementedException();
         }
 
-        public List<Customer_Addresses> GetCustomerAddressesByKunde(Customers customer)
-        {
-            throw new NotImplementedException();
-        }
 
         public void DeleteCustomerAddresses(Customer_Addresses customer_Addresses)
         {
@@ -1017,11 +993,6 @@ namespace ORM
             throw new NotImplementedException();
         }
 
-        public Order GetOrderById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public void DeleteOrder(Order order)
         {
             throw new NotImplementedException();
@@ -1037,10 +1008,7 @@ namespace ORM
             throw new NotImplementedException();
         }
 
-        public Order_Delivery_Method GetOrderDeliveryMethodById(int id)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public void DeleteOrderDeliveryMethod(Order_Delivery_Method order_Delivery_Method)
         {
@@ -1072,10 +1040,7 @@ namespace ORM
             throw new NotImplementedException();
         }
 
-        public List<OrderLines> GetOrderLinesByOrder(Order Order)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public void DeleteOrderLines(OrderLines orderLines)
         {
@@ -1092,10 +1057,7 @@ namespace ORM
             throw new NotImplementedException();
         }
 
-        public ZipCode GetZipCodeById(int id)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public void DeleteZipCode(ZipCode zipCode)
         {
@@ -1136,5 +1098,39 @@ namespace ORM
         {
             throw new NotImplementedException();
         }
+
+        private void CloseConn()
+        {
+            try
+            {
+                if (dbConn.State == System.Data.ConnectionState.Open)
+                {
+                    dbConn.Close();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw new Exception("Couldn't close database connection");
+            }
+
+        }
+        private void OpenConn()
+        {
+            try
+            {
+                if (dbConn.State == System.Data.ConnectionState.Closed)
+                {
+                    dbConn.Open();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw new Exception("Couldn't open database connection");
+            }
+
+        }
+
     }
 }
