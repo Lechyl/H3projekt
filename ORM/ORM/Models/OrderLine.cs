@@ -4,11 +4,11 @@ using System.Text;
 
 namespace ORM.Models
 {
-    public class OrderLines
+    public class OrderLine
     {
         private int _quantity;
         private decimal _price;
-        public Products Product { get; set; }
+        public Product Product { get; set; }
         public Order Order { get; set; }
 
         public int Quantity
@@ -41,7 +41,7 @@ namespace ORM.Models
                 }
             }
         }
-        public OrderLines(Products product, Order order, int quantity,  decimal price)
+        public OrderLine(Product product, Order order, int quantity,  decimal price)
         {
             Product = product;
             Order = order;

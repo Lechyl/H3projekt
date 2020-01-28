@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ORM.Models
 {
-    public class Employees
+    public class Employee
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -14,11 +14,11 @@ namespace ORM.Models
         public string Email { get; set; }
         public string Phone { get; set; }
         public Addresses Address { get; set; }
-        public Departments Departments { get; set; }
-        public Shops Shop { get; set; }
+        public Department Departments { get; set; }
+        public Shop Shop { get; set; }
 
 
-        public Employees(string firstName, string lastName, string accountNr, string reg, string phone, Addresses address, Departments department, Shops shop, string email = "ingen")
+        public Employee(string firstName, string lastName, string accountNr, string reg, string phone, Addresses address, Department department, Shop shop, string email = "ingen")
         {
             FirstName = firstName;
             LastName = lastName;
@@ -31,7 +31,7 @@ namespace ORM.Models
             Shop = shop;
         }
 
-        public Employees(int id, string firstName, string lastName, string accountNr, string reg, string phone, Addresses address, Departments department, Shops shop, string email = "ingen")
+        public Employee(int id, string firstName, string lastName, string accountNr, string reg, string phone, Addresses address, Department department, Shop shop, string email = "ingen")
         {
             Id = id;
             FirstName = firstName;

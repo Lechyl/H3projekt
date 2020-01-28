@@ -3,3 +3,11 @@ C:\Users\aznzl\source\repos\ORM\ORM\bin\Debug\netcoreapp3.1\ORM.dll
 C:\Users\aznzl\source\repos\ORM\ORM\obj\Debug\netcoreapp3.1\ORM.csprojAssemblyReference.cache
 C:\Users\aznzl\source\repos\ORM\ORM\obj\Debug\netcoreapp3.1\ORM.AssemblyInfoInputs.cache
 C:\Users\aznzl\source\repos\ORM\ORM\obj\Debug\netcoreapp3.1\ORM.AssemblyInfo.cs
+C:\Users\aznzl\Desktop\Github\H3projekt\ORM\ORM\bin\Debug\netcoreapp3.1\ORM.deps.json
+C:\Users\aznzl\Desktop\Github\H3projekt\ORM\ORM\bin\Debug\netcoreapp3.1\ORM.dll
+C:\Users\aznzl\Desktop\Github\H3projekt\ORM\ORM\bin\Debug\netcoreapp3.1\ORM.pdb
+C:\Users\aznzl\Desktop\Github\H3projekt\ORM\ORM\obj\Debug\netcoreapp3.1\ORM.csprojAssemblyReference.cache
+C:\Users\aznzl\Desktop\Github\H3projekt\ORM\ORM\obj\Debug\netcoreapp3.1\ORM.AssemblyInfoInputs.cache
+C:\Users\aznzl\Desktop\Github\H3projekt\ORM\ORM\obj\Debug\netcoreapp3.1\ORM.AssemblyInfo.cs
+C:\Users\aznzl\Desktop\Github\H3projekt\ORM\ORM\obj\Debug\netcoreapp3.1\ORM.dll
+C:\Users\aznzl\Desktop\Github\H3projekt\ORM\ORM\obj\Debug\netcoreapp3.1\ORM.pdb

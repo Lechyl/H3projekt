@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ORM.Models
 {
-    public class Products
+    public class Product
     {
         private decimal _price;
         public int Id { get; }
@@ -30,7 +30,7 @@ namespace ORM.Models
 
 
         //Constructor overload Create Product
-        public Products(string productName, string description, decimal price, Category category, Producent producent, Supplier supplier)
+        public Product(string productName, string description, decimal price, Category category, Producent producent, Supplier supplier)
         {
             ProductName = productName;
             Description = description;
@@ -41,7 +41,7 @@ namespace ORM.Models
         }
 
         //Constructor overload store Product
-        public Products(int id, string productName, string description, decimal price, Category category, Producent producent, Supplier supplier)
+        public Product(int id, string productName, string description, decimal price, Category category, Producent producent, Supplier supplier)
         {
             Id = id;
             ProductName = productName;

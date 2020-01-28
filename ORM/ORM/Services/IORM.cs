@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using ORM.Models;
 
-namespace ORM.Interface
+namespace ORM.Services
 {
     public interface IORM
     {
-
+        public List<Exception> ExceptionLogging { get; set; }
         //-----------------------------------------Adresse_Type-----------------------------------------//
         //Get requests
         public List<Address_Type> GetAllAdresseTypes();
@@ -29,32 +29,32 @@ namespace ORM.Interface
 
         //-----------------------------------------Department-----------------------------------------//
         //Get requests
-        public List<Departments> GetAllDepartments();
-        public Departments GetDepartmentById(int id);
+        public List<Department> GetAllDepartments();
+        public Department GetDepartmentById(int id);
         //Delete requests
-        public void DeleteDepartment(Departments department);
+        public void DeleteDepartment(Department department);
         //Create requests
-        public void CreateDepartment(Departments department);
+        public void CreateDepartment(Department department);
         //Update requests
-        public void UpdateDepartment(Departments department);
+        public void UpdateDepartment(Department department);
 
 
         //-----------------------------------------Shop-----------------------------------------//
         //Get requests
-        public List<Shops> GetAllShops();
-        public Shops GetShopById(int id);
+        public List<Shop> GetAllShops();
+        public Shop GetShopById(int id);
         //Delete requests
-        public void DeleteShop(Shops shop);
+        public void DeleteShop(Shop shop);
         //Create requests
-        public void CreateShop(Shops shop);
+        public void CreateShop(Shop shop);
         //Update requests
-        public void UpdateShop(Shops shop);
+        public void UpdateShop(Shop shop);
 
 
         //-----------------------------------------ShopWarehouse-----------------------------------------//
         //Get requests
         public List<Shops_Warehouse> GetAllShopWarehouses();
-        public List<Shops_Warehouse> GetShopWarehouseByShop(Shops shop);
+        public List<Shops_Warehouse> GetShopWarehouseByShop(Shop shop);
         //Delete requests
         public void DeleteShopWarehouse(Shops_Warehouse shopWarehouse);
         //Create requests
@@ -75,20 +75,20 @@ namespace ORM.Interface
 
         //-----------------------------------------Customer-----------------------------------------//
         //Get requests
-        public List<Customers> GetAllCustomers();
-        public Customers GetCustomerById(int id);
+        public List<Customer> GetAllCustomers();
+        public Customer GetCustomerById(int id);
         //Delete requests
-        public void DeleteCustomer(Customers customer);
+        public void DeleteCustomer(Customer customer);
         //Create requests
-        public void CreateCustomer(Customers customer);
+        public void CreateCustomer(Customer customer);
         //Update requests
-        public void UpdateCustomer(Customers customer);
+        public void UpdateCustomer(Customer customer);
 
 
         //-----------------------------------------Customer_Addresses-----------------------------------------//
         //Get requests
         public List<Customer_Addresses> GetAllCustomerAddresses();
-        public List<Customer_Addresses> GetCustomerAddressesByCustomer(Customers customer);
+        public List<Customer_Addresses> GetCustomerAddressesByCustomer(Customer customer);
         //Delete requests
         public void DeleteCustomerAddresses(Customer_Addresses customer_Addresses);
         //Create requests
@@ -122,14 +122,14 @@ namespace ORM.Interface
 
         //-----------------------------------------Employee-----------------------------------------//
         //Get requests
-        public List<Employees> GetAllEmployees();
-        public Employees GetEmployeeById(int id);
+        public List<Employee> GetAllEmployees();
+        public Employee GetEmployeeById(int id);
         //Delete requests
-        public void DeleteEmployee(Employees employee);
+        public void DeleteEmployee(Employee employee);
         //Create requests
-        public void CreateEmployee(Employees employee);
+        public void CreateEmployee(Employee employee);
         //Update requests
-        public void UpdateEmployee(Employees employee);
+        public void UpdateEmployee(Employee employee);
 
         //-----------------------------------------Order-----------------------------------------//
         //Get requests
@@ -167,14 +167,14 @@ namespace ORM.Interface
 
         //-----------------------------------------OrderLines-----------------------------------------//
         //Get requests
-        public List<OrderLines> GetAllOrderLines();
-        public List<OrderLines> GetOrderLinesByOrder(Order Order);
+        public List<OrderLine> GetAllOrderLines();
+        public List<OrderLine> GetOrderLinesByOrder(Order Order);
         //Delete requests
-        public void DeleteOrderLines(OrderLines orderLines);
+        public void DeleteOrderLines(OrderLine orderLines);
         //Create requests
-        public void CreateOrderLines(OrderLines orderLines);
+        public void CreateOrderLines(OrderLine orderLines);
         //Update requests
-        public void UpdateOrderLines(OrderLines orderLines);
+        public void UpdateOrderLines(OrderLine orderLines);
 
         //-----------------------------------------ZipCode-----------------------------------------//
         //Get requests
@@ -200,13 +200,13 @@ namespace ORM.Interface
 
         //-----------------------------------------Product-----------------------------------------//
         //Get requests
-        public List<Products> GetAllProducts();
-        public Products GetProductById(int id);
+        public List<Product> GetAllProducts();
+        public Product GetProductById(int id);
         //Delete requests
-        public void DeleteProduct(Products product);
+        public void DeleteProduct(Product product);
         //Create requests
-        public void CreateProduct(Products product);
+        public void CreateProduct(Product product);
         //Update requests
-        public void UpdateProduct(Products product);
+        public void UpdateProduct(Product product);
     }
 }

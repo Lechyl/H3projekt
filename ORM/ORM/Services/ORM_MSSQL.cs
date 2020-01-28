@@ -1,18 +1,16 @@
-﻿using ORM.Interface;
-using ORM.Models;
+﻿using ORM.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-
-namespace ORM
+namespace ORM.Services
 {
-    public class ORM_MSSQL : IORM
+    public class ORM_MSSQL : IORM, IDisposable
     {
         private readonly SqlConnection dbConn;
-        
+        public List<Exception> ExceptionLogging { get; set; }
         public ORM_MSSQL(string host, string user, string password, string database)
         {
-            
+            ExceptionLogging = new List<Exception>();
             //Define connection string to db
             SqlConnectionStringBuilder conString = new SqlConnectionStringBuilder()
             {
@@ -71,7 +69,7 @@ namespace ORM
             }
         }
 
-        public void CreateDepartment(Departments department)
+        public void CreateDepartment(Department department)
         {
             try
             {
@@ -79,7 +77,7 @@ namespace ORM
                 string query = "insert into Afdelinger(afdeling,parent_Afdeling) values (@afdeling,@parent_Afdeling)";
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 OpenConn(); 
-                cmd.Parameters.AddWithValue("@afdeling", department.Department);
+                cmd.Parameters.AddWithValue("@afdeling", department.DepartmentName);
                 cmd.Parameters.AddWithValue("@parent_Afdeling", (object)department.Parent_Department.Id ?? DBNull.Value);
                 cmd.ExecuteNonQuery();
                 CloseConn();
@@ -91,7 +89,7 @@ namespace ORM
             }
         }
 
-        public void CreateShop(Shops shop)
+        public void CreateShop(Shop shop)
         {
             try
             {
@@ -148,7 +146,7 @@ namespace ORM
             }
         }
 
-        public void CreateCustomer(Customers customer)
+        public void CreateCustomer(Customer customer)
         {
 
             try
@@ -234,7 +232,7 @@ namespace ORM
             }
         }
 
-        public void CreateEmployee(Employees employee)
+        public void CreateEmployee(Employee employee)
         {
             try
             {
@@ -302,7 +300,7 @@ namespace ORM
             }
         }
 
-        public void CreateOrderLines(OrderLines orderLines)
+        public void CreateOrderLines(OrderLine orderLines)
         {
             try
             {
@@ -374,12 +372,14 @@ namespace ORM
             }
             catch (Exception e)
             {
+                
+                ExceptionLogging.Add(e);
 
-                throw new Exception(e.Message);
+                //throw new Exception(e.Message);
             }
         }
 
-        public void CreateProduct(Products product)
+        public void CreateProduct(Product product)
         {
             try
             {
@@ -465,11 +465,11 @@ namespace ORM
             catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public Departments GetDepartmentById(int id)
+        public Department GetDepartmentById(int id)
         {
             try
             {
-                Departments afdelinger = null;
+                Department afdelinger = null;
                 string query = "select a1.id,a1.afdeling,a2.id,a2.afdeling from Afdelinger as a1 left join Afdelinger a2 on a2.id = a1.parent_Afdeling where a1.id = @id";
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 OpenConn();
@@ -480,13 +480,13 @@ namespace ORM
                     {
                         if(reader[2] == null)
                         {
-                            afdelinger = new Departments((int)reader[0], (string)reader[1]);
+                            afdelinger = new Department((int)reader[0], (string)reader[1]);
                         }
                         else
                         {
-                            Departments parent_Afdeling = new Departments((int)reader[2], (string)reader[3]);
+                            Department parent_Afdeling = new Department((int)reader[2], (string)reader[3]);
 
-                            afdelinger = new Departments((int)reader[0], (string)reader[1],parent_Afdeling);
+                            afdelinger = new Department((int)reader[0], (string)reader[1],parent_Afdeling);
                         }
                     count++;
                         
@@ -500,12 +500,12 @@ namespace ORM
         }
 
 
-        public Shops GetShopById(int id)
+        public Shop GetShopById(int id)
         {
              
             try
             {
-                Shops butik = null;
+                Shop butik = null;
                 string query = "select b.id,adr.id,adr.adresse,adr.etage,pn.id,pn.byNavn from Butikker as b inner join Adresser as adr on adr.id = b.adresseID  inner join PostNr as pn on pn.id = adr.postnrID where b.id = @id";
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 OpenConn();
@@ -517,7 +517,7 @@ namespace ORM
                 {
                     ZipCode postNr = new ZipCode((int)reader[4], (string)reader[5]);
                     Addresses adresser = new Addresses((int)reader[1], postNr, (string)reader[2], (string)reader[3]);
-                    butik = new Shops((int)reader[0], adresser);
+                    butik = new Shop((int)reader[0], adresser);
                     count++;
                 }
                 if(count != 1) { throw new IndexOutOfRangeException("Shop unspecified error"); }
@@ -528,7 +528,7 @@ namespace ORM
             catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public List<Shops_Warehouse> GetShopWarehouseByShop(Shops shop)
+        public List<Shops_Warehouse> GetShopWarehouseByShop(Shop shop)
         {
             try{
                 List<Shops_Warehouse> butikker_Har_Vare = new List<Shops_Warehouse>();
@@ -544,7 +544,7 @@ namespace ORM
                 if (reader.HasRows) { 
                     while (reader.Read())
                     {
-                        Products produkt = GetProductById(reader.GetInt32(0));
+                        Product produkt = GetProductById(reader.GetInt32(0));
                         Warehouse_Status lager_Status = GetWarehouseStatusById(reader.GetInt32(1));
 
                         butikker_Har_Vare.Add(new Shops_Warehouse(produkt, shop, lager_Status, reader.GetInt32(2)));
@@ -597,10 +597,10 @@ namespace ORM
             }catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public Customers GetCustomerById(int id)
+        public Customer GetCustomerById(int id)
         {
-            try{
-                Customers kunder = null;
+           // try{
+                Customer kunder = null;
                 string query = "select id,fornavn,efternavn,email,telefon from kunder where id = @id";
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 OpenConn();
@@ -611,17 +611,18 @@ namespace ORM
                 int count = 0;
                 while (reader.Read())
                 {
-                    kunder = new Customers(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4));
+                    kunder = new Customer(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4));
                     count++;
                 }
-                if (count != 1) { throw new IndexOutOfRangeException("Warehouse Status unspecified error"); }
+                if (count != 1) { throw new IndexOutOfRangeException("Customer unspecified error!"); }
                 //CloseConn();
                 reader.Close();
                 return kunder;
-            }catch (Exception e){throw new Exception(e.Message);}
+           // }catch (Exception){ throw; }
+
         }
 
-        public List<Customer_Addresses> GetCustomerAddressesByCustomer(Customers customer)
+        public List<Customer_Addresses> GetCustomerAddressesByCustomer(Customer customer)
         {
             try{
                 List<Customer_Addresses> kunder_Har_Adressers = new List<Customer_Addresses>();
@@ -643,6 +644,10 @@ namespace ORM
                         kunder_Har_Adressers.Add(new Customer_Addresses(adresser, customer, adresse_Type));
                     
                     }
+                }
+                else
+                {
+                    throw new ArgumentNullException("Returned 0 Rows");
                 }
                 //CloseConn();
                 reader.Close();
@@ -699,10 +704,10 @@ namespace ORM
             }catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public Employees GetEmployeeById(int id)
+        public Employee GetEmployeeById(int id)
         {
             try{
-                Employees medarbejder = null;
+                Employee medarbejder = null;
                 string query = "select id,fornavn,efternavn,kontonr,reg,email,telefon,adresseID,afdelingID,butikID from Medarbejder where id = @id";
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 OpenConn();
@@ -713,10 +718,10 @@ namespace ORM
                 while (reader.Read())
                 {
                     Addresses adresse = GetAddressById(reader.GetInt32(7));
-                    Departments afdeling = GetDepartmentById(reader.GetInt32(8));
-                    Shops butik = GetShopById(reader.GetInt32(9));
+                    Department afdeling = GetDepartmentById(reader.GetInt32(8));
+                    Shop butik = GetShopById(reader.GetInt32(9));
 
-                    medarbejder = new Employees(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(6), adresse, afdeling, butik, reader.GetString(5));
+                    medarbejder = new Employee(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(6), adresse, afdeling, butik, reader.GetString(5));
                     count++;
                 }
                 if (count != 1) { throw new IndexOutOfRangeException("Worker unspecified error"); }
@@ -746,7 +751,7 @@ namespace ORM
                     ordre_Status = new Order_Status(reader.GetInt32(0), reader.GetString(1));
                     count++;
                 }
-                if (count != 1) { throw new IndexOutOfRangeException("Category unspecified error"); }
+                if (count != 1) { throw new IndexOutOfRangeException("Order Status unspecified error"); }
                 //CloseConn();
                 reader.Close();
                 return ordre_Status;
@@ -770,17 +775,17 @@ namespace ORM
 
                     count++;
                 }
-                if (count != 1) { throw new IndexOutOfRangeException("Category unspecified error"); }
+                if (count != 1) { throw new IndexOutOfRangeException("Producent unspecified error"); }
                 //CloseConn();
                 reader.Close();
                 return producent;
             }catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public Products GetProductById(int id)
+        public Product GetProductById(int id)
         {
             try{
-                Products produkter = null;
+                Product produkter = null;
                 string query = "select id,produktNavn,beskrivelse,pris,kategoriID,producentID,leverandorID from Produkter where id = @id";
                 SqlCommand cmd = new SqlCommand(query, dbConn);
                 OpenConn();
@@ -793,7 +798,7 @@ namespace ORM
                     Producent producent = GetProducentById(reader.GetInt32(5));
                     Supplier leverandor = GetSupplierById(reader.GetInt32(6));
 
-                    produkter = new Products(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetDecimal(3), kategori, producent, leverandor);
+                    produkter = new Product(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetDecimal(3), kategori, producent, leverandor);
 
                     count++;
                 }
@@ -803,300 +808,471 @@ namespace ORM
                 return produkter;
             }catch (Exception e){throw new Exception(e.Message);}
         }
-        public Order GetOrderById(int id)
-        {
-            throw new NotImplementedException();
-        }
         public Order_Delivery_Method GetOrderDeliveryMethodById(int id)
         {
-            throw new NotImplementedException();
+            try{
+                Order_Delivery_Method order_Delivery_Method = null;
+                string query = "select id,metodeNavn,pris from Ordre_Leverings_Metode where id = @id";
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                OpenConn();
+                cmd.Parameters.AddWithValue("@id", id);
+                SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+                int count = 0;
+                while (reader.Read())
+                {
+                    order_Delivery_Method = new Order_Delivery_Method(reader.GetInt32(0), reader.GetString(1), reader.GetDecimal(2));
+                    count++;
+                }
+                if (count != 1) { throw new IndexOutOfRangeException("Order Delivery Method unspecified error"); }
+                //CloseConn();
+                reader.Close();
+
+                return order_Delivery_Method;
+            }catch (Exception e){throw new Exception(e.Message);}
+            
         }
+        public Order GetOrderById(int id)
+        {
+            try{
+                Order order = null;
+                string query = "select id,opretsDato,kundeID,leveringsMetodeID,leveringsAdresseID,statusID from Ordre where id = @id";
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                OpenConn();
+                cmd.Parameters.AddWithValue("@id", id);
+                SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+                int count = 0;
+                while (reader.Read())
+                {
+                    Customer customer = GetCustomerById(reader.GetInt32(2));
+                    Order_Delivery_Method order_Delivery_Method = GetOrderDeliveryMethodById(reader.GetInt32(3));
+                    Addresses address = GetAddressById(reader.GetInt32(4));
+                    Order_Status order_Status = GetOrder_StatusById(reader.GetInt32(5));
+                    order = new Order(reader.GetInt32(0), reader.GetDateTime(1),customer,order_Delivery_Method,address,order_Status);
+                    count++;
+                }
+                if (count != 1) { throw new IndexOutOfRangeException("Order unspecified error"); }
+                //CloseConn();
+                reader.Close();
+                return order;
+            }
+            catch (Exception e){throw new Exception(e.Message);}
+        }
+
 
         public ZipCode GetZipCodeById(int id)
         {
-            throw new NotImplementedException();
+            try{
+                ZipCode zipCode = null;
+                string query = "select id,byNavn from PostNr where id = @id";
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                OpenConn();
+                cmd.Parameters.AddWithValue("@id", id);
+                SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+                int count = 0;
+                while (reader.Read())
+                {
+                    zipCode = new ZipCode(reader.GetInt32(0), reader.GetString(1));
+                    count++;
+                }
+                if (count != 1) { throw new IndexOutOfRangeException("ZipCOde unspecified error"); }
+                //CloseConn();
+                reader.Close();
+                return zipCode;
+
+            }
+            catch (Exception e){throw new Exception(e.Message);}
         }
 
 
-        public List<OrderLines> GetOrderLinesByOrder(Order Order)
+        public List<OrderLine> GetOrderLinesByOrder(Order order)
         {
-            throw new NotImplementedException();
+            try{
+                List<OrderLine> orderLines = new List<OrderLine>();
+
+                string query = "select produktID,ordreID,antal,pris from Ordrelinjer where ordreID = @orderID";
+                SqlCommand cmd = new SqlCommand(query, dbConn);
+                OpenConn();
+                cmd.Parameters.AddWithValue("@orderID", order.Id);
+                SqlDataReader reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+                int count = 0;
+                while (reader.Read())
+                {
+                    Product product = GetProductById(reader.GetInt32(0));
+                    orderLines.Add(new OrderLine(product,order,reader.GetInt32(2),reader.GetDecimal(3)));
+                    count++;
+                }
+                if (count != 1) { throw new IndexOutOfRangeException("Order Lines unspecified error"); }
+                //CloseConn();
+                reader.Close();
+
+                return orderLines;
+            }catch (Exception e){throw new Exception(e.Message);}
         }
         public List<Address_Type> GetAllAdresseTypes()
         {
-            throw new NotImplementedException();
+            try{
+                List<Address_Type> address_Types = new List<Address_Type>();
+
+                return address_Types;
+            }catch (Exception e){throw new Exception(e.Message);}
         }
 
         public void DeleteAdresseType(Address_Type adresse_Type)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
         public void UpdateAdresseType(Address_Type adresse_Type)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
         public List<Addresses> GetAllAdresses()
         {
-            throw new NotImplementedException();
+            try{
+                List<Addresses> addresses = new List<Addresses>();
+
+                return addresses;
+            }
+            catch (Exception e){throw new Exception(e.Message);}
         }
 
         public void DeleteAddress(Addresses address)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
         public void UpdateAddress(Addresses address)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public List<Departments> GetAllDepartments()
+        public List<Department> GetAllDepartments()
         {
-            throw new NotImplementedException();
+            try{
+                List<Department> departments = new List<Department>();
+
+                return departments;
+            }
+            catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public void DeleteDepartment(Departments department)
+        public void DeleteDepartment(Department department)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public void UpdateDepartment(Departments department)
+        public void UpdateDepartment(Department department)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public List<Shops> GetAllShops()
+        public List<Shop> GetAllShops()
         {
-            throw new NotImplementedException();
+            try{
+                List<Shop> shops = new List<Shop>();
+
+                return shops;
+            }
+            catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public void DeleteShop(Shops shop)
+        public void DeleteShop(Shop shop)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public void UpdateShop(Shops shop)
+        public void UpdateShop(Shop shop)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
         public List<Shops_Warehouse> GetAllShopWarehouses()
         {
-            throw new NotImplementedException();
+            try
+            {
+                List<Shops_Warehouse> shops_Warehouses = new List<Shops_Warehouse>();
+
+                return shops_Warehouses;
+            }
+            catch (Exception e){throw new Exception(e.Message);}
         }
 
         public void DeleteShopWarehouse(Shops_Warehouse shopWarehouse)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
         public void UpdateShopWarehouse(Shops_Warehouse shopWarehouse)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
         public List<Category> GetAllCategories()
         {
-            throw new NotImplementedException();
+            try{
+                List<Category> categories = new List<Category>();
+
+                return categories;
+            }
+            catch (Exception e){throw new Exception(e.Message);}
         }
 
         public void DeleteCategory(Category category)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
         public void UpdateCategory(Category category)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public List<Customers> GetAllCustomers()
+        public List<Customer> GetAllCustomers()
         {
-            throw new NotImplementedException();
+            try{
+                List<Customer> customers = new List<Customer>();
+
+                return customers;
+            }
+            catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public void DeleteCustomer(Customers customer)
+        public void DeleteCustomer(Customer customer)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public void UpdateCustomer(Customers customer)
+        public void UpdateCustomer(Customer customer)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
         public List<Customer_Addresses> GetAllCustomerAddresses()
         {
-            throw new NotImplementedException();
+            try{
+                List<Customer_Addresses> customer_Addresses = new List<Customer_Addresses>();
+                return customer_Addresses;
+            }
+            catch (Exception e){throw new Exception(e.Message);}
         }
 
 
         public void DeleteCustomerAddresses(Customer_Addresses customer_Addresses)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
         public void UpdateCustomerAddresses(Customer_Addresses customer_Addresses)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
         public List<Warehouse_Status> GetAllWarehouseStatus()
         {
-            throw new NotImplementedException();
+            try{
+                List<Warehouse_Status> warehouse_Statuses = new List<Warehouse_Status>();
+
+                return warehouse_Statuses;
+            }
+            catch (Exception e){throw new Exception(e.Message);}
         }
 
         public void DeleteWarehouseStatus(Warehouse_Status warehouse_Status)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
         public void UpdateWarehouseStatus(Warehouse_Status warehouse_Status)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
         public List<Supplier> GetAllSuppliers()
         {
-            throw new NotImplementedException();
+            try{
+                List<Supplier> suppliers = new List<Supplier>();
+
+                return suppliers;
+            }
+            catch (Exception e){throw new Exception(e.Message);}
         }
 
         public void DeleteSupplier(Supplier supplier)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
         public void UpdateSupplier(Supplier supplier)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public List<Employees> GetAllEmployees()
+        public List<Employee> GetAllEmployees()
         {
-            throw new NotImplementedException();
+            try{
+                List<Employee> employees = new List<Employee>();
+
+                return employees;
+            }
+            catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public void DeleteEmployee(Employees employee)
+        public void DeleteEmployee(Employee employee)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public void UpdateEmployee(Employees employee)
+        public void UpdateEmployee(Employee employee)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
         public List<Order> GetAllOrders()
         {
-            throw new NotImplementedException();
+            try{
+                List<Order> orders = new List<Order>();
+
+                return orders;
+            }
+            catch (Exception e){throw new Exception(e.Message);}
         }
 
         public void DeleteOrder(Order order)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
         public void UpdateOrder(Order order)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
         public List<Order_Delivery_Method> GetAllOrderDeliveryMethod()
         {
-            throw new NotImplementedException();
+            try{
+                List<Order_Delivery_Method> order_Delivery_Methods = new List<Order_Delivery_Method>();
+
+                return order_Delivery_Methods;
+            }
+            catch (Exception e){throw new Exception(e.Message);}
         }
 
 
 
         public void DeleteOrderDeliveryMethod(Order_Delivery_Method order_Delivery_Method)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
         public void UpdateOrderDeliveryMethod(Order_Delivery_Method order_Delivery_Method)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
         public List<Order_Status> GetAllOrder_Status()
         {
-            throw new NotImplementedException();
+            try{
+                List<Order_Status> order_Statuses = new List<Order_Status>();
+
+                return order_Statuses;
+
+            }
+            catch (Exception e){throw new Exception(e.Message);}
         }
 
         public void DeleteOrder_Status(Order_Status Order_Status)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
         public void UpdateOrder_Status(Order_Status Order_Status)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public List<OrderLines> GetAllOrderLines()
+        public List<OrderLine> GetAllOrderLines()
         {
-            throw new NotImplementedException();
+            try{
+                List<OrderLine> orderLines = new List<OrderLine>();
+
+                return orderLines;
+            }
+            catch (Exception e){throw new Exception(e.Message);}
         }
 
 
 
-        public void DeleteOrderLines(OrderLines orderLines)
+        public void DeleteOrderLines(OrderLine orderLines)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public void UpdateOrderLines(OrderLines orderLines)
+        public void UpdateOrderLines(OrderLine orderLines)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
         public List<ZipCode> GetAllZipCode()
         {
-            throw new NotImplementedException();
+            try{
+                List<ZipCode> zipCodes = new List<ZipCode>();
+
+                return zipCodes;
+            }
+            catch (Exception e){throw new Exception(e.Message);}
         }
 
 
 
         public void DeleteZipCode(ZipCode zipCode)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
         public void UpdateZipCode(ZipCode zipCode)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
         public List<Producent> GetAllProducent()
         {
-            throw new NotImplementedException();
+            try{
+                List<Producent> producents = new List<Producent>();
+
+                return producents;
+            }
+            catch (Exception e){throw new Exception(e.Message);}
         }
 
         public void DeleteProducent(Producent producent)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
         public void UpdateProducent(Producent producent)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public List<Products> GetAllProducts()
+        public List<Product> GetAllProducts()
         {
-            throw new NotImplementedException();
+            try{
+                List<Product> products = new List<Product>();
+
+                return products;
+            }
+            catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public void DeleteProduct(Products product)
+        public void DeleteProduct(Product product)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
-        public void UpdateProduct(Products product)
+        public void UpdateProduct(Product product)
         {
-            throw new NotImplementedException();
+            try{}catch (Exception e){throw new Exception(e.Message);}
         }
 
         private void CloseConn()
@@ -1132,5 +1308,18 @@ namespace ORM
 
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // dispose resources when needed
+            }
+        }
     }
 }

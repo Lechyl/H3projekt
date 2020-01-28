@@ -4,18 +4,18 @@ using System.Text;
 
 namespace ORM.Models
 {
-    public class Shops
+    public class Shop
     {
         public int Id { get; set; }
         public Addresses Address { get; set; }
 
         //Insert Constructor
-        public Shops(Addresses address)
+        public Shop(Addresses address)
         {
             Address = address;
         }
         //Constructor
-        public Shops(int id, Addresses address)
+        public Shop(int id, Addresses address)
         {
             Id = id;
             Address = address;

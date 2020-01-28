@@ -31,4 +31,8 @@ select id,fornavn,efternavn,kontonr,reg,email,telefon,adresseID,afdelingID,butik
 select id,fornavn,efternavn,email,telefon from kunder where id = 1
 	select adresseID,kundeID,adresseType from Kunder_har_Adresser where kundeID = 1
 select id,status from Ordre_Status where id = 1
+select id,metodeNavn,pris from Ordre_Leverings_Metode where id = 1
+select id,opretsDato,kundeID,leveringsMetodeID,leveringsAdresseID,statusID from Ordre where id = 1
+select id,byNavn from PostNr where id = @id
 */
+select produktID,ordreID,antal,pris from Ordrelinjer where ordreID = 1
