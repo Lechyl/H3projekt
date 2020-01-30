@@ -4,6 +4,7 @@ using System.Text;
 
 namespace ORM.Models
 {
+
     public class Address_Type
     {
         public int Id { get; set; }

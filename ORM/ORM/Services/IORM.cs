@@ -8,6 +8,9 @@ namespace ORM.Services
     public interface IORM
     {
         public List<Exception> ExceptionLogging { get; set; }
+
+        public void OpenConn();
+        public void CloseConn();
         //-----------------------------------------Adresse_Type-----------------------------------------//
         //Get requests
         public List<Address_Type> GetAllAdresseTypes();
@@ -53,14 +56,14 @@ namespace ORM.Services
 
         //-----------------------------------------ShopWarehouse-----------------------------------------//
         //Get requests
-        public List<Shops_Warehouse> GetAllShopWarehouses();
-        public List<Shops_Warehouse> GetShopWarehouseByShop(Shop shop);
+        public List<Shop_Item> GetAllShopWarehouses();
+        public List<Shop_Item> GetShopWarehouseByShopID(int id);
         //Delete requests
-        public void DeleteShopWarehouse(Shops_Warehouse shopWarehouse);
+        public void DeleteShopWarehouse(Shop_Item shopWarehouse);
         //Create requests
-        public void CreateShopWarehouse(Shops_Warehouse shopWarehouse);
+        public void CreateShopWarehouse(Shop_Item shopWarehouse);
         //Update requests
-        public void UpdateShopWarehouse(Shops_Warehouse shopWarehouse);
+        public void UpdateShopWarehouse(Shop_Item shopWarehouse);
 
         //-----------------------------------------Category-----------------------------------------//
         //Get requests
@@ -88,7 +91,7 @@ namespace ORM.Services
         //-----------------------------------------Customer_Addresses-----------------------------------------//
         //Get requests
         public List<Customer_Addresses> GetAllCustomerAddresses();
-        public List<Customer_Addresses> GetCustomerAddressesByCustomer(Customer customer);
+        public List<Customer_Addresses> GetCustomerAddressesByCustomerID(int id);
         //Delete requests
         public void DeleteCustomerAddresses(Customer_Addresses customer_Addresses);
         //Create requests
@@ -168,7 +171,7 @@ namespace ORM.Services
         //-----------------------------------------OrderLines-----------------------------------------//
         //Get requests
         public List<OrderLine> GetAllOrderLines();
-        public List<OrderLine> GetOrderLinesByOrder(Order Order);
+        public List<OrderLine> GetOrderLinesByOrderID(int id);
         //Delete requests
         public void DeleteOrderLines(OrderLine orderLines);
         //Create requests

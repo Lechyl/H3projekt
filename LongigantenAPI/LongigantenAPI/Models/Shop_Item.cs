@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ORM.Models
 {
-    public class Shops_Warehouse
+    public class Shop_Item
     {
         public int Id { get; set; }
         public Product Product { get; set; }
@@ -12,7 +12,7 @@ namespace ORM.Models
         public Warehouse_Status Status { get; set; }
         public int Quantity { get; set; }
 
-        public Shops_Warehouse(Product product, Shop shop, Warehouse_Status status, int quantity = 0)
+        public Shop_Item(Product product, Shop shop, Warehouse_Status status, int quantity = 0)
         {
             Product = product;
             Shop = shop;
@@ -20,7 +20,7 @@ namespace ORM.Models
             Quantity = quantity;
         }
 
-        public Shops_Warehouse(int id,Product product, Shop shop, Warehouse_Status status, int quantity = 0)
+        public Shop_Item(int id,Product product, Shop shop, Warehouse_Status status, int quantity = 0)
         {
             Id = id;
             Product = product;

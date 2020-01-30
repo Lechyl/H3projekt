@@ -34,5 +34,18 @@ select id,status from Ordre_Status where id = 1
 select id,metodeNavn,pris from Ordre_Leverings_Metode where id = 1
 select id,opretsDato,kundeID,leveringsMetodeID,leveringsAdresseID,statusID from Ordre where id = 1
 select id,byNavn from PostNr where id = @id
-*/
 select produktID,ordreID,antal,pris from Ordrelinjer where ordreID = 1
+select a1.id,a1.afdeling,a2.id,a2.afdeling from Afdelinger as a1 left join Afdelinger a2 on a2.id = a1.parent_Afdeling
+select b.id,adr.id,adr.adresse,adr.etage,pn.id,pn.byNavn from Butikker as b inner join Adresser as adr on adr.id = b.adresseID  inner join PostNr as pn on pn.id = adr.postnrID
+*/
+
+select p.id,p.produktNavn,p.beskrivelse,p.pris,k.id,k.navn,k2.id,k2.navn,pc.id,pc.producentNavn,lv.id,lv.leverandorNavn,lv.kontaktPerson,lv.email,lv.telefon,b.id,adr.id,psn.id,psn.byNavn,adr.adresse,adr.etage,lg.id,lg.status from Butikker_har_Vare as bhv
+inner join Produkter p on p.id = bhv.produktID
+inner join Kategorier k on k.id = p.kategoriID 
+left join Kategorier k2 on k2.id = k.parent_KategoriID
+inner join Producent pc on pc.id = p.producentID
+inner join Leverandor lv on lv.id = p.leverandorID
+inner join Butikker b on b.id = bhv.butikID
+inner join Adresser adr on adr.id = b.adresseID
+inner join PostNr psn on psn.id = adr.postnrID
+inner join Lager_Status lg on lg.id = bhv.statusID
