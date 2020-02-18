@@ -9,7 +9,7 @@ namespace LongigantenAPI.Models
     public class ProductDto
     {
         private decimal _price;
-        public int Id { get; }
+        public int Id { get; set; }
         public string ProductName { get; set; }
         public string Description { get; set; }
         public decimal Price { 
@@ -26,12 +26,12 @@ namespace LongigantenAPI.Models
                 }
             }
         }
-        public CategoryDto Category { get; set; }
-        public ProducentDto Producent { get; set; }
-        public SupplierDto Supplier { get; set; }
+        public int CategoryID { get; set; }
+        public int ProducentID { get; set; }
+        public int SupplierID { get; set; }
 
 
-        //Constructor overload Create Product
+     /*   //Constructor overload Create Product
         public ProductDto(string productName, string description, decimal price, CategoryDto category, ProducentDto producent, SupplierDto supplier)
         {
             ProductName = productName;
@@ -52,7 +52,7 @@ namespace LongigantenAPI.Models
             Category = category;
             Producent = producent;
             Supplier = supplier;
-        }
+        }*/
 
     }
 }

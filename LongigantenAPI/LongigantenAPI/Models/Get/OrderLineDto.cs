@@ -10,8 +10,8 @@ namespace LongigantenAPI.Models
     {
         private int _quantity;
         private decimal _price;
-        public ProductDto Product { get; set; }
-        public OrderDto Order { get; set; }
+        public int ProductID { get; set; }
+        //public OrderDto Order { get; set; }
 
         public int Quantity
         {
@@ -43,12 +43,12 @@ namespace LongigantenAPI.Models
                 }
             }
         }
-        public OrderLineDto(ProductDto product, OrderDto order, int quantity,  decimal price)
+       /* public OrderLineDto(ProductDto product, OrderDto order, int quantity,  decimal price)
         {
             Product = product;
             Order = order;
             Quantity = quantity;
             Price = price;
-        }
+        }*/
     }
 }

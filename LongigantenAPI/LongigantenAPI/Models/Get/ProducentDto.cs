@@ -8,7 +8,10 @@ namespace LongigantenAPI.Models
     [DataContract(Name = "Customer", Namespace = "SchoolProjectAPI")] 
     public class ProducentDto
     {
+        [DataMember(Name ="Id")]
         public int Id { get; }
+        [DataMember(Name = "ProductName")]
+
         public string ProducentName { get; set; }
 
 

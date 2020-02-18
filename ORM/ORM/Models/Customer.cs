@@ -23,21 +23,37 @@ namespace ORM.Models
         [DataMember(Name = "Phone")]
 
         public string Phone { get; set; }
+        [DataMember(Name = "DateOfBirth")]
 
-        public Customer(string firstName, string lastName, string email, string phone = "ingen")
+ 
+        public string Password { get; set; }
+        public string Token { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public int customer_AddressesID { get; set; }
+        public List<Customer_Addresses> customer_Addresses { get; set; }
+
+        public List<Order> orders { get; set; }
+        public Customer() { }
+        public Customer(string firstName, string lastName, string email, DateTime dateOfBirth,string password, string phone = "ingen")
         {
             LastName = lastName;
             FirstName = firstName;
             Email = email;
             Phone = phone;
+            DateOfBirth = dateOfBirth;
+            Password = password;
+           
         }
-        public Customer(int id, string firstName, string lastName, string email, string phone = "ingen")
+        public Customer(int id, string firstName, string lastName, string email, DateTime dateOfBirth , string password, string phone = "ingen")
         {
             Id = id;
             LastName = lastName;
             FirstName = firstName;
             Email = email;
             Phone = phone;
+            DateOfBirth = dateOfBirth;
+            Password = password;
+            
         }
     }
 }

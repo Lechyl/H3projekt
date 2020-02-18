@@ -9,10 +9,10 @@ namespace LongigantenAPI.Models
     public class AddressesDto
     {
         public int Id { get; set; }
-        public ZipCodeDto ZipCode { get; set; }
+        public string ZipCode { get; set; }
         public string Address { get; set; }
         public string Floor { get; set; }
-
+        /*
         public AddressesDto(ZipCodeDto zipCode, string address, string floor = "ingen")
         {
 
@@ -27,6 +27,6 @@ namespace LongigantenAPI.Models
             Address = address;
             Floor = floor;
         }
-
+        */
     }
 }

@@ -8,6 +8,8 @@ namespace ORM.Models
     {
         private int _quantity;
         private decimal _price;
+        public int ProductID { get; set; }
+        public int OrderID { get; set; }
         public Product Product { get; set; }
         public Order Order { get; set; }
 
@@ -41,6 +43,7 @@ namespace ORM.Models
                 }
             }
         }
+        public OrderLine() { }
         public OrderLine(Product product, Order order, int quantity,  decimal price)
         {
             Product = product;

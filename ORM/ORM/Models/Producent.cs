@@ -6,7 +6,7 @@ namespace ORM.Models
 {
     public class Producent
     {
-        public int Id { get; }
+        public int Id { get; set; }
         public string ProducentName { get; set; }
 
 

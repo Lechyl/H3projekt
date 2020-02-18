@@ -199,4 +199,11 @@ C:\Users\aznzl\Desktop\Github\H3projekt\LongigantenAPI\LongigantenAPI\obj\Debug\
 C:\Users\aznzl\Desktop\Github\H3projekt\LongigantenAPI\LongigantenAPI\obj\Debug\netcoreapp3.1\LongigantenAPI.pdb
 C:\Users\aznzl\Desktop\Github\H3projekt\LongigantenAPI\LongigantenAPI\bin\Debug\netcoreapp3.1\AutoMapper.dll
 C:\Users\aznzl\Desktop\Github\H3projekt\LongigantenAPI\LongigantenAPI\bin\Debug\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\aznzl\Desktop\Github\H3projekt\LongigantenAPI\LongigantenAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\aznzl\Desktop\Github\H3projekt\LongigantenAPI\LongigantenAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Logging.dll
+C:\Users\aznzl\Desktop\Github\H3projekt\LongigantenAPI\LongigantenAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
+C:\Users\aznzl\Desktop\Github\H3projekt\LongigantenAPI\LongigantenAPI\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\aznzl\Desktop\Github\H3projekt\LongigantenAPI\LongigantenAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\aznzl\Desktop\Github\H3projekt\LongigantenAPI\LongigantenAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.dll
+C:\Users\aznzl\Desktop\Github\H3projekt\LongigantenAPI\LongigantenAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\aznzl\Desktop\Github\H3projekt\LongigantenAPI\LongigantenAPI\obj\Debug\netcoreapp3.1\LongigantenAPI.MvcApplicationPartsAssemblyInfo.cache

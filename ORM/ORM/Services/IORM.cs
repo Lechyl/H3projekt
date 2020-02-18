@@ -1,215 +1,229 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using ORM.Models;
 
 namespace ORM.Services
 {
     public interface IORM
     {
-        public List<Exception> ExceptionLogging { get; set; }
+         List<Exception> ExceptionLogging { get; set; }
 
-        public void OpenConn();
-        public void CloseConn();
+
+        Task<Customer> Authenticate(string email, string password);
+         void OpenConn();
+        Task CloseConn();
         //-----------------------------------------Adresse_Type-----------------------------------------//
         //Get requests
-        public List<Address_Type> GetAllAdresseTypes();
-        public Address_Type GetAdresseTypeById(int id);
+         Task<List<Address_Type>> GetAllAdresseTypes();
+         Task<Address_Type> GetAdresseTypeById(int id);
         //Delete requests
-        public void DeleteAdresseType(Address_Type adresse_Type);
+         Task DeleteAdresseType(int id);
         //Create requests
-        public void CreateAdresseType(Address_Type adresse_Type);
+         Task<Address_Type> CreateAdresseType(Address_Type adresse_Type);
         //Update requests
-        public void UpdateAdresseType(Address_Type adresse_Type);
+         Task UpdateAdresseType(Address_Type adresse_Type);
 
         //-----------------------------------------Adresse-----------------------------------------//
-        public List<Addresses> GetAllAdresses();
-        public Addresses GetAddressById(int id);
-        public void DeleteAddress(Addresses address);
-        public void CreateAddress(Addresses address);
-        public void UpdateAddress(Addresses address);
+         Task<List<Addresses>> GetAllAdresses();
+         Task<Addresses> GetAddressById(int id);
+         Task DeleteAddress(int id);
+         Task<Addresses> CreateAddress(Addresses address);
+         Task UpdateAddress(Addresses address);
 
 
         //-----------------------------------------Department-----------------------------------------//
         //Get requests
-        public List<Department> GetAllDepartments();
-        public Department GetDepartmentById(int id);
+         Task<List<Department>> GetAllDepartments();
+         Task<Department> GetDepartmentById(int id);
         //Delete requests
-        public void DeleteDepartment(Department department);
+         Task DeleteDepartment(int id);
         //Create requests
-        public void CreateDepartment(Department department);
+         Task<Department> CreateDepartment(Department department);
         //Update requests
-        public void UpdateDepartment(Department department);
+         Task UpdateDepartment(Department department);
 
 
         //-----------------------------------------Shop-----------------------------------------//
         //Get requests
-        public List<Shop> GetAllShops();
-        public Shop GetShopById(int id);
+         Task<List<Shop>> GetAllShops();
+         Task<Shop> GetShopById(int id);
         //Delete requests
-        public void DeleteShop(Shop shop);
+         Task DeleteShop(int id);
         //Create requests
-        public void CreateShop(Shop shop);
+         Task<Shop> CreateShop(Shop shop);
         //Update requests
-        public void UpdateShop(Shop shop);
+         Task UpdateShop(Shop shop);
 
 
         //-----------------------------------------ShopWarehouse-----------------------------------------//
         //Get requests
-        public List<Shop_Item> GetAllShopWarehouses();
-        public List<Shop_Item> GetShopWarehouseByShopID(int id);
+         Task<List<Shop_Item>> GetAllShopWarehouses();
+         Task<List<Shop_Item>> GetShopWarehouseByShopID(int id);
         //Delete requests
-        public void DeleteShopWarehouse(Shop_Item shopWarehouse);
+         Task DeleteShopWarehouse(Shop_Item shopWarehouse);
         //Create requests
-        public void CreateShopWarehouse(Shop_Item shopWarehouse);
+         Task CreateShopWarehouse(Shop_Item shopWarehouse);
         //Update requests
-        public void UpdateShopWarehouse(Shop_Item shopWarehouse);
+         Task UpdateShopWarehouse(Shop_Item shopWarehouse);
 
         //-----------------------------------------Category-----------------------------------------//
         //Get requests
-        public List<Category> GetAllCategories();
-        public Category GetCategoryById(int id);
+         Task<List<Category>> GetAllCategories();
+         Task<Category> GetCategoryById(int id);
         //Delete requests
-        public void DeleteCategory(Category category);
+         Task DeleteCategory(int id);
         //Create requests
-        public void CreateCategory(Category category);
+         Task<Category> CreateCategory(Category category);
         //Update requests
-        public void UpdateCategory(Category category);
+         Task UpdateCategory(Category category);
 
         //-----------------------------------------Customer-----------------------------------------//
         //Get requests
-        public List<Customer> GetAllCustomers();
-        public Customer GetCustomerById(int id);
+        Task<bool> CustomerExist(int id);
+         Task<List<Customer>> GetAllCustomers();
+
+        Task<List<Customer>> GetAllCustomers(string email);
+
+         Task<Customer> GetCustomerById(int id);
         //Delete requests
-        public void DeleteCustomer(Customer customer);
+         Task DeleteCustomer(int id);
         //Create requests
-        public void CreateCustomer(Customer customer);
+         Task<Customer> CreateCustomer(Customer customer);
         //Update requests
-        public void UpdateCustomer(Customer customer);
+         Task UpdateCustomer(Customer customer);
 
 
         //-----------------------------------------Customer_Addresses-----------------------------------------//
         //Get requests
-        public List<Customer_Addresses> GetAllCustomerAddresses();
-        public List<Customer_Addresses> GetCustomerAddressesByCustomerID(int id);
+         Task<List<Customer_Addresses>> GetAllCustomerAddresses();
+         Task<List<Customer_Addresses>> GetCustomerAddressesByCustomerID(int id);
         //Delete requests
-        public void DeleteCustomerAddresses(Customer_Addresses customer_Addresses);
+         Task DeleteCustomerAddresses(Customer_Addresses customer_Addresses);
         //Create requests
-        public void CreateCustomerAddresses(Customer_Addresses customer_Addresses);
+         Task CreateCustomerAddresses(Customer_Addresses customer_Addresses);
         //Update requests
-        public void UpdateCustomerAddresses(Customer_Addresses customer_Addresses);
+         Task UpdateCustomerAddresses(Customer_Addresses customer_Addresses);
 
 
         //-----------------------------------------Lager_Status-----------------------------------------//
         //Get requests
-        public List<Warehouse_Status> GetAllWarehouseStatus();
-        public Warehouse_Status GetWarehouseStatusById(int id);
+         Task<List<Warehouse_Status>> GetAllWarehouseStatus();
+         Task<Warehouse_Status> GetWarehouseStatusById(int id);
         //Delete requests
-        public void DeleteWarehouseStatus(Warehouse_Status warehouse_Status);
+         Task DeleteWarehouseStatus(int id);
         //Create requests
-        public void CreateWarehouseStatus(Warehouse_Status warehouse_Status);
+         Task<Warehouse_Status> CreateWarehouseStatus(Warehouse_Status warehouse_Status);
         //Update requests
-        public void UpdateWarehouseStatus(Warehouse_Status warehouse_Status);
+         Task UpdateWarehouseStatus(Warehouse_Status warehouse_Status);
 
         //-----------------------------------------Supplier-----------------------------------------//
         //Get requests
-        public List<Supplier> GetAllSuppliers();
-        public Supplier GetSupplierById(int id);
+         Task<List<Supplier>> GetAllSuppliers();
+         Task<Supplier> GetSupplierById(int id);
         //Delete requests
-        public void DeleteSupplier(Supplier supplier);
+         Task DeleteSupplier(int id);
         //Create requests
-        public void CreateSupplier(Supplier supplier);
+         Task<Supplier> CreateSupplier(Supplier supplier);
         //Update requests
-        public void UpdateSupplier(Supplier supplier);
+         Task UpdateSupplier(Supplier supplier);
 
 
         //-----------------------------------------Employee-----------------------------------------//
         //Get requests
-        public List<Employee> GetAllEmployees();
-        public Employee GetEmployeeById(int id);
+         Task<List<Employee>> GetAllEmployees();
+         Task<Employee> GetEmployeeById(int id);
         //Delete requests
-        public void DeleteEmployee(Employee employee);
+         Task DeleteEmployee(int id);
         //Create requests
-        public void CreateEmployee(Employee employee);
+         Task<Employee> CreateEmployee(Employee employee);
         //Update requests
-        public void UpdateEmployee(Employee employee);
+         Task UpdateEmployee(Employee employee);
 
         //-----------------------------------------Order-----------------------------------------//
         //Get requests
-        public List<Order> GetAllOrders();
-        public Order GetOrderById(int id);
+         Task<List<Order>> GetAllOrders();
+         Task<Order> GetOrderById(int id);
+        Task<List<Order>> GetOrdersByCustomerId(int customerID);
+        Task<Order> CreateOrderAndOrderLines(Order order);
         //Delete requests
-        public void DeleteOrder(Order order);
+        Task DeleteOrder(int id);
         //Create requests
-        public void CreateOrder(Order order);
+         Task<Order> CreateOrder(Order order);
         //Update requests
-        public void UpdateOrder(Order order);
+         Task UpdateOrder(Order order);
 
         //-----------------------------------------Order_Leverings_Metode-----------------------------------------//
         //Get requests
-        public List<Order_Delivery_Method> GetAllOrderDeliveryMethod();
-        public Order_Delivery_Method GetOrderDeliveryMethodById(int id);
+         Task<List<Order_Delivery_Method>> GetAllOrderDeliveryMethod();
+         Task<Order_Delivery_Method> GetOrderDeliveryMethodById(int id);
         //Delete requests
-        public void DeleteOrderDeliveryMethod(Order_Delivery_Method order_Delivery_Method);
+         Task DeleteOrderDeliveryMethod(int id);
         //Create requests
-        public void CreateOrderDeliveryMethod(Order_Delivery_Method order_Delivery_Method);
+         Task<Order_Delivery_Method> CreateOrderDeliveryMethod(Order_Delivery_Method order_Delivery_Method);
         //Update requests
-        public void UpdateOrderDeliveryMethod(Order_Delivery_Method order_Delivery_Method);
+         Task UpdateOrderDeliveryMethod(Order_Delivery_Method order_Delivery_Method);
 
 
         //-----------------------------------------Order_Status-----------------------------------------//
         //Get requests
-        public List<Order_Status> GetAllOrder_Status();
-        public Order_Status GetOrder_StatusById(int id);
+         Task<List<Order_Status>> GetAllOrder_Status();
+         Task<Order_Status> GetOrder_StatusById(int id);
         //Delete requests
-        public void DeleteOrder_Status(Order_Status Order_Status);
+         Task DeleteOrder_Status(int id);
         //Create requests
-        public void CreateOrder_Status(Order_Status Order_Status);
+         Task<Order_Status> CreateOrder_Status(Order_Status Order_Status);
         //Update requests
-        public void UpdateOrder_Status(Order_Status Order_Status);
+         Task UpdateOrder_Status(Order_Status Order_Status);
 
         //-----------------------------------------OrderLines-----------------------------------------//
         //Get requests
-        public List<OrderLine> GetAllOrderLines();
-        public List<OrderLine> GetOrderLinesByOrderID(int id);
+         Task<List<OrderLine>> GetAllOrderLines();
+         Task<List<OrderLine>> GetOrderLinesByOrderID(int id);
         //Delete requests
-        public void DeleteOrderLines(OrderLine orderLines);
+         Task DeleteOrderLines(OrderLine orderLines);
         //Create requests
-        public void CreateOrderLines(OrderLine orderLines);
+        //Task CreateOrderLines(OrderLine orderLines);
+        Task<List<OrderLine>> CreateOrderLines(List<OrderLine> orderLines, int orderID);
+
+
         //Update requests
-        public void UpdateOrderLines(OrderLine orderLines);
+         Task UpdateOrderLines(OrderLine orderLines);
 
         //-----------------------------------------ZipCode-----------------------------------------//
         //Get requests
-        public List<ZipCode> GetAllZipCode();
-        public ZipCode GetZipCodeById(int id);
+         Task<List<ZipCode>> GetAllZipCode();
+         Task<ZipCode> GetZipCodeById(int id);
         //Delete requests
-        public void DeleteZipCode(ZipCode zipCode);
+         Task DeleteZipCode(int id);
         //Create requests
-        public void CreateZipCode(ZipCode zipCode);
+         Task<ZipCode> CreateZipCode(ZipCode zipCode);
         //Update requests
-        public void UpdateZipCode(ZipCode zipCode);
+         Task UpdateZipCode(ZipCode zipCode);
 
         //-----------------------------------------Producent-----------------------------------------//
         //Get requests
-        public List<Producent> GetAllProducent();
-        public Producent GetProducentById(int id);
+         Task<List<Producent>> GetAllProducent();
+         Task<Producent> GetProducentById(int id);
         //Delete requests
-        public void DeleteProducent(Producent producent);
+         Task DeleteProducent(int id);
         //Create requests
-        public void CreateProducent(Producent producent);
+         Task<Producent> CreateProducent(Producent producent);
         //Update requests
-        public void UpdateProducent(Producent producent);
+         Task UpdateProducent(Producent producent);
 
         //-----------------------------------------Product-----------------------------------------//
         //Get requests
-        public List<Product> GetAllProducts();
-        public Product GetProductById(int id);
+         Task<List<Product>> GetAllProducts();
+         Task<Product> GetProductById(int id);
+        Task<List<Product>> GetProductsByProducentId(int id);
+
         //Delete requests
-        public void DeleteProduct(Product product);
+         Task DeleteProduct(int id);
         //Create requests
-        public void CreateProduct(Product product);
+         Task<Product> CreateProduct(Product product);
         //Update requests
-        public void UpdateProduct(Product product);
+         Task UpdateProduct(Product product);
     }
 }

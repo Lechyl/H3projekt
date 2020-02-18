@@ -17,8 +17,13 @@ namespace LongigantenAPI.Models
         public string Email { get; set; }
         [DataMember(Name = "Phone")]
         public string Phone { get; set; }
+        public int Age { get; set; }
+
+        public string Password { get; set; }
+        public string Token { get; set; }
         public List<Customer_AddressesDto> Addresses { get; set; }
 
+        /*
         public CustomerDto()
         {
 
@@ -38,6 +43,6 @@ namespace LongigantenAPI.Models
             Phone = phone;
             Addresses = addresses;
 
-        }
+        }*/
     }
 }

@@ -11,13 +11,13 @@ namespace LongigantenAPI.Models
     {
 
         public int Ordernumber { get; set; }
-        public DateTime OrderDate { get; set; }
-        public CustomerDto Customer { get; set; }
-        public Order_Delivery_MethodDto DeliveryMethod { get; set; }
-        public AddressesDto DeliveryAddress { get; set; }
-        public Order_StatusDto Status { get; set; }
+        public string OrderDate { get; set; }
+        //public CustomerDto Customer { get; set; }
+        public int DeliveryMethodID { get; set; }
+        public int DeliveryAddressID { get; set; }
+        public int StatusID { get; set; }
         public List<OrderLineDto> OrderList { get; set; }
-        public OrderDto(DateTime created, CustomerDto customer, Order_Delivery_MethodDto deliveryMethod, AddressesDto deliveryAddress, Order_StatusDto status, List<OrderLineDto> orderList)
+        /*public OrderDto(DateTime created, CustomerDto customer, Order_Delivery_MethodDto deliveryMethod, AddressesDto deliveryAddress, Order_StatusDto status, List<OrderLineDto> orderList)
         {
 
             OrderDate = created;
@@ -37,6 +37,6 @@ namespace LongigantenAPI.Models
             Status = status;
             OrderList = orderList;
 
-        }
+        }*/
     }
 }
