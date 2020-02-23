@@ -13,6 +13,7 @@ namespace ORM.Models
         public string Email { get; set; }
         public  string Phone { get; set; }
 
+        public Supplier () { }
         public Supplier(string supplierName, string phone, string contactPerson = "ingen", string email = "ingen")
         {
 

@@ -16,6 +16,7 @@ namespace LongigantenAPI.Profiles
             //1 nested from ZipCodeDto
             CreateMap<Addresses, AddressesDto>()
                .ForMember(dest => dest.ZipCode, opt => opt.MapFrom(src => $"{src.ZipCode.Id}, {src.ZipCode.CityName}"));
+               
 
         }
     }

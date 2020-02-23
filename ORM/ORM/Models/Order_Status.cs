@@ -9,7 +9,7 @@ namespace ORM.Models
         public int  Id { get; set; }
         public string Status { get; set; }
 
-
+        public Order_Status() { }
         public Order_Status( string status)
         {
             Status = status;

@@ -15,12 +15,17 @@ namespace ORM.Models
         public string Email { get; set; }
         public string Phone { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public string Role { get; set; }
+
+        public int AddressID { get; set; }
+        public int DepartmentsID { get; set; }
+        public int ShopID { get; set; }
         public Addresses Address { get; set; }
         public Department Departments { get; set; }
         public Shop Shop { get; set; }
 
-
-        public Employee(string firstName, string lastName, string accountNr, string reg, string phone, DateTime dateOfBirth ,Addresses address, Department department, Shop shop, string email = "ingen")
+        public Employee () { }
+        public Employee(string firstName, string lastName, string accountNr, string reg, string phone, DateTime dateOfBirth ,Addresses address, Department department, Shop shop,string role, string email = "ingen")
         {
             FirstName = firstName;
             LastName = lastName;
@@ -32,9 +37,10 @@ namespace ORM.Models
             Address = address;
             Departments = department;
             Shop = shop;
+            Role = role;
         }
 
-        public Employee(int id, string firstName, string lastName, string accountNr, string reg, string phone, DateTime dateOfBirth, Addresses address, Department department, Shop shop, string email = "ingen")
+        public Employee(int id, string firstName, string lastName, string accountNr, string reg, string phone, DateTime dateOfBirth, Addresses address, Department department, Shop shop,string role, string email = "ingen")
         {
             Id = id;
             FirstName = firstName;
@@ -47,6 +53,7 @@ namespace ORM.Models
             Address = address;
             Departments = department;
             Shop = shop;
+            Role = role;
         }
 
     }

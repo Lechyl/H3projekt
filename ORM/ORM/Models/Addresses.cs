@@ -7,10 +7,15 @@ namespace ORM.Models
     public class Addresses
     {
         public int Id { get; set; }
+        public int ZipCodeID { get; set; }
         public ZipCode ZipCode { get; set; }
         public string Address { get; set; }
         public string Floor { get; set; }
 
+        public Addresses()
+        {
+
+        }
         public Addresses(ZipCode zipCode, string address, string floor = "ingen")
         {
 

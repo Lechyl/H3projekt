@@ -8,9 +8,12 @@ namespace ORM.Models
     {
         public int Id { get; set; }
         public string DepartmentName { get; set; }
+
+        public int? Parent_DepartmentID { get; set; }
+
         public Department Parent_Department { get; set; }
 
-
+        public Department() { }
         public Department(string departmentName, Department parent_Department = null)
         {
             DepartmentName = departmentName;

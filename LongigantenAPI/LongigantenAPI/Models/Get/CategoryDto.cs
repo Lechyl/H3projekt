@@ -6,16 +6,20 @@ using System.Text;
 
 namespace LongigantenAPI.Models
 {
-    [DataContract(Name = "Customer", Namespace = "SchoolProjectAPI")]   
+    [DataContract(Name = "Category", Namespace = "SchoolProjectAPI")]   
     public class CategoryDto
     {
-
+        [DataMember(Name = "CatID")]
         public int Id { get; }
+        [DataMember(Name = "Name")]
+
         public string Name { get; set; }
-        public CategoryDto Parent_Category { get; set; }
+        [DataMember(Name = "ParentID")]
+
+        public int Parent_CategoryID { get; set; }
 
 
-        public CategoryDto(string name, CategoryDto parentCategory = null)
+       /* public CategoryDto(string name, CategoryDto parentCategory = null)
         {
             Name = name;
             Parent_Category = parentCategory;
@@ -26,7 +30,7 @@ namespace LongigantenAPI.Models
             Id = id;
             Name = name;
             Parent_Category = parentCategory;
-        }
+        }*/
 
 
     }

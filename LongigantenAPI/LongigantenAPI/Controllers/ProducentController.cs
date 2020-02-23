@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using LongigantenAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ORM.Models;
@@ -11,7 +12,8 @@ using ORM.Services;
 
 namespace LongigantenAPI.Controllers
 {
-    [Route("api/producent")]
+    [Authorize(Roles = Role.AdminOrUser)]
+    [Route("producent")]
     [ApiController]
     public class ProducentController : ControllerBase
     {
@@ -34,9 +36,10 @@ namespace LongigantenAPI.Controllers
                 return NotFound();
             }
             var producentDto = _mapper.Map<ProducentDto>(producent);
-            _orm.CloseConn();
+            await _orm.CloseConn();
             return Ok(producentDto);
         }
+        [Authorize(Roles = Role.Admin)]
         [HttpPost]
         public async Task<ActionResult<ProducentDto>> CreateProducent(ProducentForCreateDto producent)
         {

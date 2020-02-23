@@ -22,6 +22,9 @@ namespace LongigantenAPI.Profiles
                 .ForMember(d => d.Age, o => o.MapFrom(s => s.DateOfBirth.GetCurrentAge()));
 
             CreateMap<CustomersForUpdate, Customer>();
+            CreateMap<Customer, CustomersForUpdate>();
+
+            CreateMap<CustomerForCreateDto, Customer>();
         }
     }
 }

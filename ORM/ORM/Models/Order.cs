@@ -14,6 +14,8 @@ namespace ORM.Models
         public int StatusID { get; set; }
 
 
+
+
         public Customer Customer { get; set; }
         public Order_Delivery_Method DeliveryMethod { get; set; }
         public Addresses DeliveryAddress { get; set; }

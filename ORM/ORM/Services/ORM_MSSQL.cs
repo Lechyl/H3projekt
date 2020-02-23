@@ -10,6 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Security.Claims;
+using ORM.ResourceParameters;
 
 namespace ORM.Services
 {
@@ -44,7 +45,7 @@ namespace ORM.Services
         public async Task<Customer> Authenticate(string email, string password)
         {
             Customer customer = null;
-            string query = "select id,fornavn,efternavn,email,telefon,dateOfBirth, password from kunder where email = @email and password = @password";
+            string query = "select Kunder.id,fornavn,efternavn,email,telefon,dateOfBirth, password,Roller.rolle from kunder inner join Roller on Roller.id = rolleID where email = @email and password = @password and password != '[Slettet]'";
             using (SqlCommand cmd = new SqlCommand(query, dbConn))
             {
                 cmd.Parameters.AddWithValue("@email", email);
@@ -56,7 +57,7 @@ namespace ORM.Services
                     {
                        while(reader.Read())
                         {
-                            customer = new Customer(reader.GetInt32(0),reader.GetString(1),reader.GetString(2),reader.GetString(3),reader.GetDateTime(5),reader.GetString(6),reader.GetString(4));
+                            customer = new Customer(reader.GetInt32(0),reader.GetString(1),reader.GetString(2),reader.GetString(3),reader.GetDateTime(5),reader.GetString(6),reader.GetString(7),reader.GetString(4));
                         }
 
                         // authentication successful so generate jwt token
@@ -66,7 +67,8 @@ namespace ORM.Services
                         {
                             Subject = new ClaimsIdentity(new Claim[]
                             {
-                                new Claim(ClaimTypes.Name, customer.Id.ToString())
+                                new Claim(ClaimTypes.Name, customer.Id.ToString()),
+                                new Claim(ClaimTypes.Role, customer.Role)
                             }),
                             Expires = DateTime.UtcNow.AddDays(7),
                             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -95,6 +97,7 @@ namespace ORM.Services
                     cmd.Parameters.AddWithValue("@adresse", address.Address);
                     cmd.Parameters.AddWithValue("@etage", address.Floor);
 
+                    //get inserted id.
                     int id = (int)await cmd.ExecuteScalarAsync();
                     address.Id = id;
                    
@@ -146,7 +149,9 @@ namespace ORM.Services
                 {
 
                     cmd.Parameters.AddWithValue("@afdeling", department.DepartmentName);
+                    // if the left-hand opereator is null then use righthand operator
                     cmd.Parameters.AddWithValue("@parent_Afdeling", (object)department.Parent_Department.Id ?? DBNull.Value);
+                    //get inserted id
                     int id = (int)await cmd.ExecuteScalarAsync();
                     department.Id = id;
                 }
@@ -170,6 +175,9 @@ namespace ORM.Services
                 {
 
                     cmd.Parameters.AddWithValue("@adresseID", shop.Address.Id);
+
+                    //get inserted id.
+
                     int id =(int) await cmd.ExecuteScalarAsync();
                     shop.Id = id;
                 }
@@ -215,6 +223,8 @@ namespace ORM.Services
 
                     cmd.Parameters.AddWithValue("@navn", category.Name);
                     cmd.Parameters.AddWithValue("@parent_KategoriID", (object)category.Parent_Category.Id ?? DBNull.Value);
+
+                    //get inserted id.
                     int id = (int)await cmd.ExecuteScalarAsync();
                     category.Id = id;
                 }
@@ -242,6 +252,8 @@ namespace ORM.Services
                     cmd.Parameters.AddWithValue("@email", customer.Email);
                     cmd.Parameters.AddWithValue("@telefon", customer.Phone);
                     cmd.Parameters.AddWithValue("@dateOfBirth", customer.DateOfBirth);
+
+                    //get inserted id.
 
                     int id = (int)await cmd.ExecuteScalarAsync();
                     customer.Id = id;
@@ -291,6 +303,9 @@ namespace ORM.Services
                 {
 
                     cmd.Parameters.AddWithValue("@status", warehouse_Status.Status);
+
+                    //get inserted id.
+
                     int id = (int)await cmd.ExecuteScalarAsync();
                     warehouse_Status.Id = id;
                 }
@@ -317,6 +332,8 @@ namespace ORM.Services
                     cmd.Parameters.AddWithValue("@kontaktPerson", supplier.ContactPerson);
                     cmd.Parameters.AddWithValue("@email", supplier.Email);
                     cmd.Parameters.AddWithValue("@telefon", supplier.Phone);
+
+                    //get inserted id.
 
                     int id = (int)await cmd.ExecuteScalarAsync();
                     supplier.Id = id;
@@ -352,6 +369,7 @@ namespace ORM.Services
                     cmd.Parameters.AddWithValue("@butikID", employee.Shop.Id);
                     cmd.Parameters.AddWithValue("@dateOfBirth", employee.DateOfBirth);
 
+                    //get inserted id.
 
                     int id = (int) await cmd.ExecuteScalarAsync();
                     employee.Id = id;
@@ -378,6 +396,9 @@ namespace ORM.Services
                     cmd.Parameters.AddWithValue("@leveringsMetodeID", order.DeliveryMethodID);
                     cmd.Parameters.AddWithValue("@leveringsAdresseID", order.DeliveryAddressID);
                     cmd.Parameters.AddWithValue("@statusID", order.StatusID);
+
+                    //get inserted id.
+
                     int id = (int)await cmd.ExecuteScalarAsync();
                     order.Id = id;
                 
@@ -422,6 +443,9 @@ namespace ORM.Services
 
                     cmd.Parameters.AddWithValue("@metodeNavn", order_Delivery_Method.MethodName);
                     cmd.Parameters.AddWithValue("@pris", order_Delivery_Method.Price);
+
+                    //get inserted id.
+
                     int id = (int)await cmd.ExecuteScalarAsync();
                     order_Delivery_Method.Id = id;
                 }
@@ -483,6 +507,8 @@ namespace ORM.Services
                 {
 
                     cmd.Parameters.AddWithValue("@status", order_Status.Status);
+                    //get inserted id.
+
                     int id = (int)await cmd.ExecuteScalarAsync();
                     order_Status.Id = id;
                 }
@@ -505,6 +531,9 @@ namespace ORM.Services
                 {
 
                     cmd.Parameters.AddWithValue("@byNavn", zipCode.CityName);
+
+                    //get inserted id.
+
                     int id = (int)await cmd.ExecuteScalarAsync();
                     zipCode.Id = id;
                 }
@@ -523,13 +552,15 @@ namespace ORM.Services
             try
             {
                 string query = "insert into Producent(producentNavn) output inserted.id values (@producentNavn);";
-                //Producent producent1 = null;
                 using (SqlCommand cmd = new SqlCommand(query, dbConn))
                 {
 
                     cmd.Parameters.AddWithValue("@producentNavn", producent.ProducentName);
+
+                    //get inserted id.
+
                     int id =  (int)await cmd.ExecuteScalarAsync();
-                    //producent1 = await GetProducentById(id);
+                    
                     producent.Id = id;
                 }
                 return producent;
@@ -549,18 +580,21 @@ namespace ORM.Services
             try
             {
                 string query = "insert into Produkter(produktNavn,beskrivelse,pris,kategoriID,producentID,leverandorID) output inserted.id values (@produktNavn,@beskrivelse,@pris,@kategoriID,@producentID,@leverandorID)";
-                //Product product1 = null;
+              
                 using (SqlCommand cmd = new SqlCommand(query, dbConn))
                 {
 
                     cmd.Parameters.AddWithValue("@produktNavn", product.ProductName);
                 cmd.Parameters.AddWithValue("@beskrivelse", product.Description);
                 cmd.Parameters.AddWithValue("@pris", product.Price);
-                cmd.Parameters.AddWithValue("@kategoriID", product.Category.Id);
-                cmd.Parameters.AddWithValue("@producentID", product.Producent.Id);
-                cmd.Parameters.AddWithValue("@leverandorID", product.Supplier.Id);
-                   int id = (int)await cmd.ExecuteScalarAsync();
-                    //product1 =  await GetProductById(id);
+                cmd.Parameters.AddWithValue("@kategoriID", product.CategoryID);
+                cmd.Parameters.AddWithValue("@producentID", product.ProducentID);
+                cmd.Parameters.AddWithValue("@leverandorID", product.SupplierID);
+
+                    //get inserted id.
+
+                    int id = (int)await cmd.ExecuteScalarAsync();
+                    
                     product.Id = id;
                 }
 
@@ -639,7 +673,7 @@ namespace ORM.Services
                             count++;
                         }
 
-                        //
+                        
                         if (count > 1) { throw new IndexOutOfRangeException("Address Type unspecified error"); }
                     }
 
@@ -829,6 +863,8 @@ namespace ORM.Services
                     using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
                     {
                         reader.Read();
+
+                        //Check if the total rows returned is 1 then Customer exist
                         if ((int)reader["totalRows"] == 1)
                         {
                             return true;
@@ -851,7 +887,7 @@ namespace ORM.Services
             try
             {
                 Customer kunder = null;
-                string query = "select id,fornavn,efternavn,email,telefon,dateOfBirth, password from kunder where id = @id";
+                string query = "select Kunder.id,fornavn,efternavn,email,telefon,dateOfBirth, password,Roller.rolle from kunder inner join Roller on Roller.id = rolleID where Kunder.id = @id";
                 using (SqlCommand cmd = new SqlCommand(query, dbConn))
                 {
 
@@ -867,7 +903,7 @@ namespace ORM.Services
                         {
                             List<Customer_Addresses> addresslist = await GetCustomerAddressesByCustomerID(reader.GetInt32(0));
 
-                            kunder = new Customer(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3),reader.GetDateTime(5),reader.GetString(6),reader.GetString(4));
+                            kunder = new Customer(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3),reader.GetDateTime(5),reader.GetString(6),reader.GetString(7),reader.GetString(4));
                             kunder.customer_Addresses = addresslist;
                             count++;
                         }
@@ -1350,15 +1386,40 @@ namespace ORM.Services
 
         public async Task DeleteAdresseType(int id)
         {
-            try { 
-            
+            try {
+                string query = "delete from Adresse_Type where id = @id";
 
+
+                using (SqlCommand cmd = new SqlCommand(query, dbConn))
+                {
+
+                    cmd.Parameters.AddWithValue("@id", id);
+                    await cmd.ExecuteNonQueryAsync();
+
+                }
             } catch (Exception e) { throw new Exception(e.Message); }
         }
 
         public async Task UpdateAdresseType(Address_Type adresse_Type)
         {
-            try {  } catch (Exception e) { throw new Exception(e.Message); }
+            try
+            {
+                string query = "update Adresse_Type set type = @type where id = @id";
+
+                using (SqlCommand cmd = new SqlCommand(query, dbConn))
+                {
+                    cmd.Parameters.AddWithValue("@type", adresse_Type.Type);
+
+                    cmd.Parameters.AddWithValue("@id", adresse_Type.Id);
+
+
+                    await cmd.ExecuteNonQueryAsync();
+
+                }
+
+
+            }
+            catch (Exception e) { throw new Exception(e.Message); }
         }
 
         public async Task<List<Addresses>> GetAllAdresses()
@@ -1396,12 +1457,37 @@ namespace ORM.Services
 
         public async Task DeleteAddress(int id)
         {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
+            try {
+                string query = "delete from Adresser where id = @id";
+                using (SqlCommand cmd = new SqlCommand(query, dbConn))
+                {
+
+                    cmd.Parameters.AddWithValue("@id", id);
+
+
+                    await cmd.ExecuteNonQueryAsync();
+
+                }
+            } catch (Exception e) { throw new Exception(e.Message); }
         }
 
         public async Task UpdateAddress(Addresses address)
         {
-            try {  } catch (Exception e) { throw new Exception(e.Message); }
+            try {
+                string query = "update Adresser set adresse = @address, postnrID = @postnriD, etage = @etage where id = @id";
+                using (SqlCommand cmd = new SqlCommand(query, dbConn))
+                {
+                    cmd.Parameters.AddWithValue("@address",address.Address);
+                    cmd.Parameters.AddWithValue("@postnriD", address.ZipCodeID);
+                    cmd.Parameters.AddWithValue("@etage", address.Floor);
+                    cmd.Parameters.AddWithValue("@id", address.Id);
+
+
+                    await cmd.ExecuteNonQueryAsync();
+
+                }
+
+            } catch (Exception e) { throw new Exception(e.Message); }
         }
 
         public async Task<List<Department>> GetAllDepartments()
@@ -1436,12 +1522,37 @@ namespace ORM.Services
 
         public async Task DeleteDepartment(int id)
         {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
+            try {
+                string query = "delete from Afdelinger where id = @id";
+                using (SqlCommand cmd = new SqlCommand(query, dbConn))
+                {
+
+                    cmd.Parameters.AddWithValue("@id", id);
+
+
+                    await cmd.ExecuteNonQueryAsync();
+
+                }
+            } catch (Exception e) { throw new Exception(e.Message); }
         }
 
         public async Task UpdateDepartment(Department department)
         {
-            try {  } catch (Exception e) { throw new Exception(e.Message); }
+            try {
+                string query = "update Afdelinger set afdeling = @afdeling, parent_Afdeling = @parentAfdeling where id = @id";
+                using (SqlCommand cmd = new SqlCommand(query, dbConn))
+                {
+    
+                    cmd.Parameters.AddWithValue("@afdeling", department.DepartmentName);
+                    cmd.Parameters.AddWithValue("@parentAfdeling",  department.Parent_DepartmentID);
+                    cmd.Parameters.AddWithValue("@id", department.Id);
+
+
+                    await cmd.ExecuteNonQueryAsync();
+
+                }
+
+            } catch (Exception e) { throw new Exception(e.Message); }
         }
 
         public async Task<List<Shop>> GetAllShops()
@@ -1477,12 +1588,35 @@ namespace ORM.Services
 
         public async Task DeleteShop(int id)
         {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
+            try {
+                string query = "delete from Butikker  where id = @id;";
+
+                using (SqlCommand cmd = new SqlCommand(query, dbConn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    await cmd.ExecuteNonQueryAsync();
+
+                }
+
+            } catch (Exception e) { throw new Exception(e.Message); }
         }
 
         public async Task UpdateShop(Shop shop)
         {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
+            try {
+
+                string query = "update Butikker set adresseID = @addressID where id = @id;";
+
+                using (SqlCommand cmd = new SqlCommand(query, dbConn))
+                {
+                    cmd.Parameters.AddWithValue("@addressID",shop.AddressID);
+                    cmd.Parameters.AddWithValue("@id",shop.Id);
+
+                    await cmd.ExecuteNonQueryAsync();
+
+                }
+            } catch (Exception e) { throw new Exception(e.Message); }
         }
 
         public async Task<List<Shop_Item>> GetAllShopWarehouses()
@@ -1550,7 +1684,10 @@ namespace ORM.Services
 
         public async Task UpdateShopWarehouse(Shop_Item shopWarehouse)
         {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
+            try {
+
+            
+            } catch (Exception e) { throw new Exception(e.Message); }
         }
 
         public async Task<List<Category>> GetAllCategories()
@@ -1609,7 +1746,7 @@ namespace ORM.Services
                 List<Customer> customers = new List<Customer>();
                 
        
-                       string query = "select id,fornavn,efternavn,email,telefon,dateOfBirth, password from Kunder";
+                       string query = "select Kunder.id,fornavn,efternavn,email,telefon,dateOfBirth, password,Roller.rolle from kunder inner join Roller on Roller.id = rolleID";
                 using (SqlCommand cmd = new SqlCommand(query,dbConn))
                 {
                     using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
@@ -1623,7 +1760,7 @@ namespace ORM.Services
                                 
                                 List<Customer_Addresses> customer_Addresses = await GetCustomerAddressesByCustomerID(reader.GetInt32(0));
  
-                                Customer customer = new Customer(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetDateTime(5),reader.GetString(6), reader.GetString(4));
+                                Customer customer = new Customer(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetDateTime(5),reader.GetString(6),reader.GetString(7), reader.GetString(4));
                                 customer.customer_Addresses = customer_Addresses;
                                 customers.Add(customer);
 
@@ -1641,20 +1778,20 @@ namespace ORM.Services
             catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task<List<Customer>> GetAllCustomers(string email)
+        public async Task<List<Customer>> GetAllCustomers(CustomerParameters customerParameters)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(email))
+                if (string.IsNullOrWhiteSpace(customerParameters.searchQuery))
                 {
                     return await GetAllCustomers();
                 }
                 List<Customer> customers = new List<Customer>();
-                email = email.Trim();
+                customerParameters.searchQuery = customerParameters.searchQuery.Trim();
                 string query = "select id,fornavn,efternavn,email,telefon,dateOfBirth, password from Kunder where email like @search";
                 using (SqlCommand cmd = new SqlCommand(query, dbConn))
                 {
-                    cmd.Parameters.AddWithValue("@search", $"%{email}%@%");
+                    cmd.Parameters.AddWithValue("@search", $"%{customerParameters.searchQuery}%@%");
                     using (var reader = await cmd.ExecuteReaderAsync())
                     {
                         if (reader.HasRows)
@@ -1682,9 +1819,29 @@ namespace ORM.Services
         }
         public async Task DeleteCustomer(int id)
         {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
-        }
+            try {
 
+                string query = "DELETE FROM Kunder WHERE id = @id";
+                using (SqlCommand cmd = new SqlCommand(query, dbConn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    await cmd.ExecuteNonQueryAsync();
+                }
+
+
+            } catch (Exception e) { throw new Exception(e.Message); }
+        }
+        public async Task DeleteCustomerData(int id)
+        {
+            try
+            {
+                Customer customer = new Customer(id, "[Slettet]", "[Slettet]", "[Slettet]", Convert.ToDateTime("1773-01-01"), "[Slettet]", "[Slettet]");
+                await UpdateCustomer(customer);
+
+            }
+            catch (Exception e) { throw new Exception(e.Message); }
+        }
         public async Task UpdateCustomer(Customer customer)
         {
             try {
@@ -1894,12 +2051,36 @@ namespace ORM.Services
 
         public async Task DeleteOrder(int id)
         {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
+            try {
+                
+
+                string query = "DELETE FROM Ordre WHERE id = @id";
+                using (SqlCommand cmd = new SqlCommand(query, dbConn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            } catch (Exception e) { throw new Exception(e.Message); }
         }
 
         public async Task UpdateOrder(Order order)
         {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
+            try {
+                string query = "update  Ordre set leveringsAdresseID = @leveringsAdresseID, leveringsMetodeID = @leveringsMetodeID, opretsDato = @opretsDato, statusID = @statusID where id = @id";
+                using (SqlCommand cmd = new SqlCommand(query,dbConn))
+                {
+                    cmd.Parameters.AddWithValue("@leveringsAdresseID",order.DeliveryAddressID);
+                    cmd.Parameters.AddWithValue("@leveringsMetodeID",order.DeliveryMethodID);
+                    cmd.Parameters.AddWithValue("@opretsDato",order.Created);
+                    cmd.Parameters.AddWithValue("@statusID",order.StatusID);
+                    cmd.Parameters.AddWithValue("@id", order.Id);
+
+
+                    await cmd.ExecuteNonQueryAsync();
+
+                }
+            } catch (Exception e) { throw new Exception(e.Message); }
         }
 
         public async Task<List<Order_Delivery_Method>> GetAllOrderDeliveryMethod()
@@ -2058,6 +2239,7 @@ namespace ORM.Services
             try {  } catch (Exception e) { throw new Exception(e.Message); }
         }
 
+
         public async Task<List<Producent>> GetAllProducent()
         {
             try
@@ -2094,6 +2276,44 @@ namespace ORM.Services
             try {  } catch (Exception e) { throw new Exception(e.Message); }
         }
 
+        public async Task<List<Product>> GetAllProducts(ProductsParameter productsParameter)
+        {
+            if (string.IsNullOrWhiteSpace(productsParameter.Category))
+            {
+                return await GetAllProducts();
+
+            }
+            try
+            {
+                List<Product> products = new List<Product>();
+                string query = "select id,produktNavn,beskrivelse,pris,kategoriID,producentID,leverandorID from Produkter where kategoriID = @kategoriID";
+
+                using (SqlCommand cmd = new SqlCommand(query, dbConn))
+                {
+                    cmd.Parameters.AddWithValue("@kategoriID", productsParameter.Category);
+                    using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
+                    {
+                        if (reader.HasRows)
+                        {
+
+                            while (await reader.ReadAsync())
+                            {
+                                Category category = await GetCategoryById(reader.GetInt32(4));
+                                Producent producent = await GetProducentById(reader.GetInt32(5));
+                                Supplier supplier = await GetSupplierById(reader.GetInt32(6));
+                                products.Add(new Product(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetDecimal(3), category, producent, supplier));
+                            }
+                        }
+                        else
+                            throw new ArgumentNullException("GetAllProducts Null rows returned");
+
+                    }
+                }
+                return products;
+            }
+            catch (Exception e) { throw new Exception(e.Message); }
+
+        }
         public async Task<List<Product>> GetAllProducts()
         {
             try
@@ -2156,12 +2376,42 @@ namespace ORM.Services
         }
         public async Task DeleteProduct(int id)
         {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
+            try {
+                string query = "delete from Produkter where id = @id";
+
+                using (SqlCommand cmd = new SqlCommand(query, dbConn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    await cmd.ExecuteNonQueryAsync();
+                }
+
+
+            } catch (Exception e) { throw new Exception(e.Message); }
         }
 
         public async Task UpdateProduct(Product product)
         {
-            try {  } catch (Exception e) { throw new Exception(e.Message); }
+            try {
+                string query = "update Produkter set produktNavn = @produktNavn, beskrivelse = @beskrivelse, pris = @pris, kategoriID = @kategoriID, producentID = @producentID, leverandorID = @leverandorID where id = @id";
+
+                using (SqlCommand cmd = new SqlCommand(query, dbConn))
+                {
+                    cmd.Parameters.AddWithValue("@produktNavn",product.ProductName);
+                    cmd.Parameters.AddWithValue("@beskrivelse",product.Description);
+                    cmd.Parameters.AddWithValue("@pris",product.Price);
+                    cmd.Parameters.AddWithValue("@kategoriID",product.CategoryID);
+                    cmd.Parameters.AddWithValue("@producentID",product.ProducentID);
+                    cmd.Parameters.AddWithValue("@leverandorID",product.SupplierID);
+                    cmd.Parameters.AddWithValue("@id", product.Id);
+
+
+                    await cmd.ExecuteNonQueryAsync();
+
+                }
+
+
+            } catch (Exception e) { throw new Exception(e.Message); }
         }
 
         public async Task CloseConn()

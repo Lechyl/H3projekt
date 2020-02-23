@@ -27,14 +27,15 @@ namespace ORM.Models
 
  
         public string Password { get; set; }
+        public string Role { get; set; }
         public string Token { get; set; }
         public DateTime DateOfBirth { get; set; }
-        public int customer_AddressesID { get; set; }
+        public List<int> customer_AddressesID { get; set; }
         public List<Customer_Addresses> customer_Addresses { get; set; }
 
         public List<Order> orders { get; set; }
         public Customer() { }
-        public Customer(string firstName, string lastName, string email, DateTime dateOfBirth,string password, string phone = "ingen")
+        public Customer(string firstName, string lastName, string email, DateTime dateOfBirth,string password,string role, string phone = "ingen")
         {
             LastName = lastName;
             FirstName = firstName;
@@ -42,9 +43,10 @@ namespace ORM.Models
             Phone = phone;
             DateOfBirth = dateOfBirth;
             Password = password;
+            Role = role;
            
         }
-        public Customer(int id, string firstName, string lastName, string email, DateTime dateOfBirth , string password, string phone = "ingen")
+        public Customer(int id, string firstName, string lastName, string email, DateTime dateOfBirth , string password,string role, string phone = "ingen")
         {
             Id = id;
             LastName = lastName;
@@ -53,7 +55,7 @@ namespace ORM.Models
             Phone = phone;
             DateOfBirth = dateOfBirth;
             Password = password;
-            
+            Role = role;
         }
     }
 }

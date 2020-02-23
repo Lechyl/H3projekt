@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using ORM.ResourceParameters;
 using ORM.Models;
+
 
 namespace ORM.Services
 {
@@ -84,12 +86,14 @@ namespace ORM.Services
         Task<bool> CustomerExist(int id);
          Task<List<Customer>> GetAllCustomers();
 
-        Task<List<Customer>> GetAllCustomers(string email);
+        Task<List<Customer>> GetAllCustomers(CustomerParameters customParameters);
 
          Task<Customer> GetCustomerById(int id);
         //Delete requests
          Task DeleteCustomer(int id);
+        Task DeleteCustomerData(int id);
         //Create requests
+        
          Task<Customer> CreateCustomer(Customer customer);
         //Update requests
          Task UpdateCustomer(Customer customer);
@@ -216,6 +220,8 @@ namespace ORM.Services
         //-----------------------------------------Product-----------------------------------------//
         //Get requests
          Task<List<Product>> GetAllProducts();
+        Task<List<Product>> GetAllProducts(ProductsParameter productsParameter);
+
          Task<Product> GetProductById(int id);
         Task<List<Product>> GetProductsByProducentId(int id);
 

@@ -9,6 +9,11 @@ namespace ORM.Models
     {
         public int Id { get; set; }
         public string Type { get; set; }
+
+        public Address_Type()
+        {
+
+        }
         public Address_Type(string type)
         {
             Type = type;

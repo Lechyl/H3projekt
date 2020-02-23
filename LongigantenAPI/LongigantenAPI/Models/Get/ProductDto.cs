@@ -5,13 +5,20 @@ using System.Text;
 
 namespace LongigantenAPI.Models
 {
-    [DataContract(Name = "Customer", Namespace = "SchoolProjectAPI")]
+    [DataContract(Name = "Product", Namespace = "SchoolProjectAPI")]
     public class ProductDto
     {
         private decimal _price;
+        [DataMember(Name ="ProductID")]
         public int Id { get; set; }
+        [DataMember(Name ="ProductName")]
+
         public string ProductName { get; set; }
+        [DataMember(Name = "Description")]
+
         public string Description { get; set; }
+        [DataMember(Name = "Price")]
+
         public decimal Price { 
             get { return _price; } 
             set 
@@ -26,8 +33,14 @@ namespace LongigantenAPI.Models
                 }
             }
         }
+        [DataMember(Name = "CategoryID")]
+
         public int CategoryID { get; set; }
+        [DataMember(Name = "ProducentID")]
+
         public int ProducentID { get; set; }
+        [DataMember(Name = "SupplierID")]
+
         public int SupplierID { get; set; }
 
 

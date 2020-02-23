@@ -2,7 +2,7 @@
 use LongigantenDB;
 
 
-
+/*
 
 
 create table Kategorier(
@@ -148,3 +148,15 @@ alter column kontonr nvarchar(10) not null, reg nvarchar(4) not null
 /*
 alter table Lager_Status
 alter column status nvarchar(35) not null*/
+*/
+
+create table Roller(
+	id int primary key identity(1,1),
+	rolle nvarchar(50)
+);
+
+alter table Kunder
+add rolleID int foreign key references Roller(id);
+
+alter table Medarbejder
+add rolleID int foreign key references Roller(id);

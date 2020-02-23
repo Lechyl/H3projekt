@@ -9,7 +9,7 @@ namespace ORM.Models
         public int Id { get; set; }
         public string ProducentName { get; set; }
 
-
+        public Producent() { }
         public Producent(string producentName)
         {
 

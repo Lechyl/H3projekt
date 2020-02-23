@@ -11,6 +11,7 @@ namespace ORM.Models
         public string CityName { get; set; }
         
         //Constructor
+        public ZipCode() { }
         public ZipCode(int id, string cityName)
         {
             Id = id;

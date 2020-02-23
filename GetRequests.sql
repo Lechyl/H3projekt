@@ -87,6 +87,23 @@ alter table Kunder
 add password nvarchar(50)
 select id,fornavn,efternavn,email,telefon,username,password,token from Kunder
 select id,fornavn,efternavn,email,telefon,dateOfBirth,username, password from kunder where username = 'peter' and password = 'password'
-*/
-
 Update Kunder set fornavn = @fornavn, efternavn = @efternavn, email = @email, telefon = @telefon, dateOfBirth = @dateOfBirth, password = @password where id = @id
+*/
+/*
+update  Ordre set leveringsAdresseID = @leveringsAdresseID, leveringsMetodeID = @leveringsMetodeID, opretsDato = @opretsDato, statusID = @statusID, id
+
+update Produkter set produktNavn = @produktNavn, beskrivelse = @beskrivelse, pris = @pris, kategoriID = @kategoriID, producentID = @producentID, leverandorID = @leverandorID
+
+DELETE FROM Kunder WHERE id = @id
+
+delete from Produkter where id = @id
+
+update Adresse_Type set type = @type where id = @id
+
+update Adresser set adresse = @address, postnrID = @postnriD, etage = @etage where id = @id
+
+update Afdelinger set afdeling = @afdeling, parent_Afdeling = @parentAfdeling where id = @id
+update Butikker set adresseID = @addressID where id = @id;*/
+--select Kunder.id,fornavn,efternavn,email,telefon,dateOfBirth, password,Roller.rolle from kunder inner join Roller on Roller.id = rolleID where Kunder.id = 3
+
+select id,produktNavn,beskrivelse,pris,kategoriID,producentID,leverandorID from Produkter where kategoriID = @kategoriID

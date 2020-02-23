@@ -24,12 +24,21 @@ namespace ORM.Models
                 }
             }
         }
+
+        public int CategoryID { get; set; }
+        public int ProducentID { get; set; }
+        public int SupplierID { get; set; }
         public Category Category { get; set; }
         public Producent Producent { get; set; }
         public Supplier Supplier { get; set; }
 
 
         //Constructor overload Create Product
+
+         public Product()
+        {
+
+        }
         public Product(string productName, string description, decimal price, Category category, Producent producent, Supplier supplier)
         {
             ProductName = productName;

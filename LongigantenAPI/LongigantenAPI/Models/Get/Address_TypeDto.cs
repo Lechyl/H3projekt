@@ -11,7 +11,7 @@ namespace LongigantenAPI.Models
         [DataMember(Name = "Id")]
         public int Id { get; set; }
         public string Type { get; set; }
-        public Address_TypeDto(string type)
+        /*public Address_TypeDto(string type)
         {
             Type = type;
         }
@@ -19,6 +19,6 @@ namespace LongigantenAPI.Models
         {
             Id = id;
             Type = type;
-        }
+        }*/
     }
 }

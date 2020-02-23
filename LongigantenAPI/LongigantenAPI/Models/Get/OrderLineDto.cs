@@ -5,13 +5,17 @@ using System.Text;
 
 namespace LongigantenAPI.Models
 {
-    [DataContract(Name = "Customer", Namespace = "SchoolProjectAPI")]
+    [DataContract(Name = "OrderLines", Namespace = "SchoolProjectAPI")]
     public class OrderLineDto
     {
         private int _quantity;
         private decimal _price;
+
+        [DataMember(Name = "ProductID")]
+
         public int ProductID { get; set; }
         //public OrderDto Order { get; set; }
+        [DataMember(Name = "Quantity")]
 
         public int Quantity
         {
@@ -28,6 +32,8 @@ namespace LongigantenAPI.Models
                 }
             }
         }
+        [DataMember(Name ="Price")]
+
         public decimal Price
         {
             get { return _price; }

@@ -11,6 +11,7 @@ namespace ORM.Models
         public string Status { get; set; }
 
 
+        public Warehouse_Status () { }
         public Warehouse_Status( string status)
         {
             Status = status;

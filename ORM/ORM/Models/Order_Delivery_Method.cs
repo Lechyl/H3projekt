@@ -25,6 +25,8 @@ namespace ORM.Models
                 }
             }
         }
+
+        public Order_Delivery_Method() { }
         public Order_Delivery_Method( string methodname, decimal price)
         {
            

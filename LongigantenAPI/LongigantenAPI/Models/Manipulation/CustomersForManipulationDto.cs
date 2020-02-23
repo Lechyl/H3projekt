@@ -25,5 +25,7 @@ namespace LongigantenAPI.Models
         [Required]
         [MaxLength(50)]
         public string Password { get; set; }
+        [Required]
+        public string Role { get; set; }
     }
 }

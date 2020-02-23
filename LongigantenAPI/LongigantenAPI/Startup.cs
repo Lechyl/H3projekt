@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using LongigantenAPI.Helpers;
 using System.Text;
+using Newtonsoft.Json.Serialization;
 
 namespace LongigantenAPI
 {
@@ -29,13 +30,20 @@ namespace LongigantenAPI
 
         public IConfiguration Configuration { get; }
 
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //Configure to use XML and Return http not acceptable
             services.AddControllers(configuration => {
                 configuration.ReturnHttpNotAcceptable = true;
-            }).AddXmlDataContractSerializerFormatters()
+            })
+            //configure to use Json.net for patch methods
+            .AddNewtonsoftJson( setupAction => {
+                setupAction.SerializerSettings.ContractResolver =
+                new CamelCasePropertyNamesContractResolver();
+            })
+            //Configure to use XML and Return http not acceptable
+            .AddXmlDataContractSerializerFormatters()
 
             //Configure Default Validation Error message for client.
             .ConfigureApiBehaviorOptions(setupAction => {
@@ -43,7 +51,7 @@ namespace LongigantenAPI
                 {
                     var problemDetails = new ValidationProblemDetails(context.ModelState)
                     {
-                        Type = "https://courselibrary.com/modelvalidationproblem",
+                        Type = "https://localhost:5000/modelvalidationproblem",
                         Title = "One or more model validation errors occurred.",
                         Status = StatusCodes.Status422UnprocessableEntity,
                         Detail = "See the errors property for details.",
@@ -59,6 +67,8 @@ namespace LongigantenAPI
                 };
             });
 
+            //allow cross site origin
+            services.AddCors();
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
@@ -115,11 +125,20 @@ namespace LongigantenAPI
                 });
             }
 
+              
+
             //Using Routing
             app.UseRouting();
+
+            app.UseCors(
+            options => options.SetIsOriginAllowed(x => _ = true).AllowAnyMethod().AllowAnyHeader().AllowCredentials()
+);
+          
+
             //use Authentica´tion and Authorization for JWT.
             app.UseAuthentication();
             app.UseAuthorization();
+
 
             //Route to/from Controllers
             app.UseEndpoints(endpoints =>
