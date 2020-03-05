@@ -26,10 +26,13 @@ namespace LongigantenAPI.Controllers
             _orm = orm ?? throw new ArgumentNullException(nameof(orm));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
+
+        [ResponseCache(Duration = 604800, Location = ResponseCacheLocation.Client)]
         [AllowAnonymous]
         [HttpGet()]
         public async Task<ActionResult<List<CategoryDto>>> getCategories()
         {
+            _orm.OpenConn();
             var categoriesFromDB = await _orm.GetAllCategories();
 
             if(categoriesFromDB == null)
@@ -37,8 +40,8 @@ namespace LongigantenAPI.Controllers
                 return NotFound();
             }
 
-            var categoriesDto = _mapper.Map<CategoryDto>(categoriesFromDB);
-
+            var categoriesDto = _mapper.Map<List<CategoryDto>>(categoriesFromDB);
+            await _orm.CloseConn();
             return Ok(categoriesDto);
         }
     }

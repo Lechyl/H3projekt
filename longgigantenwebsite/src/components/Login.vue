@@ -17,10 +17,16 @@
 
 <script>
     import axios from 'axios';
+    import Vue from 'vue';
+    import  VueRouter from 'vue-router';
+    import VueCookies from 'vue-cookies'
 
+    Vue.use(VueCookies)
+    Vue.use(VueRouter)
 
     export default {
         name: "Login",
+
         data () {
             return {
                 inEmail : null,
@@ -35,7 +41,7 @@
                 axios({
                     method: 'POST',
                     url: 'http://localhost:5000/customers/authenticate',
-                    //url: 'http://localhost:5000/products',
+
                     data: JSON.stringify({email: this.inEmail, password: this.inPassword}),
                     headers:{
                         'Access-Control-Allow-Origin': '*',
@@ -45,9 +51,27 @@
                     }
 
                 }).then((response) => {
-                    localStorage.setItem("user",JSON.stringify(response.data));
+
+                    //check if cookie exist or create it
+                    if (!this.$cookies.get("user")){
+
+                     let returned = response.data;
+                     //Get Cache Header and split into an array
+                     let cacheHeader = response.headers["cache-control"].split(",");
+
+                     //get Expire time
+                     let expire =parseInt(cacheHeader[1].substring(8));
+                    this.$cookies.set("user",returned,expire);
+
+                    }
+
+                    this.$router.push({path: "/"});
+
+                    location.reload();
+
 
                 }).catch((error) => {
+                    alert(error);
                     console.log(error);
                     this.wrongUser = true;
                 });

@@ -10,7 +10,7 @@ namespace LongigantenAPI.Models
     public class CategoryDto
     {
         [DataMember(Name = "CatID")]
-        public int Id { get; }
+        public int Id { get; set; }
         [DataMember(Name = "Name")]
 
         public string Name { get; set; }

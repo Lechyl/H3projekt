@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.JsonPatch;
 namespace LongigantenAPI.Controllers
 {
     [Authorize(Roles = Role.AdminOrUser)]
+    [ResponseCache(NoStore = true)]
 
     [ApiController]
     [Route("customers/{customerID}/orders")]
@@ -69,6 +70,8 @@ namespace LongigantenAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<OrderDto>> CreateOrderForCustomer(int customerID,OrderForCreateDto orderForCreateDto)
         {
+            //Change status to waiting for treatment of order
+            orderForCreateDto.StatusID = 1;
             _orm.OpenConn();
             if (!await _orm.CustomerExist(customerID))
             {
@@ -104,7 +107,10 @@ namespace LongigantenAPI.Controllers
             //aka. copying values from source to destination
             _mapper.Map(order, orderFromDB);
 
-            await _orm.UpdateOrder(orderFromDB);
+            if(await _orm.UpdateOrder(orderFromDB) == 0)
+            {
+                return BadRequest();
+            }
 
             await _orm.CloseConn();
             return NoContent();
@@ -144,7 +150,10 @@ namespace LongigantenAPI.Controllers
             //aka. copying values from source to destination
             _mapper.Map(orderToPatch, orderFromDB);
 
-            await _orm.UpdateOrder(orderFromDB);
+            if(await _orm.UpdateOrder(orderFromDB) == 0)
+            {
+                return BadRequest();
+            }
 
             await _orm.CloseConn();
 

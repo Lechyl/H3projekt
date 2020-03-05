@@ -4,7 +4,7 @@ use LongigantenDB;
 insert into PostNr(byNavn) values ("test");
 
 
-	insert into Kategorier(navn, parent_KategoriID) values
+insert into Kategorier(navn, parent_KategoriID) values
 ('Hvidevarer',default),
 ('Vaskemaskine',1),
 ('Lyd & Hi-Fi',default),

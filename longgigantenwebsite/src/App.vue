@@ -7,14 +7,12 @@
     <li class="nav-item">
       <router-link class="btn" to="/">Home</router-link>
       <router-link class="btn" to="/products">Products</router-link>
-      <router-link class="btn" to="/products">Cart</router-link>
-      <router-link class="btn" to="/products">Profile</router-link>
-      <router-link class="btn" to="/login">Login</router-link>
-
+      <router-link v-if="isLoggedIn" class="btn" to="/cart">Cart</router-link>
+      <router-link v-if="isLoggedIn" class="btn" to="/profile">Profile</router-link>
+      <router-link v-if="!isLoggedIn" class="btn" to="/login">Login</router-link>
+      <router-link v-if="isLoggedIn" class="btn" v-on:click.native="logOut" to="/" >Logout</router-link>
     </li>
-
   </ul>
-
     <div id="currentPage">
       <router-view></router-view>
     </div>
@@ -29,9 +27,13 @@
 import Home from './components/HelloWorld.vue';
 import Products from "@/components/ProductList";
 import Login from "@/components/Login";
+import Profile from "@/components/Profile";
+import Cart from "@/components/Cart";
 import Vue from 'vue';
 import  VueRouter from 'vue-router';
 Vue.use(VueRouter)
+  // inject a handler for `myOption` custom option
+
 
   const router = new VueRouter({
     mode: 'history',
@@ -44,13 +46,43 @@ Vue.use(VueRouter)
       {path: '/login', component : Login,meta: {
           requiresAuth: true,
           roles: ['User','Admin']
+        }},
+      {path: '/profile', component: Profile,meta:{
+        requiresAuth:true, roles:['User']
+      }},
+      {path: '/cart', component: Cart,meta:{
+          requiresAuth:true, roles:['User']
         }}
     ]
   });
 
 export default {
   name: 'App',
-  router : router
+  router : router,
+  data(){
+    return{
+      isLoggedIn: false
+    }
+  },
+  methods:{
+    logOut: function () {
+      //remove all cookies and localstorages
+      this.$cookies.remove("user");
+      localStorage.clear();
+      this.isLoggedIn = false;
+      location.reload();
+
+    }
+  },
+  created() {
+
+    //check if cookie exist
+    if (this.$cookies.get("user"))
+    {
+      this.isLoggedIn = true;
+
+    }
+  }
 }
 
 </script>

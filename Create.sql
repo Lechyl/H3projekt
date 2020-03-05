@@ -121,12 +121,12 @@ create table Ordre(
 	kundeID int foreign key references Kunder(id) not null,
 	leveringsMetodeID int foreign key references Ordre_Leverings_Metode(id) not null,
 	leveringsAdresseID int foreign key references Adresser(id) not null,
-	statusID int foreign key references Ordre_Status(id) not null
+	statusID int foreign key references Ordre_Status(id) not null 
 );
 
 create table Ordrelinjer(
 	produktID int foreign key references Produkter(id) not null,
-	ordreID int foreign key references Ordre(id) not null,
+	ordreID int foreign key references Ordre(id) not null ON DELETE CASCADE,
 	antal int check(antal > 0) not null,
 	pris decimal(8,2) check(pris > 0) not null
 );

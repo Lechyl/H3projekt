@@ -12,7 +12,8 @@ namespace LongigantenAPI.Profiles
     {
         public CategoryProfile()
         {
-            CreateMap<Category, CategoryDto>().ForMember(d => d.Parent_CategoryID, o => o.MapFrom(s => s.Parent_Category.Id));
+            CreateMap<Category, CategoryDto>().ForMember(d => d.Parent_CategoryID, o => o.MapFrom(s => s.Parent_Category.Id))
+                .ForMember(d => d.Id, o => o.MapFrom(s => s.Id));
         }
     }
 }

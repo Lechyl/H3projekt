@@ -21,18 +21,18 @@ namespace ORM.Services
          Task<List<Address_Type>> GetAllAdresseTypes();
          Task<Address_Type> GetAdresseTypeById(int id);
         //Delete requests
-         Task DeleteAdresseType(int id);
+         Task<int> DeleteAdresseType(int id);
         //Create requests
          Task<Address_Type> CreateAdresseType(Address_Type adresse_Type);
         //Update requests
-         Task UpdateAdresseType(Address_Type adresse_Type);
+         Task<int> UpdateAdresseType(Address_Type adresse_Type);
 
         //-----------------------------------------Adresse-----------------------------------------//
          Task<List<Addresses>> GetAllAdresses();
          Task<Addresses> GetAddressById(int id);
-         Task DeleteAddress(int id);
+         Task<int> DeleteAddress(int id);
          Task<Addresses> CreateAddress(Addresses address);
-         Task UpdateAddress(Addresses address);
+         Task<int> UpdateAddress(Addresses address);
 
 
         //-----------------------------------------Department-----------------------------------------//
@@ -40,11 +40,11 @@ namespace ORM.Services
          Task<List<Department>> GetAllDepartments();
          Task<Department> GetDepartmentById(int id);
         //Delete requests
-         Task DeleteDepartment(int id);
+         Task<int> DeleteDepartment(int id);
         //Create requests
          Task<Department> CreateDepartment(Department department);
         //Update requests
-         Task UpdateDepartment(Department department);
+         Task<int> UpdateDepartment(Department department);
 
 
         //-----------------------------------------Shop-----------------------------------------//
@@ -52,11 +52,11 @@ namespace ORM.Services
          Task<List<Shop>> GetAllShops();
          Task<Shop> GetShopById(int id);
         //Delete requests
-         Task DeleteShop(int id);
+         Task<int> DeleteShop(int id);
         //Create requests
          Task<Shop> CreateShop(Shop shop);
         //Update requests
-         Task UpdateShop(Shop shop);
+         Task<int> UpdateShop(Shop shop);
 
 
         //-----------------------------------------ShopWarehouse-----------------------------------------//
@@ -64,22 +64,22 @@ namespace ORM.Services
          Task<List<Shop_Item>> GetAllShopWarehouses();
          Task<List<Shop_Item>> GetShopWarehouseByShopID(int id);
         //Delete requests
-         Task DeleteShopWarehouse(Shop_Item shopWarehouse);
+         Task<int> DeleteShopWarehouse(Shop_Item shopWarehouse);
         //Create requests
          Task CreateShopWarehouse(Shop_Item shopWarehouse);
         //Update requests
-         Task UpdateShopWarehouse(Shop_Item shopWarehouse);
+         Task<int> UpdateShopWarehouse(Shop_Item shopWarehouse);
 
         //-----------------------------------------Category-----------------------------------------//
         //Get requests
          Task<List<Category>> GetAllCategories();
          Task<Category> GetCategoryById(int id);
         //Delete requests
-         Task DeleteCategory(int id);
+         Task<int> DeleteCategory(int id);
         //Create requests
          Task<Category> CreateCategory(Category category);
         //Update requests
-         Task UpdateCategory(Category category);
+         Task<int> UpdateCategory(Category category);
 
         //-----------------------------------------Customer-----------------------------------------//
         //Get requests
@@ -90,13 +90,13 @@ namespace ORM.Services
 
          Task<Customer> GetCustomerById(int id);
         //Delete requests
-         Task DeleteCustomer(int id);
-        Task DeleteCustomerData(int id);
+         Task<int> DeleteCustomer(int id);
+        Task<int> DeleteCustomerData(int id);
         //Create requests
         
          Task<Customer> CreateCustomer(Customer customer);
         //Update requests
-         Task UpdateCustomer(Customer customer);
+         Task<int> UpdateCustomer(Customer customer);
 
 
         //-----------------------------------------Customer_Addresses-----------------------------------------//
@@ -104,11 +104,11 @@ namespace ORM.Services
          Task<List<Customer_Addresses>> GetAllCustomerAddresses();
          Task<List<Customer_Addresses>> GetCustomerAddressesByCustomerID(int id);
         //Delete requests
-         Task DeleteCustomerAddresses(Customer_Addresses customer_Addresses);
+         Task<int> DeleteCustomerAddresses(Customer_Addresses customer_Addresses);
         //Create requests
          Task CreateCustomerAddresses(Customer_Addresses customer_Addresses);
         //Update requests
-         Task UpdateCustomerAddresses(Customer_Addresses customer_Addresses);
+         Task<int> UpdateCustomerAddresses(Customer_Addresses customer_Addresses);
 
 
         //-----------------------------------------Lager_Status-----------------------------------------//
@@ -116,22 +116,22 @@ namespace ORM.Services
          Task<List<Warehouse_Status>> GetAllWarehouseStatus();
          Task<Warehouse_Status> GetWarehouseStatusById(int id);
         //Delete requests
-         Task DeleteWarehouseStatus(int id);
+         Task<int> DeleteWarehouseStatus(int id);
         //Create requests
          Task<Warehouse_Status> CreateWarehouseStatus(Warehouse_Status warehouse_Status);
         //Update requests
-         Task UpdateWarehouseStatus(Warehouse_Status warehouse_Status);
+         Task<int> UpdateWarehouseStatus(Warehouse_Status warehouse_Status);
 
         //-----------------------------------------Supplier-----------------------------------------//
         //Get requests
          Task<List<Supplier>> GetAllSuppliers();
          Task<Supplier> GetSupplierById(int id);
         //Delete requests
-         Task DeleteSupplier(int id);
+         Task<int> DeleteSupplier(int id);
         //Create requests
          Task<Supplier> CreateSupplier(Supplier supplier);
         //Update requests
-         Task UpdateSupplier(Supplier supplier);
+         Task<int> UpdateSupplier(Supplier supplier);
 
 
         //-----------------------------------------Employee-----------------------------------------//
@@ -139,11 +139,11 @@ namespace ORM.Services
          Task<List<Employee>> GetAllEmployees();
          Task<Employee> GetEmployeeById(int id);
         //Delete requests
-         Task DeleteEmployee(int id);
+         Task<int> DeleteEmployee(int id);
         //Create requests
          Task<Employee> CreateEmployee(Employee employee);
         //Update requests
-         Task UpdateEmployee(Employee employee);
+         Task<int> UpdateEmployee(Employee employee);
 
         //-----------------------------------------Order-----------------------------------------//
         //Get requests
@@ -152,22 +152,22 @@ namespace ORM.Services
         Task<List<Order>> GetOrdersByCustomerId(int customerID);
         Task<Order> CreateOrderAndOrderLines(Order order);
         //Delete requests
-        Task DeleteOrder(int id);
+        Task<int> DeleteOrder(int id);
         //Create requests
          Task<Order> CreateOrder(Order order);
         //Update requests
-         Task UpdateOrder(Order order);
+         Task<int> UpdateOrder(Order order);
 
         //-----------------------------------------Order_Leverings_Metode-----------------------------------------//
         //Get requests
          Task<List<Order_Delivery_Method>> GetAllOrderDeliveryMethod();
          Task<Order_Delivery_Method> GetOrderDeliveryMethodById(int id);
         //Delete requests
-         Task DeleteOrderDeliveryMethod(int id);
+         Task<int> DeleteOrderDeliveryMethod(int id);
         //Create requests
          Task<Order_Delivery_Method> CreateOrderDeliveryMethod(Order_Delivery_Method order_Delivery_Method);
         //Update requests
-         Task UpdateOrderDeliveryMethod(Order_Delivery_Method order_Delivery_Method);
+         Task<int> UpdateOrderDeliveryMethod(Order_Delivery_Method order_Delivery_Method);
 
 
         //-----------------------------------------Order_Status-----------------------------------------//
@@ -175,47 +175,47 @@ namespace ORM.Services
          Task<List<Order_Status>> GetAllOrder_Status();
          Task<Order_Status> GetOrder_StatusById(int id);
         //Delete requests
-         Task DeleteOrder_Status(int id);
+         Task<int> DeleteOrder_Status(int id);
         //Create requests
          Task<Order_Status> CreateOrder_Status(Order_Status Order_Status);
         //Update requests
-         Task UpdateOrder_Status(Order_Status Order_Status);
+         Task<int> UpdateOrder_Status(Order_Status Order_Status);
 
         //-----------------------------------------OrderLines-----------------------------------------//
         //Get requests
          Task<List<OrderLine>> GetAllOrderLines();
          Task<List<OrderLine>> GetOrderLinesByOrderID(int id);
         //Delete requests
-         Task DeleteOrderLines(OrderLine orderLines);
+         Task<int> DeleteOrderLines(OrderLine orderLines);
         //Create requests
         //Task CreateOrderLines(OrderLine orderLines);
         Task<List<OrderLine>> CreateOrderLines(List<OrderLine> orderLines, int orderID);
 
 
         //Update requests
-         Task UpdateOrderLines(OrderLine orderLines);
+         Task<int> UpdateOrderLines(OrderLine orderLines);
 
         //-----------------------------------------ZipCode-----------------------------------------//
         //Get requests
          Task<List<ZipCode>> GetAllZipCode();
          Task<ZipCode> GetZipCodeById(int id);
         //Delete requests
-         Task DeleteZipCode(int id);
+         Task<int> DeleteZipCode(int id);
         //Create requests
          Task<ZipCode> CreateZipCode(ZipCode zipCode);
         //Update requests
-         Task UpdateZipCode(ZipCode zipCode);
+         Task<int> UpdateZipCode(ZipCode zipCode);
 
         //-----------------------------------------Producent-----------------------------------------//
         //Get requests
          Task<List<Producent>> GetAllProducent();
          Task<Producent> GetProducentById(int id);
         //Delete requests
-         Task DeleteProducent(int id);
+         Task<int> DeleteProducent(int id);
         //Create requests
          Task<Producent> CreateProducent(Producent producent);
         //Update requests
-         Task UpdateProducent(Producent producent);
+         Task<int> UpdateProducent(Producent producent);
 
         //-----------------------------------------Product-----------------------------------------//
         //Get requests
@@ -226,10 +226,10 @@ namespace ORM.Services
         Task<List<Product>> GetProductsByProducentId(int id);
 
         //Delete requests
-         Task DeleteProduct(int id);
+         Task<int> DeleteProduct(int id);
         //Create requests
          Task<Product> CreateProduct(Product product);
         //Update requests
-         Task UpdateProduct(Product product);
+         Task<int> UpdateProduct(Product product);
     }
 }

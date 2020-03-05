@@ -103,7 +103,19 @@ update Adresse_Type set type = @type where id = @id
 update Adresser set adresse = @address, postnrID = @postnriD, etage = @etage where id = @id
 
 update Afdelinger set afdeling = @afdeling, parent_Afdeling = @parentAfdeling where id = @id
-update Butikker set adresseID = @addressID where id = @id;*/
+update Butikker set adresseID = @addressID where id = @id;
 --select Kunder.id,fornavn,efternavn,email,telefon,dateOfBirth, password,Roller.rolle from kunder inner join Roller on Roller.id = rolleID where Kunder.id = 3
-
 select id,produktNavn,beskrivelse,pris,kategoriID,producentID,leverandorID from Produkter where kategoriID = @kategoriID
+*/
+select p.id,p.produktNavn,p.beskrivelse,p.pris,k.id,k.navn,k2.id,k2.navn,pc.id,pc.producentNavn,lv.id,lv.leverandorNavn,lv.kontaktPerson,lv.email,lv.telefon,b.id as butikid,
+adr.id,psn.id,psn.byNavn,adr.adresse,adr.etage,lg.id,lg.status,bhv.antal 
+from Butikker_har_Vare as bhv
+inner join Produkter p on p.id = bhv.produktID
+inner join Kategorier k on k.id = p.kategoriID 
+left join Kategorier k2 on k2.id = k.parent_KategoriID
+inner join Producent pc on pc.id = p.producentID
+inner join Leverandor lv on lv.id = p.leverandorID
+inner join Butikker b on b.id = bhv.butikID
+inner join Adresser adr on adr.id = b.adresseID
+inner join PostNr psn on psn.id = adr.postnrID
+inner join Lager_Status lg on lg.id = bhv.statusID

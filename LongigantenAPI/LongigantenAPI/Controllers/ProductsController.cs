@@ -15,6 +15,8 @@ using ORM.ResourceParameters;
 
 namespace LongigantenAPI.Controllers
 {
+    [ResponseCache(NoStore = true)]
+
     //[Route("api/[controller]")]
     [Authorize(Roles = Role.AdminOrUser)]
     //[EnableCors]
@@ -93,7 +95,10 @@ namespace LongigantenAPI.Controllers
             //aka. copying values from source to destination
             _mapper.Map(product, productFromDB);
 
-            await _orm.UpdateProduct(productFromDB);
+            if(await _orm.UpdateProduct(productFromDB) == 0)
+            {
+                return BadRequest();
+            }
 
             await _orm.CloseConn();
             return NoContent();
@@ -129,7 +134,10 @@ namespace LongigantenAPI.Controllers
             //aka. copying values from source to destination
             _mapper.Map(productToPatch, productFromDB);
 
-            await _orm.UpdateProduct(productFromDB);
+            if(await _orm.UpdateProduct(productFromDB) == 0)
+            {
+
+            }
 
             await _orm.CloseConn();
 

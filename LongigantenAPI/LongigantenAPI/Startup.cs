@@ -67,6 +67,9 @@ namespace LongigantenAPI
                 };
             });
 
+            //add cache headers
+            services.AddResponseCaching();
+
             //allow cross site origin
             services.AddCors();
             // configure strongly typed settings objects
@@ -131,9 +134,10 @@ namespace LongigantenAPI
             app.UseRouting();
 
             app.UseCors(
-            options => options.SetIsOriginAllowed(x => _ = true).AllowAnyMethod().AllowAnyHeader().AllowCredentials()
-);
-          
+            options => options.SetIsOriginAllowed(x => _ = true).AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+
+            //use cache headers
+            app.UseResponseCaching();
 
             //use Authentica´tion and Authorization for JWT.
             app.UseAuthentication();

@@ -13,6 +13,8 @@ using ORM.Services;
 namespace LongigantenAPI.Controllers
 {
     [Authorize(Roles = Role.AdminOrUser)]
+    [ResponseCache(NoStore = true)]
+
     [Route("producent")]
     [ApiController]
     public class ProducentController : ControllerBase

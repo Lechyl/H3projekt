@@ -20,12 +20,12 @@ namespace LongigantenAPI.Models
         public string Email { get; set; }
         [MaxLength(15)]
         public string Phone { get; set; }
-        [Required]
-        public DateTime DateOfBirth { get; set; }
+       
+        public virtual int DateOfBirth { get; set; }
         [Required]
         [MaxLength(50)]
         public string Password { get; set; }
-        [Required]
+       
         public string Role { get; set; }
     }
 }

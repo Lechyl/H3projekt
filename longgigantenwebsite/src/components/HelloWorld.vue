@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
-    <h1>Welcome To Longgiganten</h1>
-
+    <h1 v-if="this.msg">Welcome {{this.msg}}! </h1>
+      <h1 v-else>Welcome To Longgiganten</h1>
 
   </div>
 </template>
@@ -9,7 +9,18 @@
 <script>
 
 export default {
-  name: 'HelloWorld'
+  name: 'HelloWorld',
+  data(){
+    return{
+    msg : null
+    }
+  },
+  mounted() {
+    if (this.$cookies.get("user")){
+
+      this.msg =  this.$cookies.get("user").name;
+    }
+  }
 
 }
 

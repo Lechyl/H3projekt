@@ -770,16 +770,9 @@ namespace ORM.Services
                 string query = "select produktID,statusID,antal from Butikker_har_Vare where butikID = @butikID";
                 using (SqlCommand cmd = new SqlCommand(query, dbConn))
                 {
-
-                    
                     cmd.Parameters.AddWithValue("@butikID", id);
-
                     using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
                     {
-
-
-
-
                         if (reader.HasRows)
                         {
                             while (await reader.ReadAsync())
@@ -788,7 +781,6 @@ namespace ORM.Services
                                 Warehouse_Status lager_Status = await GetWarehouseStatusById(reader.GetInt32(1));
                                 Shop shop = await GetShopById(id);
                                 butikker_Har_Vare.Add(new Shop_Item(produkt, shop, lager_Status, reader.GetInt32(2)));
-
                             }
                         }
                         else
@@ -796,13 +788,8 @@ namespace ORM.Services
                             throw new ArithmeticException("No row returned");
                         }
                     }
-
-                    
                 }
-
-
                 return butikker_Har_Vare;
-
             }
             catch (Exception e) { throw new Exception(e.Message); }
         }
@@ -886,35 +873,30 @@ namespace ORM.Services
         {
             try
             {
-                Customer kunder = null;
+                Customer customer = null;
                 string query = "select Kunder.id,fornavn,efternavn,email,telefon,dateOfBirth, password,Roller.rolle from kunder inner join Roller on Roller.id = rolleID where Kunder.id = @id";
                 using (SqlCommand cmd = new SqlCommand(query, dbConn))
                 {
-
-                    
                     cmd.Parameters.AddWithValue("@id", id);
 
                     using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
                     {
 
-
                         int count = 0;
+                        //Mapping Table relations to Object Model
                         while (await reader.ReadAsync())
                         {
                             List<Customer_Addresses> addresslist = await GetCustomerAddressesByCustomerID(reader.GetInt32(0));
 
-                            kunder = new Customer(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3),reader.GetDateTime(5),reader.GetString(6),reader.GetString(7),reader.GetString(4));
-                            kunder.customer_Addresses = addresslist;
+                            customer = new Customer(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3),reader.GetDateTime(5),reader.GetString(6),reader.GetString(7),reader.GetString(4));
+                            customer.customer_Addresses = addresslist;
                             count++;
                         }
                         if (count > 1) { throw new IndexOutOfRangeException("Customer unspecified error!"); }
                         
                     }
-
-                    
                 }
-
-                return kunder;
+                return customer;
             }
             catch (Exception e) { throw e; }
 
@@ -1384,7 +1366,7 @@ namespace ORM.Services
             catch (SqlException e) { throw e; }
         }
 
-        public async Task DeleteAdresseType(int id)
+        public async Task<int> DeleteAdresseType(int id)
         {
             try {
                 string query = "delete from Adresse_Type where id = @id";
@@ -1394,13 +1376,13 @@ namespace ORM.Services
                 {
 
                     cmd.Parameters.AddWithValue("@id", id);
-                    await cmd.ExecuteNonQueryAsync();
+                    return await cmd.ExecuteNonQueryAsync();
 
                 }
             } catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task UpdateAdresseType(Address_Type adresse_Type)
+        public async Task<int> UpdateAdresseType(Address_Type adresse_Type)
         {
             try
             {
@@ -1413,7 +1395,7 @@ namespace ORM.Services
                     cmd.Parameters.AddWithValue("@id", adresse_Type.Id);
 
 
-                    await cmd.ExecuteNonQueryAsync();
+                     return await cmd.ExecuteNonQueryAsync();
 
                 }
 
@@ -1455,7 +1437,7 @@ namespace ORM.Services
             catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task DeleteAddress(int id)
+        public async Task<int> DeleteAddress(int id)
         {
             try {
                 string query = "delete from Adresser where id = @id";
@@ -1465,13 +1447,13 @@ namespace ORM.Services
                     cmd.Parameters.AddWithValue("@id", id);
 
 
-                    await cmd.ExecuteNonQueryAsync();
+                   return await cmd.ExecuteNonQueryAsync();
 
                 }
             } catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task UpdateAddress(Addresses address)
+        public async Task<int> UpdateAddress(Addresses address)
         {
             try {
                 string query = "update Adresser set adresse = @address, postnrID = @postnriD, etage = @etage where id = @id";
@@ -1483,7 +1465,7 @@ namespace ORM.Services
                     cmd.Parameters.AddWithValue("@id", address.Id);
 
 
-                    await cmd.ExecuteNonQueryAsync();
+                    return await cmd.ExecuteNonQueryAsync();
 
                 }
 
@@ -1520,7 +1502,7 @@ namespace ORM.Services
             catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task DeleteDepartment(int id)
+        public async Task<int> DeleteDepartment(int id)
         {
             try {
                 string query = "delete from Afdelinger where id = @id";
@@ -1530,13 +1512,13 @@ namespace ORM.Services
                     cmd.Parameters.AddWithValue("@id", id);
 
 
-                    await cmd.ExecuteNonQueryAsync();
+                    return await cmd.ExecuteNonQueryAsync();
 
                 }
             } catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task UpdateDepartment(Department department)
+        public async Task<int> UpdateDepartment(Department department)
         {
             try {
                 string query = "update Afdelinger set afdeling = @afdeling, parent_Afdeling = @parentAfdeling where id = @id";
@@ -1548,7 +1530,7 @@ namespace ORM.Services
                     cmd.Parameters.AddWithValue("@id", department.Id);
 
 
-                    await cmd.ExecuteNonQueryAsync();
+                    return await cmd.ExecuteNonQueryAsync();
 
                 }
 
@@ -1586,7 +1568,7 @@ namespace ORM.Services
             catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task DeleteShop(int id)
+        public async Task<int> DeleteShop(int id)
         {
             try {
                 string query = "delete from Butikker  where id = @id;";
@@ -1595,14 +1577,14 @@ namespace ORM.Services
                 {
                     cmd.Parameters.AddWithValue("@id", id);
 
-                    await cmd.ExecuteNonQueryAsync();
+                    return await cmd.ExecuteNonQueryAsync();
 
                 }
 
             } catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task UpdateShop(Shop shop)
+        public async Task<int> UpdateShop(Shop shop)
         {
             try {
 
@@ -1613,7 +1595,7 @@ namespace ORM.Services
                     cmd.Parameters.AddWithValue("@addressID",shop.AddressID);
                     cmd.Parameters.AddWithValue("@id",shop.Id);
 
-                    await cmd.ExecuteNonQueryAsync();
+                    return await cmd.ExecuteNonQueryAsync();
 
                 }
             } catch (Exception e) { throw new Exception(e.Message); }
@@ -1677,16 +1659,16 @@ namespace ORM.Services
             catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task DeleteShopWarehouse(Shop_Item shop)
+        public async Task<int> DeleteShopWarehouse(Shop_Item shop)
         {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
+            try { return 0; } catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task UpdateShopWarehouse(Shop_Item shopWarehouse)
+        public async Task<int> UpdateShopWarehouse(Shop_Item shopWarehouse)
         {
             try {
 
-            
+                return 0;
             } catch (Exception e) { throw new Exception(e.Message); }
         }
 
@@ -1729,14 +1711,14 @@ namespace ORM.Services
             catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task DeleteCategory(int id)
+        public async Task<int> DeleteCategory(int id)
         {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
+            try { return 0; } catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task UpdateCategory(Category category)
+        public async Task<int> UpdateCategory(Category category)
         {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
+            try { return 0; } catch (Exception e) { throw new Exception(e.Message); }
         }
 
         public async Task<List<Customer>> GetAllCustomers()
@@ -1817,7 +1799,7 @@ namespace ORM.Services
             }
             catch (Exception e) { throw new Exception(e.Message); }
         }
-        public async Task DeleteCustomer(int id)
+        public async Task<int> DeleteCustomer(int id)
         {
             try {
 
@@ -1826,27 +1808,27 @@ namespace ORM.Services
                 {
                     cmd.Parameters.AddWithValue("@id", id);
 
-                    await cmd.ExecuteNonQueryAsync();
+                    return await cmd.ExecuteNonQueryAsync();
                 }
 
 
             } catch (Exception e) { throw new Exception(e.Message); }
         }
-        public async Task DeleteCustomerData(int id)
+        public async Task<int> DeleteCustomerData(int id)
         {
             try
             {
                 Customer customer = new Customer(id, "[Slettet]", "[Slettet]", "[Slettet]", Convert.ToDateTime("1773-01-01"), "[Slettet]", "[Slettet]");
-                await UpdateCustomer(customer);
+                 return await UpdateCustomer(customer);
 
             }
             catch (Exception e) { throw new Exception(e.Message); }
         }
-        public async Task UpdateCustomer(Customer customer)
+        public async Task<int> UpdateCustomer(Customer customer)
         {
             try {
 
-                string query = "Update Kunder set fornavn = @fornavn, efternavn = @efternavn, email = @email, telefon = @telefon, dateOfBirth = @dateOfBirth, password = @password where id = @id";
+                string query = "Update Kunder set fornavn = @fornavn, efternavn = @efternavn, email = @email, telefon = @telefon, dateOfBirth = @dateOfBirth, password = @password where id = @id and password = @validatePass";
                 using(SqlCommand cmd = new SqlCommand(query, dbConn))
                 {
                     cmd.Parameters.AddWithValue("@fornavn",customer.FirstName);
@@ -1856,7 +1838,14 @@ namespace ORM.Services
                     cmd.Parameters.AddWithValue("@dateOfBirth",customer.DateOfBirth);
                     cmd.Parameters.AddWithValue("@password",customer.Password);
                     cmd.Parameters.AddWithValue("@id", customer.Id);
-                    await cmd.ExecuteNonQueryAsync();
+                    cmd.Parameters.AddWithValue("@validatePass", customer.Password);
+
+                    //return if updated user exist
+                    int userExist = await cmd.ExecuteNonQueryAsync();
+
+                    return userExist;
+                   
+                    
                 }
             } catch (Exception e) { throw new Exception(e.Message); }
         }
@@ -1892,14 +1881,14 @@ namespace ORM.Services
         }
 
 
-        public async Task DeleteCustomerAddresses(Customer_Addresses customer_Addresses)
+        public async Task<int> DeleteCustomerAddresses(Customer_Addresses customer_Addresses)
         {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
+            try { return 0; } catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task UpdateCustomerAddresses(Customer_Addresses customer_Addresses)
+        public async Task<int> UpdateCustomerAddresses(Customer_Addresses customer_Addresses)
         {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
+            try { return 0; } catch (Exception e) { throw new Exception(e.Message); }
         }
 
         public async Task<List<Warehouse_Status>> GetAllWarehouseStatus()
@@ -1932,14 +1921,14 @@ namespace ORM.Services
             catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task DeleteWarehouseStatus(int id)
+        public async Task<int> DeleteWarehouseStatus(int id)
         {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
+            try { return 0; } catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task UpdateWarehouseStatus(Warehouse_Status warehouse_Status)
+        public async Task<int> UpdateWarehouseStatus(Warehouse_Status warehouse_Status)
         {
-            try {  } catch (Exception e) { throw new Exception(e.Message); }
+            try { return 0;  } catch (Exception e) { throw new Exception(e.Message); }
         }
 
         public async Task<List<Supplier>> GetAllSuppliers()
@@ -1969,14 +1958,14 @@ namespace ORM.Services
             catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task DeleteSupplier(int id)
+        public async Task<int> DeleteSupplier(int id)
         {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
+            try { return 0; } catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task UpdateSupplier(Supplier supplier)
+        public async Task<int> UpdateSupplier(Supplier supplier)
         {
-            try {  } catch (Exception e) { throw new Exception(e.Message); }
+            try { return 0;  } catch (Exception e) { throw new Exception(e.Message); }
         }
 
         public async Task<List<Employee>> GetAllEmployees()
@@ -2009,14 +1998,14 @@ namespace ORM.Services
             catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task DeleteEmployee(int id)
+        public async Task<int> DeleteEmployee(int id)
         {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
+            try { return 0; } catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task UpdateEmployee(Employee employee)
+        public async Task<int> UpdateEmployee(Employee employee)
         {
-            try {  } catch (Exception e) { throw new Exception(e.Message); }
+            try { return 0; } catch (Exception e) { throw new Exception(e.Message); }
         }
 
         public async Task<List<Order>> GetAllOrders()
@@ -2049,7 +2038,7 @@ namespace ORM.Services
             catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task DeleteOrder(int id)
+        public async Task<int> DeleteOrder(int id)
         {
             try {
                 
@@ -2059,12 +2048,12 @@ namespace ORM.Services
                 {
                     cmd.Parameters.AddWithValue("@id", id);
 
-                    await cmd.ExecuteNonQueryAsync();
+                    return await cmd.ExecuteNonQueryAsync();
                 }
             } catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task UpdateOrder(Order order)
+        public async Task<int> UpdateOrder(Order order)
         {
             try {
                 string query = "update  Ordre set leveringsAdresseID = @leveringsAdresseID, leveringsMetodeID = @leveringsMetodeID, opretsDato = @opretsDato, statusID = @statusID where id = @id";
@@ -2077,7 +2066,7 @@ namespace ORM.Services
                     cmd.Parameters.AddWithValue("@id", order.Id);
 
 
-                    await cmd.ExecuteNonQueryAsync();
+                    return await cmd.ExecuteNonQueryAsync();
 
                 }
             } catch (Exception e) { throw new Exception(e.Message); }
@@ -2113,14 +2102,14 @@ namespace ORM.Services
 
 
 
-        public async Task DeleteOrderDeliveryMethod(int id)
+        public async Task<int> DeleteOrderDeliveryMethod(int id)
         {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
+            try { return 0; } catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task UpdateOrderDeliveryMethod(Order_Delivery_Method order_Delivery_Method)
+        public async Task<int> UpdateOrderDeliveryMethod(Order_Delivery_Method order_Delivery_Method)
         {
-            try {  } catch (Exception e) { throw new Exception(e.Message); }
+            try { return 0;  } catch (Exception e) { throw new Exception(e.Message); }
         }
 
         public async Task<List<Order_Status>> GetAllOrder_Status()
@@ -2150,14 +2139,14 @@ namespace ORM.Services
             catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task DeleteOrder_Status(int id)
+        public async Task<int> DeleteOrder_Status(int id)
         {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
+            try { return 0; } catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task UpdateOrder_Status(Order_Status order_Status)
+        public async Task<int> UpdateOrder_Status(Order_Status order_Status)
         {
-            try {  } catch (Exception e) { throw new Exception(e.Message); }
+            try { return 0; } catch (Exception e) { throw new Exception(e.Message); }
         }
 
         public async Task<List<OrderLine>> GetAllOrderLines()
@@ -2191,14 +2180,14 @@ namespace ORM.Services
 
 
 
-        public async Task DeleteOrderLines(OrderLine orderLines)
+        public async Task<int> DeleteOrderLines(OrderLine orderLines)
         {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
+            try { return 0; } catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task UpdateOrderLines(OrderLine orderLines)
+        public async Task<int> UpdateOrderLines(OrderLine orderLines)
         {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
+            try { return 0; } catch (Exception e) { throw new Exception(e.Message); }
         }
 
         public async Task<List<ZipCode>> GetAllZipCode()
@@ -2229,14 +2218,14 @@ namespace ORM.Services
 
 
 
-        public async Task DeleteZipCode(int id)
+        public async Task<int> DeleteZipCode(int id)
         {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
+            try { return 0; } catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task UpdateZipCode(ZipCode zipCode)
+        public async Task<int> UpdateZipCode(ZipCode zipCode)
         {
-            try {  } catch (Exception e) { throw new Exception(e.Message); }
+            try { return 0;  } catch (Exception e) { throw new Exception(e.Message); }
         }
 
 
@@ -2266,14 +2255,14 @@ namespace ORM.Services
             catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task DeleteProducent(int id)
+        public async Task<int> DeleteProducent(int id)
         {
-            try { } catch (Exception e) { throw new Exception(e.Message); }
+            try { return 0; } catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task UpdateProducent(Producent producent)
+        public async Task<int> UpdateProducent(Producent producent)
         {
-            try {  } catch (Exception e) { throw new Exception(e.Message); }
+            try { return 0;  } catch (Exception e) { throw new Exception(e.Message); }
         }
 
         public async Task<List<Product>> GetAllProducts(ProductsParameter productsParameter)
@@ -2374,7 +2363,7 @@ namespace ORM.Services
 
 
         }
-        public async Task DeleteProduct(int id)
+        public async Task<int> DeleteProduct(int id)
         {
             try {
                 string query = "delete from Produkter where id = @id";
@@ -2383,14 +2372,14 @@ namespace ORM.Services
                 {
                     cmd.Parameters.AddWithValue("@id", id);
 
-                    await cmd.ExecuteNonQueryAsync();
+                    return await cmd.ExecuteNonQueryAsync();
                 }
 
 
             } catch (Exception e) { throw new Exception(e.Message); }
         }
 
-        public async Task UpdateProduct(Product product)
+        public async Task<int> UpdateProduct(Product product)
         {
             try {
                 string query = "update Produkter set produktNavn = @produktNavn, beskrivelse = @beskrivelse, pris = @pris, kategoriID = @kategoriID, producentID = @producentID, leverandorID = @leverandorID where id = @id";
@@ -2406,7 +2395,7 @@ namespace ORM.Services
                     cmd.Parameters.AddWithValue("@id", product.Id);
 
 
-                    await cmd.ExecuteNonQueryAsync();
+                    return await cmd.ExecuteNonQueryAsync();
 
                 }
 

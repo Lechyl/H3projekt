@@ -14,7 +14,7 @@ namespace LongigantenAPI.Models
         public int DeliveryMethodID { get; set; }
         [Required]
         public int DeliveryAddressID { get; set; }
-        [Required]
+        
         public int StatusID { get; set; }
     }
 }

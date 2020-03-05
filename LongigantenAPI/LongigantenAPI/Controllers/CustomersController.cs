@@ -18,9 +18,12 @@ using Microsoft.Extensions.Options;
 
 namespace LongigantenAPI.Controllers
 {
+
     [Authorize(Roles = Role.AdminOrUser)]
     [Route("customers")]
     [ApiController]
+    [ResponseCache(NoStore = true)]
+
     public class CustomersController : ControllerBase
     {
         private readonly IORM _orm;
@@ -105,7 +108,7 @@ namespace LongigantenAPI.Controllers
             Response.Headers.Add("Allow", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
             return Ok();
         }
-
+        [ResponseCache(Duration = 604800, Location = ResponseCacheLocation.Client )]
         [AllowAnonymous]
         [HttpPost("authenticate")]
         public async Task<ActionResult<CustomerDto>> Authenticate([FromBody]Authenticate authenticate)
@@ -126,6 +129,7 @@ namespace LongigantenAPI.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> PutCustomer(int id,[FromBody]CustomersForUpdate customer)
         {
+          
             _orm.OpenConn();
             if (!await _orm.CustomerExist(id))
             {
@@ -139,7 +143,10 @@ namespace LongigantenAPI.Controllers
             //aka. copying values from source to destination
             _mapper.Map(customer, customerFromDB);
 
-            await _orm.UpdateCustomer(customerFromDB);
+            if (await _orm.UpdateCustomer(customerFromDB) == 0) {
+
+                return BadRequest();
+            }
 
             await _orm.CloseConn();
             return NoContent();
@@ -175,7 +182,10 @@ namespace LongigantenAPI.Controllers
             //aka. copying values from source to destination
             _mapper.Map(customerToPatch, customerFromDB);
 
-            await _orm.UpdateCustomer(customerFromDB);
+            if (await _orm.UpdateCustomer(customerFromDB) == 0)
+            {
+                return BadRequest();
+            }
 
             await _orm.CloseConn();
 

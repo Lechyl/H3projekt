@@ -21,7 +21,8 @@ namespace LongigantenAPI.Profiles
                 .ForMember(d => d.Addresses, o => o.MapFrom(s => s.customer_Addresses))
                 .ForMember(d => d.Age, o => o.MapFrom(s => s.DateOfBirth.GetCurrentAge()));
 
-            CreateMap<CustomersForUpdate, Customer>();
+            CreateMap<CustomersForUpdate, Customer>().ForMember(d => d.DateOfBirth, o => o.Ignore())
+                .ForMember(d => d.Email, o => o.Ignore());
             CreateMap<Customer, CustomersForUpdate>();
 
             CreateMap<CustomerForCreateDto, Customer>();
